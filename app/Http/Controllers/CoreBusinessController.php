@@ -53,7 +53,7 @@ class CoreBusinessController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(CoreBusiness $core_business)
     {
         //
     }
@@ -61,16 +61,26 @@ class CoreBusinessController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, CoreBusiness $core_business)
     {
-        //
+        $request->validate([
+            'name' => 'required|max:255'
+        ]);
+
+        $core_business->update($request->all());
+
+        return redirect()->route('core-business.index')->with('success', 'Core Business updated successfully!');
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(CoreBusiness $core_business)
     {
-        //
+        $core_business->delete();
+
+        return redirect()->route('core-business.index')
+            ->with('success', 'Core Business deleted successfully');
     }
 }

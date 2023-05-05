@@ -10,6 +10,8 @@
   </head>
   <body >
     <script src="{{ asset ('') }}assets/dist/js/demo-theme.min.js?1674944402"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+
     <div class="page">
       <!-- Sidebar -->
      @include('includes.sidebar')

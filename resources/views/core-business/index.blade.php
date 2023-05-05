@@ -61,7 +61,7 @@
             </div>
         </div>
 
-        <!-- Modal Edit Core Business -->
+       <!-- Modal Edit Core Business -->
 <div class="modal fade" id="editCoreBusinessModal" tabindex="-1" aria-labelledby="editCoreBusinessModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -80,13 +80,61 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" class="btn btn-success">Save</button>
           </div>
         </form>
       </div>
     </div>
-  </div>
+</div>
+<!-- Modal Delete Core Business -->
+<div class="modal fade" id="deleteCoreBusinessModal" tabindex="-1" aria-labelledby="deleteCoreBusinessModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteCoreBusinessModalLabel">Delete Core Business</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="deleteCoreBusinessForm" method="POST">
+                <div class="modal-body">
+                    @csrf
+                    @method('DELETE')
+                    <p>Are you sure you want to delete this Core Business?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
+<script>
+    $('#deleteCoreBusinessModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget)
+        var id = button.data('corebusiness-id')
+
+        var modal = $(this)
+
+        var form = $('#deleteCoreBusinessForm')
+        form.attr('action', '/core-business/' + id)
+    })
+</script>
+
+
+<script>
+    $('#editCoreBusinessModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget)
+        var id = button.data('corebusiness-id')
+        var name = button.data('corebusiness-name')
+
+        var modal = $(this)
+        modal.find('.modal-body #editCoreBusinessName').val(name)
+
+        var form = $('#editCoreBusinessForm')
+        form.attr('action', '/core-business/' + id)
+    })
+</script>
 
 
 
