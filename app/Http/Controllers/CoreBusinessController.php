@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CoreBusiness;
 use Illuminate\Http\Request;
 
 class CoreBusinessController extends Controller
@@ -11,7 +12,8 @@ class CoreBusinessController extends Controller
      */
     public function index()
     {
-        return view('core-business.index');
+        $core_businesses = CoreBusiness::all();
+        return view('core-business.index', compact('core_businesses'));
     }
 
     /**
@@ -27,7 +29,17 @@ class CoreBusinessController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|unique:core_businesses',
+        ]);
+
+        $core_business = new CoreBusiness([
+            'name' => $request->get('name'),
+        ]);
+
+        $core_business->save();
+
+        return redirect('/core-business')->with('success', 'Core Business added successfully!');
     }
 
     /**

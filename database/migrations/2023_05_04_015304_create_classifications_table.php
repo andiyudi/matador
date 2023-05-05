@@ -16,8 +16,9 @@ return new class extends Migration
             $table->unsignedBigInteger('core_business_id');
             $table->string('name');
             $table->timestamps();
+            $table->softDeletes();
 
-            $table->foreign('core_business_id')->references('id')->on('core_business')->onDelete('cascade');
+            $table->foreign('core_business_id')->references('id')->on('core_businesses')->onDelete('cascade');
         });
     }
 

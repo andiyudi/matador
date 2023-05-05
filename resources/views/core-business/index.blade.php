@@ -11,23 +11,28 @@
                 <tr>
                     <th>No</th>
                     <th>Nama Core Business</th>
-                    <th width="280px">Aksi</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
+                    <th width="150px">Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                {{-- @foreach ($coreBusinesses as $coreBusiness)
+                @foreach ($core_businesses as $coreBusiness)
                 <tr>
+                    <td class="text-center">{{ $loop->iteration }}</td>
                     <td>{{ $coreBusiness->name }}</td>
+                    <td>{{ $coreBusiness->created_at }}</td>
+                    <td>{{ $coreBusiness->updated_at }}</td>
                     <td>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editCoreBusinessModal" data-corebusiness-id="{{ $coreBusiness->id }}" data-corebusiness-name="{{ $coreBusiness->name }}">
+                        <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editCoreBusinessModal" data-corebusiness-id="{{ $coreBusiness->id }}" data-corebusiness-name="{{ $coreBusiness->name }}">
                             Edit
                         </button>
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCoreBusinessModal" data-corebusiness-id="{{ $coreBusiness->id }}">
+                        <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCoreBusinessModal" data-corebusiness-id="{{ $coreBusiness->id }}">
                             Hapus
                         </button>
                     </td>
                 </tr>
-                @endforeach --}}
+                @endforeach
             </tbody>
         </table>
 
@@ -83,7 +88,7 @@
   </div>
 
 
-  
+
 
 @endsection
 @push('page-action')
