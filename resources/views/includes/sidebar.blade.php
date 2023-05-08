@@ -4,18 +4,18 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <h1 class="navbar-brand navbar-brand-autodark">
-        
+
       </h1>
       <div class="navbar-nav flex-row d-lg-none">
         <div class="nav-item d-none d-lg-flex me-3">
           <div class="btn-list">
-           
-           
+
+
           </div>
         </div>
         <div class="d-none d-lg-flex">
-          
-          
+
+
         </div>
         <div class="nav-item dropdown">
         </div>
@@ -47,7 +47,7 @@
                   <a class="dropdown-item" href="{{ route('core-business.index') }}">
                     Core Business
                   </a>
-                  <a class="dropdown-item" href="#">
+                  <a class="dropdown-item" href="{{ route('classifications.index') }}">
                     Clasifications
                   </a>
               </div>

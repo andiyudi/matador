@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Classification;
+use App\Models\CoreBusiness;
+
 
 class ClassificationController extends Controller
 {
@@ -11,8 +14,11 @@ class ClassificationController extends Controller
      */
     public function index()
     {
-        //
+        $classifications = Classification::with('coreBusiness')->get();
+        $coreBusinesses = CoreBusiness::all();
+        return view('classification.index', compact('classifications', 'coreBusinesses'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -27,7 +33,14 @@ class ClassificationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'core_business_id' => 'required|exists:core_businesses,id'
+        ]);
+
+        Classification::create($validatedData);
+
+        return redirect('/classifications')->with('success', 'Classification data has been created!');
     }
 
     /**
@@ -49,16 +62,27 @@ class ClassificationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Classification $classification)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'core_business_id' => 'required|exists:core_businesses,id'
+        ]);
+
+        $classification->update($validatedData);
+
+        return redirect()->route('classifications.index')->with('success', 'Classification data has been updated!');
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Classification $classification)
     {
-        //
+        $classification->delete();
+
+        return redirect()->route('classifications.index')
+            ->with('success', 'Classification data has been deleted successfully.');
     }
 }
