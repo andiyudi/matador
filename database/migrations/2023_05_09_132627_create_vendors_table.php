@@ -13,10 +13,6 @@ return new class extends Migration
     {
         Schema::create('vendors', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('core_business_id');
-            $table->foreign('core_business_id')->references('id')->on('core_businesses');
-            $table->unsignedBigInteger('classification_id');
-            $table->foreign('classification_id')->references('id')->on('classifications');
             $table->string('name');
             $table->string('address');
             $table->string('area');
