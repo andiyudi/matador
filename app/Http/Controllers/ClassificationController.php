@@ -14,7 +14,7 @@ class ClassificationController extends Controller
      */
     public function index()
     {
-        $classifications = Classification::with('coreBusiness')->get();
+        $classifications = Classification::with('coreBusiness')->paginate(10);
         $coreBusinesses = CoreBusiness::all();
         return view('classification.index', compact('classifications', 'coreBusinesses'));
     }

@@ -40,6 +40,7 @@
         @endforeach
     </tbody>
 </table>
+{{ $classifications->links() }}
 <!-- Create Classification Modal -->
 <div class="modal fade" id="classificationModal" tabindex="-1" aria-labelledby="classificationModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">

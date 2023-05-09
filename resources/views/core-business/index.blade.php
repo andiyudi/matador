@@ -35,6 +35,7 @@
                 @endforeach
             </tbody>
         </table>
+        {{ $core_businesses->links() }}
 
         <!-- Modal Tambah Core Business -->
         <div class="modal fade" id="createCoreBusinessModal" tabindex="-1" aria-labelledby="createCoreBusinessModalLabel" aria-hidden="true">
