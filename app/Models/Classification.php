@@ -17,4 +17,8 @@ class Classification extends Model
     {
         return $this->belongsTo(CoreBusiness::class);
     }
+    public function vendors()
+    {
+        return $this->belongsToMany(Vendor::class);
+    }
 }

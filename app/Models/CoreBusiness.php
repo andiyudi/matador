@@ -18,4 +18,8 @@ class CoreBusiness extends Model
     {
         return $this->hasMany(Classification::class);
     }
+    public function vendors()
+    {
+        return $this->belongsToMany(Vendor::class);
+    }
 }
