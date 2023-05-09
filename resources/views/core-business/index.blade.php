@@ -11,18 +11,17 @@
                 <tr>
                     <th>No</th>
                     <th>Nama Core Business</th>
-                    <th>Created At</th>
-                    <th>Updated At</th>
-                    <th width="250px">Aksi</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
+                @php
+                    $nomor = 1 + (( $core_businesses->currentPage() -1 ) * $core_businesses->perPage() );
+                @endphp
                 @foreach ($core_businesses as $coreBusiness)
                 <tr>
-                    <td class="text-center">{{ $loop->iteration }}</td>
+                    <td>{{ $nomor++ }}</td>
                     <td>{{ $coreBusiness->name }}</td>
-                    <td>{{ $coreBusiness->created_at }}</td>
-                    <td>{{ $coreBusiness->updated_at }}</td>
                     <td>
                         <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editCoreBusinessModal" data-corebusiness-id="{{ $coreBusiness->id }}" data-corebusiness-name="{{ $coreBusiness->name }}">
                             Edit

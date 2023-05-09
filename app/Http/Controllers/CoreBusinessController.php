@@ -12,7 +12,7 @@ class CoreBusinessController extends Controller
      */
     public function index()
     {
-        $core_businesses = CoreBusiness::paginate(5);
+        $core_businesses = CoreBusiness::paginate(5)->fragment('cbs');
         return view('core-business.index', compact('core_businesses'));
     }
 

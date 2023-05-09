@@ -15,13 +15,16 @@
         </tr>
     </thead>
     <tbody id="classificationTableBody">
+        @php
+        $nomor = 1 + (( $classifications->currentPage() -1 ) * $classifications->perPage() );
+        @endphp
         @foreach ($classifications as $classification)
             <tr>
-                <td>{{ $loop->iteration }}</td>
+                <td>{{ $nomor++ }}</td>
                 <td>{{ $classification->coreBusiness->name }}</td>
                 <td>{{ $classification->name }}</td>
                 <td>
-                    <button class="btn btn-warning edit-btn" data-bs-toggle="modal" data-bs-target="#editClassificationModal"
+                    <button class="btn btn-warning btn-sm edit-btn" data-bs-toggle="modal" data-bs-target="#editClassificationModal"
                         data-id="{{ $classification->id }}"
                         data-name="{{ $classification->name }}"
                         data-corebusiness-id="{{ $classification->core_business_id }}"
@@ -29,7 +32,7 @@
                     >
                         Edit
                     </button>
-                    <button class="btn btn-danger delete-btn" data-bs-toggle="modal" data-bs-target="#deleteClassificationModal"
+                    <button class="btn btn-danger btn-sm delete-btn" data-bs-toggle="modal" data-bs-target="#deleteClassificationModal"
                         data-id="{{ $classification->id }}"
                         data-name="{{ $classification->name }}"
                     >
