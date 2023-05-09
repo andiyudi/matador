@@ -23,9 +23,9 @@ Route::get('/', function () {
 
 Route::resource('core-business', CoreBusinessController::class);
 Route::resource('classifications', ClassificationController::class);
+Route::resource('vendors', VendorController::class);
+Route::get('/classifications/{core_business_id}/getByCoreBusiness', [ClassificationController::class, 'getByCoreBusiness'])->name('classifications.getByCoreBusiness');
 
-Route::resource('vendor', VendorController::class)
-    ->middleware(['auth', 'verified']);
 
 Route::get('/dashboard', function () {
     return view('pages.dashboard');

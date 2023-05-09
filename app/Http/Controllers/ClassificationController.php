@@ -85,4 +85,9 @@ class ClassificationController extends Controller
         return redirect()->route('classifications.index')
             ->with('success', 'Classification data has been deleted successfully.');
     }
+    public function getByCoreBusiness($core_business_id)
+    {
+        $classifications = Classification::where('core_business_id', $core_business_id)->pluck('name', 'id');
+        return response()->json($classifications);
+    }
 }

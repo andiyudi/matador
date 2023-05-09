@@ -66,7 +66,7 @@
             <div class="dropdown-menu">
               <div class="dropdown-menu-columns">
                 <div class="dropdown-menu-column">
-                  <a class="dropdown-item" href="{{ route('vendor.index') }}">
+                  <a class="dropdown-item" href="{{ route('vendors.index') }}">
                     Available Vendor
                   </a>
                   <a class="dropdown-item" href="#">

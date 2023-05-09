@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Classification;
 use App\Models\Vendor;
+use App\Models\CoreBusiness;
 use Illuminate\Http\Request;
 
 class VendorController extends Controller
@@ -12,7 +14,8 @@ class VendorController extends Controller
      */
     public function index()
     {
-        return view('vendors.index');
+        $vendors = Vendor::with(['coreBusiness', 'classifications'])->paginate(10);
+        return view('vendors.index', compact('vendors'));
     }
 
     /**
@@ -20,7 +23,12 @@ class VendorController extends Controller
      */
     public function create()
     {
-        //
+        $core_businesses = CoreBusiness::all();
+        $classifications = Classification::all();
+
+        return view('vendors.create')
+            ->with('core_businesses', $core_businesses)
+            ->with('classifications', $classifications);
     }
 
     /**
