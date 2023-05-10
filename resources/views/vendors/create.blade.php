@@ -9,19 +9,19 @@
     @csrf
     <div class="mb-3">
         <label for="core_business_id" class="form-label">Core Business</label>
-        <select class="form-select" name="core_business_id" id="core_business">
-            <option value="">Pilih Jenis Bisnis</option>
+        <select class="form-select basic-multiple" name="core_business_id[]" id="core_business" multiple>
+            <option value="" disabled>Pilih Jenis Bisnis</option>
             @foreach($core_businesses as $core_business)
                 <option value="{{ $core_business->id }}">{{ $core_business->name }}</option>
             @endforeach
         </select>
-      </div>
-      <div class="mb-3">
+    </div>
+    <div class="mb-3">
         <label for="classification_id" class="form-label">Klasifikasi</label>
-        <select class="form-select" name="classification_id" id="classification">
+        <select class="form-select basic-multiple" name="classification_id[]" id="classification" multiple>
             <option value="">Pilih Klasifikasi</option>
         </select>
-      </div>
+    </div>
     <div class="mb-3">
       <label for="name" class="form-label">Nama</label>
       <input type="text" class="form-control" id="name" name="name" required>
@@ -56,9 +56,9 @@
     </div>
     <button type="submit" class="btn btn-primary">Simpan</button>
   </form>
-
   <script>
     $(document).ready(function () {
+        $('.basic-multiple').select2();
         $('#core_business').change(function () {
             var core_business_id = $(this).val();
             if (core_business_id) {
@@ -68,7 +68,7 @@
                     dataType: 'json',
                     success: function (data) {
                         $('#classification').empty();
-                        $('#classification').append('<option value="">Pilih Klasifikasi</option>');
+                        $('#classification').append('<option value="" disabled>Pilih Klasifikasi</option>');
                         $.each(data, function (key, value) {
                             $('#classification').append('<option value="' + key + '">' + value + '</option>');
                         });
@@ -84,5 +84,6 @@
 
 
 @endsection
-@push('page-action')
+@push('after-style')
+
 @endpush

@@ -7,10 +7,10 @@
     <title>Dashboard - Tabler - Premium and Open Source dashboard template with responsive and high quality UI.</title>
     <!-- CSS files -->
    @include('includes.style')
+   @stack('after-style')
   </head>
   <body >
     <script src="{{ asset ('') }}assets/dist/js/demo-theme.min.js?1674944402"></script>
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 
     <div class="page">
       <!-- Sidebar -->
