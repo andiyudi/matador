@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Classification;
 use App\Models\Vendor;
 use App\Models\CoreBusiness;
 use Illuminate\Http\Request;
+use App\Models\Classification;
+use Yajra\DataTables\DataTables;
 
 class VendorController extends Controller
 {
@@ -14,8 +15,10 @@ class VendorController extends Controller
      */
     public function index()
     {
-        $vendors = Vendor::with(['coreBusiness', 'classifications'])->paginate(10);
-        return view('vendors.index', compact('vendors'));
+        $vendors = Vendor::all();
+        $core_businesses = CoreBusiness::all();
+        $classifications = Classification::all();
+        return view('vendors.index', compact('vendors', 'core_businesses', 'classifications'));
     }
 
     /**
@@ -36,8 +39,41 @@ class VendorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // validasi input
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'address' => 'required',
+            'area' => 'required',
+            'director' => 'required',
+            'phone' => 'required',
+            'email' => 'required|email|unique:vendors',
+            'capital' => 'required',
+            'grade' => 'required',
+            'core_business_id' => 'required|array',
+            'classification_id' => 'required|array'
+        ]);
+
+        // simpan data vendor
+        $vendor = new Vendor;
+        $vendor->name = $request->name;
+        $vendor->address = $request->address;
+        $vendor->area = $request->area;
+        $vendor->director = $request->director;
+        $vendor->phone = $request->phone;
+        $vendor->email = $request->email;
+        $vendor->capital = $request->capital;
+        $vendor->grade = $request->grade;
+        $vendor->save();
+
+        // hubungkan vendor dengan core business yang dipilih
+        $vendor->coreBusinesses()->attach($request->core_business_id);
+
+        // hubungkan vendor dengan classification yang dipilih
+        $vendor->classifications()->attach($request->classification_id);
+
+        return redirect()->route('vendors.index')->with('success', 'Data vendor berhasil disimpan.');
     }
+
 
     /**
      * Display the specified resource.
