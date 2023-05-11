@@ -21,10 +21,11 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+Route::get('/classifications/getByCoreBusiness', [ClassificationController::class, 'getByCoreBusiness'])->name('classifications.getByCoreBusiness');
+
 Route::resource('core-business', CoreBusinessController::class);
 Route::resource('classifications', ClassificationController::class);
 Route::resource('vendors', VendorController::class);
-Route::get('/classifications/{core_business_id}/getByCoreBusiness', [ClassificationController::class, 'getByCoreBusiness'])->name('classifications.getByCoreBusiness');
 
 
 Route::get('/dashboard', function () {

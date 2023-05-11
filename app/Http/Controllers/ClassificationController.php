@@ -14,7 +14,7 @@ class ClassificationController extends Controller
      */
     public function index()
     {
-        $classifications = Classification::with('coreBusiness')->orderByDesc('id')->paginate(10)->fragment('cls');
+        $classifications = Classification::with('coreBusiness')->orderByDesc('id')->paginate(5)->fragment('cls');
         $coreBusinesses = CoreBusiness::all();
         return view('classification.index', compact('classifications', 'coreBusinesses'));
     }
@@ -85,9 +85,11 @@ class ClassificationController extends Controller
         return redirect()->route('classifications.index')
             ->with('success', 'Classification data has been deleted successfully.');
     }
-    public function getByCoreBusiness($core_business_id)
+    // method for get classifications data by core business id
+    public function getByCoreBusiness(Request $request)
     {
-        $classifications = Classification::where('core_business_id', $core_business_id)->pluck('name', 'id');
+        $core_business_ids = $request->input('core_business_ids');
+        $classifications = Classification::whereIn('core_business_id', $core_business_ids)->pluck('name', 'id');
         return response()->json($classifications);
     }
 }

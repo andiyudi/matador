@@ -60,12 +60,15 @@
     $(document).ready(function () {
         $('.basic-multiple').select2();
         $('#core_business').change(function () {
-            var core_business_id = $(this).val();
-            if (core_business_id) {
+            var core_business_ids = $(this).val();
+            if (core_business_ids) {
                 $.ajax({
-                    url: '/classifications/' + core_business_id + '/getByCoreBusiness',
+                    url: '/classifications/getByCoreBusiness',
                     type: 'GET',
                     dataType: 'json',
+                    data: {
+                        core_business_ids: core_business_ids
+                    },
                     success: function (data) {
                         $('#classification').empty();
                         $('#classification').append('<option value="" disabled>Pilih Klasifikasi</option>');
@@ -81,7 +84,6 @@
         });
     });
 </script>
-
 
 @endsection
 @push('after-style')
