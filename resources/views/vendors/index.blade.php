@@ -74,7 +74,20 @@
                 { data: 'email', name: 'email' },
                 { data: 'capital', name: 'capital' },
                 { data: 'grade', name: 'grade' },
-                { data: 'status', name: 'status' },
+                {
+                data: 'status', name: 'status',
+                    render: function (data) {
+                        if (data === '0') {
+                            return 'Registered';
+                        } else if (data === '1') {
+                            return 'Active';
+                        } else if (data === '2') {
+                            return 'Expired';
+                        } else {
+                            return '-';
+                        }
+                    }
+                },
                 { data: 'expired_at', name: 'expired_at' },
 
             ]
