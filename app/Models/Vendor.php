@@ -12,11 +12,11 @@ class Vendor extends Model
     use SoftDeletes;
     public function coreBusinesses()
     {
-        return $this->belongsToMany(CoreBusiness::class);
+        return $this->belongsToMany(CoreBusiness::class, 'core_business_vendor');
     }
 
     public function classifications()
     {
-        return $this->belongsToMany(Classification::class);
+        return $this->belongsToMany(Classification::class, 'classification_vendor');
     }
 }

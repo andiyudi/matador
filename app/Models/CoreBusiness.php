@@ -20,6 +20,6 @@ class CoreBusiness extends Model
     }
     public function vendors()
     {
-        return $this->belongsToMany(Vendor::class);
+        return $this->belongsToMany(Vendor::class, 'core_business_vendor');
     }
 }

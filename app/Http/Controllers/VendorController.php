@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Vendor;
 use App\Models\CoreBusiness;
-use Illuminate\Http\Request;
 use App\Models\Classification;
-use Yajra\DataTables\DataTables;
+use App\Models\Vendor;
+use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
+// use Yajra\DataTables\DataTables;
 
 class VendorController extends Controller
 {
@@ -15,9 +16,15 @@ class VendorController extends Controller
      */
     public function index()
     {
+        if (request()->ajax()) {
+            $vendors = Vendor::with('coreBusinesses:name', 'classifications:name')->get();
+            return DataTables::of($vendors)->make(true);
+        }
+
         $vendors = Vendor::all();
         $core_businesses = CoreBusiness::all();
         $classifications = Classification::all();
+
         return view('vendors.index', compact('vendors', 'core_businesses', 'classifications'));
     }
 

@@ -8,6 +8,10 @@
 <form action="{{ route('vendors.store') }}" method="POST">
     @csrf
     <div class="mb-3">
+        <label for="name" class="form-label">Nama</label>
+        <input type="text" class="form-control" id="name" name="name" required>
+      </div>
+    <div class="mb-3">
         <label for="core_business_id" class="form-label">Core Business</label>
         <select class="form-select basic-multiple" name="core_business_id[]" id="core_business" multiple>
             <option value="" disabled>Pilih Jenis Bisnis</option>
@@ -21,10 +25,6 @@
         <select class="form-select basic-multiple" name="classification_id[]" id="classification" multiple>
             <option value="">Pilih Klasifikasi</option>
         </select>
-    </div>
-    <div class="mb-3">
-      <label for="name" class="form-label">Nama</label>
-      <input type="text" class="form-control" id="name" name="name" required>
     </div>
     <div class="mb-3">
       <label for="address" class="form-label">Alamat</label>

@@ -19,6 +19,6 @@ class Classification extends Model
     }
     public function vendors()
     {
-        return $this->belongsToMany(Vendor::class);
+        return $this->belongsToMany(Vendor::class, 'classification_vendor');
     }
 }

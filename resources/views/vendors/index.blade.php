@@ -33,28 +33,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach($vendors as $vendor)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $vendor->name }}</td>
-                                 <td>
-                                    {{ 'data-core-businesses' }}
-                                </td>
-                                <td>
-                                   {{ 'data-classifications'}}
-                                </td>
-                                <td>{{ $vendor->address }}</td>
-                                <td>{{ $vendor->area }}</td>
-                                <td>{{ $vendor->director }}</td>
-                                <td>{{ $vendor->phone }}</td>
-                                <td>{{ $vendor->email }}</td>
-                                <td>{{ $vendor->capital }}</td>
-                                <td>{{ $vendor->grade }}</td>
-                                <td>{{ $vendor->status }}</td>
-                                <td>{{ $vendor->expired_at }}</td>
-                                <td>{{ $loop->iteration }}</td>
-                            </tr>
-                        @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -62,7 +40,47 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+       $('#vendors-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: '{{ url()->current() }}',
+            columns: [
+                { data: 'id', name: 'id' },
+                { data: 'name', name: 'name' },
+                {
+                data: 'core_businesses',
+                    render: function (data) {
+                        return data.map(function (item, index) {
+                            return (index+1) + "." + item.name +"<br>";
+                        }).join("");
+                        },
+                name: 'core_businesses.name'
+                },
+                {
+                data: 'classifications',
+                    render: function (data) {
+                        return data.map(function (item, index) {
+                            return (index+1) + "." + item.name + "<br>";
+                        }).join("");
+                    },
+                name: 'classifications.name'
+                },
+                { data: 'address', name: 'address' },
+                { data: 'area', name: 'area' },
+                { data: 'director', name: 'director' },
+                { data: 'phone', name: 'phone' },
+                { data: 'email', name: 'email' },
+                { data: 'capital', name: 'capital' },
+                { data: 'grade', name: 'grade' },
+                { data: 'status', name: 'status' },
+                { data: 'expired_at', name: 'expired_at' },
 
+            ]
+        });
+     });
+    </script>
 
 
 
