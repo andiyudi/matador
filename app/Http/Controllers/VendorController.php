@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\CoreBusiness;
 use App\Models\Classification;
 use App\Models\Vendor;
+use App\Models\VendorFile;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
-// use Yajra\DataTables\DataTables;
 
 class VendorController extends Controller
 {
@@ -169,7 +169,7 @@ class VendorController extends Controller
 
         $filePath = $file->storeAs('vendor_files', $fileName, 'public');
 
-        $vendorFile = new Vendor();
+        $vendorFile = new VendorFile();
         $vendorFile->vendor_id = $existingVendor->id;
         $vendorFile->file_type = $request->file_type;
         $vendorFile->file_name = $fileName;

@@ -45,7 +45,7 @@
 <div class="modal fade" id="uploadVendorFiles" tabindex="-1" aria-labelledby="uploadVendorFilesLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <form method="POST" action="{{ route('vendors.upload') }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('vendors.upload') }}" id="uploadForm" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title" id="uploadVendorFilesLabel">Upload Vendor Files</h5>
@@ -77,7 +77,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Upload</button>
+                    <button type="submit" id="uploadButton class="btn btn-primary">Upload</button>
                 </div>
             </form>
         </div>
@@ -165,44 +165,51 @@
                 // },
                 // { data: 'expired_at', name: 'expired_at' },
                 {
-    data: 'action',
-    name: 'action',
-    orderable: false,
-    searchable: false,
-    render: function (data, type, row, meta) {
-        return `
-        <a href="/vendors/${row.id}/edit" class="btn btn-sm btn-warning">
-            Edit
-        </a>
-        <a href="/vendors/${row.id}" class="btn btn-sm btn-info">
-            Detail
-        </a>
-        <form action="/vendors/${row.id}" method="POST" class="d-inline">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn btn-sm btn-danger"
-                onclick="return confirm('Are you sure you want to delete this vendor?')">
-                Delete
-            </button>
-        </form>
-        <form action="/vendors/${row.id}/blacklist" method="POST" class="d-inline">
-            @csrf
-            @method('PUT')
-            <input type="hidden" name="is_blacklist" value="1">
-            <button type="submit" class="btn btn-sm btn-secondary"
-                onclick="return confirm('Are you sure you want to blacklist this vendor?')">
-                Blacklist
-            </button>
-        </form>
-
-        `;
-    }
-}
-
-            ]
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false,
+                render: function (data, type, row, meta) {
+                return `
+                    <a href="/vendors/${row.id}/edit" class="btn btn-sm btn-warning">
+                        Edit
+                    </a>
+                    <a href="/vendors/${row.id}" class="btn btn-sm btn-info">
+                        Detail
+                    </a>
+                    <form action="/vendors/${row.id}" method="POST" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-danger"
+                            onclick="return confirm('Are you sure you want to delete this vendor?')">
+                            Delete
+                        </button>
+                    </form>
+                    <form action="/vendors/${row.id}/blacklist" method="POST" class="d-inline">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="is_blacklist" value="1">
+                        <button type="submit" class="btn btn-sm btn-secondary"
+                            onclick="return confirm('Are you sure you want to blacklist this vendor?')">
+                            Blacklist
+                        </button>
+                    </form>`;
+                }
+            }]
         });
-     });
-    </script>
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var uploadForm = document.getElementById("uploadForm");
+        var uploadButton = document.getElementById("uploadButton");
+
+        uploadButton.addEventListener("click", function(event) {
+            event.preventDefault();
+            uploadForm.submit();
+        });
+    });
+</script>
 
 
 
