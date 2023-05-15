@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('phone');
             $table->string('email');
             $table->string('capital');
-            $table->enum('grade', ['0', '1', '2']); //0:rendah, 1:menengah, 2: tinggi
+            $table->enum('grade', ['0', '1', '2']); //0:kecil, 1:menengah, 2: besar
             $table->enum('is_blacklist', ['0', '1'])->default('0'); // 0: not blacklisted and 1: blacklisted
             $table->date('blacklist_at')->nullable()->default(null);
             $table->date('activated_at')->nullable()->default(null);

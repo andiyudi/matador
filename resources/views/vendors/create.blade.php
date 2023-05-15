@@ -51,8 +51,13 @@
       <input type="text" class="form-control" id="capital" name="capital" required>
     </div>
     <div class="mb-3">
-      <label for="grade" class="form-label">Grade</label>
-      <input type="text" class="form-control" id="grade" name="grade" required>
+        <label for="grade" class="form-label">Grade</label>
+        <select class="form-control" id="grade" name="grade" required>
+            <option value="" selected disabled>-- Select Grade --</option>
+            <option value="0">Rendah</option>
+            <option value="1">Menengah</option>
+            <option value="2">Tinggi</option>
+        </select>
     </div>
     <button type="submit" class="btn btn-primary">Simpan</button>
   </form>

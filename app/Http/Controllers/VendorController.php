@@ -144,6 +144,16 @@ class VendorController extends Controller
         $vendor->delete();
         return redirect()->route('vendors.index')->with('success', 'Vendor deleted successfully');
     }
+
+    public function blacklist(Vendor $vendor)
+    {
+        $vendor->is_blacklist = 2;
+        $vendor->blacklist_at = now();
+        $vendor->save();
+
+        return redirect()->back()->with('success', 'Vendor has been blacklisted.');
+    }
+
     public function upload(Request $request)
     {
         $this->validate($request, [

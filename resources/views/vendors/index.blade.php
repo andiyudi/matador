@@ -13,24 +13,24 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <table class="table" id="vendors-table">
+                    <table class="table table-responsive" id="vendors-table">
                         <thead>
                             <tr>
                                 <th>No</th>
                                 <th>Name</th>
                                 <th>Core Business</th>
                                 <th>Classification</th>
-                                {{-- <th>Address</th>
+                                <th>Address</th>
                                 <th>Area</th>
                                 <th>Director</th>
                                 <th>Phone</th>
                                 <th>Email</th>
                                 <th>Capital</th>
-                                <th>Grade</th> --}}
-                                <th>Is Blacklist</th>
+                                <th>Grade</th>
+                                {{-- <th>Is Blacklist</th>
                                 <th>Blacklist At</th>
                                 <th>Status</th>
-                                <th>Expired At</th>
+                                <th>Expired At</th> --}}
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -118,69 +118,87 @@
                     },
                 name: 'classifications.name'
                 },
-                // { data: 'address', name: 'address' },
-                // { data: 'area', name: 'area' },
-                // { data: 'director', name: 'director' },
-                // { data: 'phone', name: 'phone' },
-                // { data: 'email', name: 'email' },
-                // { data: 'capital', name: 'capital' },
-                // { data: 'grade', name: 'grade' },
-                { data: 'is_blacklist', name: 'is_blacklist',
+                { data: 'address', name: 'address' },
+                { data: 'area', name: 'area' },
+                { data: 'director', name: 'director' },
+                { data: 'phone', name: 'phone' },
+                { data: 'email', name: 'email' },
+                { data: 'capital', name: 'capital' },
+                { data: 'grade', name: 'grade',
                 render: function (data) {
                         if (data === '0') {
-                            return 'Not Blacklisted';
+                            return 'Kecil';
                         } else if (data === '1') {
-                            return 'Blacklisted';
-                        } else {
-                            return '-';
-                        }
-                    }
-                },
-                { data: 'blacklist_at', name: 'blacklist_at' },
-                {
-                data: 'status', name: 'status',
-                    render: function (data) {
-                        if (data === '0') {
-                            return 'Registered';
-                        } else if (data === '1') {
-                            return 'Active';
+                            return 'Menengah';
                         } else if (data === '2') {
-                            return 'Expired';
-                        } else {
+                            return 'Besar';
+                        } else  {
                             return '-';
                         }
                     }
                 },
-                { data: 'expired_at', name: 'expired_at' },
+                // { data: 'is_blacklist', name: 'is_blacklist',
+                // render: function (data) {
+                //         if (data === '0') {
+                //             return 'Not Blacklisted';
+                //         } else if (data === '1') {
+                //             return 'Blacklisted';
+                //         } else {
+                //             return '-';
+                //         }
+                //     }
+                // },
+                // { data: 'blacklist_at', name: 'blacklist_at' },
+                // {
+                // data: 'status', name: 'status',
+                //     render: function (data) {
+                //         if (data === '0') {
+                //             return 'Registered';
+                //         } else if (data === '1') {
+                //             return 'Active';
+                //         } else if (data === '2') {
+                //             return 'Expired';
+                //         } else {
+                //             return '-';
+                //         }
+                //     }
+                // },
+                // { data: 'expired_at', name: 'expired_at' },
                 {
-                data: 'action', name: 'action', orderable: false, searchable: false,
-                    render: function (data, type, row, meta) {
-                        return `
-                            <a href="${row.edit_url}" class="btn btn-sm btn-warning">
-                                Edit
-                            </a>
-                            <a href="${row.detail_url}" class="btn btn-sm btn-info">
-                                Detail
-                            </a>
-                            <form action="${row.delete_url}" method="POST" class="d-inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger"
-                                onclick="return confirm('Are you sure you want to delete this vendor?')">
-                                Delete
-                            </button>
-                            </form>
-                            <form action="${row.blacklist_url}" method="POST" class="d-inline">
-                            @csrf
-                            @method('PUT')
-                            <input type="hidden" name="is_blacklist" value="1">
-                                <button type="submit" class="btn btn-sm btn-secondary"
-                                onclick="return confirm('Are you sure you want to blacklist this vendor?')">
-                                Blacklist
-                                </button>
-                            </form>
-                    `;}
-                },
+    data: 'action',
+    name: 'action',
+    orderable: false,
+    searchable: false,
+    render: function (data, type, row, meta) {
+        return `
+        <a href="/vendors/${row.id}/edit" class="btn btn-sm btn-warning">
+            Edit
+        </a>
+        <a href="/vendors/${row.id}" class="btn btn-sm btn-info">
+            Detail
+        </a>
+        <form action="/vendors/${row.id}" method="POST" class="d-inline">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-sm btn-danger"
+                onclick="return confirm('Are you sure you want to delete this vendor?')">
+                Delete
+            </button>
+        </form>
+        <form action="/vendors/${row.id}/blacklist" method="POST" class="d-inline">
+            @csrf
+            @method('PUT')
+            <input type="hidden" name="is_blacklist" value="1">
+            <button type="submit" class="btn btn-sm btn-secondary"
+                onclick="return confirm('Are you sure you want to blacklist this vendor?')">
+                Blacklist
+            </button>
+        </form>
+
+        `;
+    }
+}
+
             ]
         });
      });
