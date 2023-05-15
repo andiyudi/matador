@@ -22,6 +22,7 @@ Route::get('/', function () {
 });
 
 Route::get('/classifications/getByCoreBusiness', [ClassificationController::class, 'getByCoreBusiness'])->name('classifications.getByCoreBusiness');
+Route::post('/vendors/upload', [VendorController::class, 'upload'])->name('vendors.upload');
 
 Route::resource('core-business', CoreBusinessController::class);
 Route::resource('classifications', ClassificationController::class);
