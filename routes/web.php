@@ -24,6 +24,7 @@ Route::get('/', function () {
 Route::get('/classifications/getByCoreBusiness', [ClassificationController::class, 'getByCoreBusiness'])->name('classifications.getByCoreBusiness');
 Route::put('/vendors/{vendor}/blacklist', [VendorController::class, 'blacklist'])->name('vendors.blacklist');
 Route::post('/vendors/upload', [VendorController::class, 'upload'])->name('vendors.upload');
+Route::get('/vendors/data', [VendorController::class, 'data'])->name('vendors.data');
 
 Route::resource('core-business', CoreBusinessController::class);
 Route::resource('classifications', ClassificationController::class);

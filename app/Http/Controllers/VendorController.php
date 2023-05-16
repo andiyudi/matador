@@ -17,13 +17,13 @@ class VendorController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $vendors = Vendor::where('is_blacklist', 1)
+            $vendors = Vendor::where('is_blacklist', '0')
                 ->with('coreBusinesses:name', 'classifications:name')
                 ->get();
             return DataTables::of($vendors)->make(true);
         }
 
-        $vendors = Vendor::where('is_blacklist', 1)->get();
+        $vendors = Vendor::where('is_blacklist', '0')->get();
         // $core_businesses = CoreBusiness::all();
         // $classifications = Classification::all();
 
@@ -87,51 +87,74 @@ class VendorController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Vendor $vendor)
+    public function show($id)
     {
-        return view('vendors.detail', compact('vendor'));
+        $core_businesses = CoreBusiness::all();
+        $classifications = Classification::all();
+        // return view('vendors.edit', compact('vendor', 'core_businesses', 'classifications'));
+        // Mengambil data vendor yang akan diedit
+        $vendor = Vendor::findOrFail($id);
+
+        // Mengambil klasifikasi yang dipilih untuk vendor
+        $selectedCoreBusinesses = $vendor->coreBusinesses->pluck('id')->toArray();
+        $selectedClassifications = $vendor->classifications->pluck('id')->toArray();
+
+        // Mengirimkan $selectedClassifications ke view
+        return view('vendors.show', compact('vendor', 'core_businesses', 'classifications', 'selectedCoreBusinesses', 'selectedClassifications'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Vendor $vendor)
+    public function edit($id)
     {
         $core_businesses = CoreBusiness::all();
         $classifications = Classification::all();
-        return view('vendors.edit', compact('vendor', 'core_businesses', 'classifications'));
+        // return view('vendors.edit', compact('vendor', 'core_businesses', 'classifications'));
+        // Mengambil data vendor yang akan diedit
+        $vendor = Vendor::findOrFail($id);
+
+        // Mengambil klasifikasi yang dipilih untuk vendor
+        $selectedCoreBusinesses = $vendor->coreBusinesses->pluck('id')->toArray();
+        $selectedClassifications = $vendor->classifications->pluck('id')->toArray();
+
+        // Mengirimkan $selectedClassifications ke view
+        return view('vendors.edit', compact('vendor', 'core_businesses', 'classifications', 'selectedCoreBusinesses', 'selectedClassifications'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Vendor $vendor)
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required',
-            'address' => 'required',
-            'phone' => 'required',
-            'email' => 'required|email|unique:vendors,email,' . $vendor->id,
-            'capital' => 'required|numeric',
-            'core_businesses' => 'required|array',
-            'classifications' => 'required|array'
-        ]);
+        // dd(request()->all());
+        $vendor = Vendor::findOrFail($id);
+        // $request->validate([
+        //     'name' => 'required',
+        //     'address' => 'required',
+        //     'area' => 'required',
+        //     'director' => 'required',
+        //     'phone' => 'required',
+        //     'email' => 'required|email|unique:vendors,email,' . $vendor->id,
+        //     'capital' => 'required|numeric',
+        //     'grade' => 'required|integer',
+        //     'core_business_id' => 'required|array',
+        //     'classification_id' => 'required|array'
+        // ]);
 
         $vendor->update([
             'name' => $request->name,
             'address' => $request->address,
+            'area' => $request->area,
+            'director' => $request->director,
             'phone' => $request->phone,
             'email' => $request->email,
             'capital' => $request->capital,
             'grade' => $request->grade,
-            'is_blacklist' => $request->is_blacklist ? 1 : 0,
-            'blacklist_at' => $request->is_blacklist ? now() : null,
-            'status' => $request->status,
-            'expired_at' => $request->status == 2 ? now() : null
         ]);
 
-        $vendor->coreBusinesses()->sync($request->core_businesses);
-        $vendor->classifications()->sync($request->classifications);
+        $vendor->coreBusinesses()->sync($request->core_business_id);
+        $vendor->classifications()->sync($request->classification_id);
 
         return redirect()->route('vendors.index')->with('success', 'Vendor updated successfully');
     }
@@ -147,7 +170,7 @@ class VendorController extends Controller
 
     public function blacklist(Vendor $vendor)
     {
-        $vendor->is_blacklist = 2;
+        $vendor->is_blacklist = '1';
         $vendor->blacklist_at = now();
         $vendor->save();
 
@@ -178,5 +201,21 @@ class VendorController extends Controller
         $vendorFile->save();
 
         return redirect()->back()->with('success', 'Vendor file uploaded successfully!');
+    }
+
+    public function data()
+    {
+        if (request()->ajax()) {
+            $vendors = Vendor::where('is_blacklist', '1')
+                ->with('coreBusinesses:name', 'classifications:name')
+                ->get();
+            return DataTables::of($vendors)->make(true);
+        }
+
+        $vendors = Vendor::where('is_blacklist', '1')->get();
+        // $core_businesses = CoreBusiness::all();
+        // $classifications = Classification::all();
+
+        return view('vendors.data', compact('vendors'));
     }
 }

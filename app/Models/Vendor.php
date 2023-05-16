@@ -10,6 +10,9 @@ class Vendor extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    protected $guarded = [
+        'id',
+    ];
     public function coreBusinesses()
     {
         return $this->belongsToMany(CoreBusiness::class, 'core_business_vendor');

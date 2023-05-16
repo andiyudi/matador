@@ -77,7 +77,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" id="uploadButton class="btn btn-primary">Upload</button>
+                    <button type="submit" id="uploadButton" class="btn btn-success">Upload</button>
                 </div>
             </form>
         </div>

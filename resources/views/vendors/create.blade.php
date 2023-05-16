@@ -54,12 +54,12 @@
         <label for="grade" class="form-label">Grade</label>
         <select class="form-control" id="grade" name="grade" required>
             <option value="" selected disabled>-- Select Grade --</option>
-            <option value="0">Rendah</option>
+            <option value="0">Kecil</option>
             <option value="1">Menengah</option>
-            <option value="2">Tinggi</option>
+            <option value="2">Besar</option>
         </select>
     </div>
-    <button type="submit" class="btn btn-primary">Simpan</button>
+    <button type="submit" class="btn btn-success">Simpan</button>
   </form>
   <script>
     $(document).ready(function () {

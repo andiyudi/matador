@@ -69,7 +69,7 @@
                   <a class="dropdown-item" href="{{ route('vendors.index') }}">
                     Available Vendor
                   </a>
-                  <a class="dropdown-item" href="#">
+                  <a class="dropdown-item" href="{{ route('vendors.data') }}">
                     Blacklist Vendor
                   </a>
               </div>
