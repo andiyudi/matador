@@ -1,40 +1,36 @@
 @extends('layouts.templates')
 @php
- $pretitle ='Data';
- $title ='Core Business';
+//  $pretitle ='Data';
+//  $title ='Core Business';
 @endphp
 @section('content')
 <h1>Data Core Business</h1>
 
-        <table id="table-default" class="table table-responsive table-bordered table-striped table-hover">
+        <table id="table-core-business" class="table table-responsive table-bordered table-striped table-hover">
             <thead>
                 <tr>
-                    <th>No</th>
-                    <th>Nama Core Business</th>
-                    <th>Aksi</th>
+                    <th>#</th>
+                    <th>Core Business Name</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                @php
-                    $nomor = 1 + (( $core_businesses->currentPage() -1 ) * $core_businesses->perPage() );
-                @endphp
-                @foreach ($core_businesses as $coreBusiness)
+                @foreach ($core_businesses as $index => $coreBusiness)
                 <tr>
-                    <td>{{ $nomor++ }}</td>
+                    <td>{{ $index + 1 }}</td>
                     <td>{{ $coreBusiness->name }}</td>
                     <td>
                         <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editCoreBusinessModal" data-corebusiness-id="{{ $coreBusiness->id }}" data-corebusiness-name="{{ $coreBusiness->name }}">
                             Edit
                         </button>
                         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCoreBusinessModal" data-corebusiness-id="{{ $coreBusiness->id }}">
-                            Hapus
+                            Delete
                         </button>
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
-        {{ $core_businesses->links() }}
 
         <!-- Modal Tambah Core Business -->
         <div class="modal fade" id="createCoreBusinessModal" tabindex="-1" aria-labelledby="createCoreBusinessModalLabel" aria-hidden="true">
@@ -108,7 +104,23 @@
         </div>
     </div>
 </div>
+{!! Toastr::render() !!}
+<script>
+   $(document).ready(function () {
+        $('#table-core-business').DataTable({
+            lengthMenu: [5, 10, 25, 50] // Pilihan jumlah data per halaman
+        });
+    });
+</script>
+<script>
+    @if (session('success'))
+         toastr.success('{{ session('success') }}', 'Success');
+    @endif
 
+    @if (session('error'))
+         toastr.error('{{ session('error') }}', 'Error');
+    @endif
+ </script>
 <script>
     $('#deleteCoreBusinessModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget)

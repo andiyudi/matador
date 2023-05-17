@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Classification;
 use App\Models\CoreBusiness;
+use palPalani\Toastr\Facades\Toastr;
 
 
 class ClassificationController extends Controller
@@ -14,7 +15,7 @@ class ClassificationController extends Controller
      */
     public function index()
     {
-        $classifications = Classification::with('coreBusiness')->orderByDesc('id')->paginate(5)->fragment('cls');
+        $classifications = Classification::with('coreBusiness')->get()->all();
         $coreBusinesses = CoreBusiness::all();
         return view('classification.index', compact('classifications', 'coreBusinesses'));
     }
@@ -32,15 +33,33 @@ class ClassificationController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $validatedData = $request->validate([
-            'name' => 'required',
-            'core_business_id' => 'required|exists:core_businesses,id'
-        ]);
+    { {
+            try {
+                $validatedData = $request->validate([
+                    'name' => 'required|unique:classifications',
+                    'core_business_id' => 'required|exists:core_businesses,id'
+                ]);
 
-        Classification::create($validatedData);
+                Classification::create($validatedData);
 
-        return redirect('/classifications')->with('success', 'Classification data has been created!');
+                Toastr::success('Classification added successfully!', 'Success');
+                return redirect('/classifications');
+            } catch (\Illuminate\Validation\ValidationException $e) {
+                Toastr::error('Failed to add Classification: ' . $e->errors()['name'][0], 'Error');
+                return redirect()->back()->withInput();
+            } catch (\Exception $e) {
+                Toastr::error('Failed to add Classification: ' . $e->getMessage(), 'Error');
+                return redirect()->back()->withInput();
+            }
+        }
+        // $validatedData = $request->validate([
+        //     'name' => 'required',
+        //     'core_business_id' => 'required|exists:core_businesses,id'
+        // ]);
+
+        // Classification::create($validatedData);
+
+        // return redirect('/classifications')->with('success', 'Classification data has been created!');
     }
 
     /**

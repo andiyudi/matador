@@ -62,6 +62,41 @@
             <option value="2" {{ $vendor->grade == 2 ? 'selected' : '' }}>Besar</option>
         </select>
     </div>
+    <h3>Existing Files:</h3>
+@if($vendor_files && $vendor_files->count() > 0)
+<table class="table">
+<thead>
+<tr>
+<th>Name</th>
+<th>File Type</th>
+<th>Updated At</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody>
+@foreach($vendor_files as $file)
+<tr>
+<td>{{ $file->file_name }}</td>
+<td>  @if ($file->file_type == 0)
+    Compro
+@elseif ($file->file_type == 1)
+    Legalitas
+@elseif ($file->file_type == 2)
+    Hasil Survey
+@else
+    Unknown
+@endif</td>
+<td>{{ $file->updated_at }}</td>
+<td>
+<a href="#" target="_blank">View</a>
+</td>
+</tr>
+@endforeach
+</tbody>
+</table>
+@else
+<p>No files found.</p>
+@endif
 <script>
     $(document).ready(function () {
         $('.basic-multiple').select2();

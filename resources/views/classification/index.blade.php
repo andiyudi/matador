@@ -1,11 +1,11 @@
 @extends('layouts.templates')
 @php
- $pretitle ='Data';
- $title ='Classifications';
+//  $pretitle ='Data';
+//  $title ='Classifications';
 @endphp
 @section('content')
 <h1>Data Classifications</h1>
-<table class="table">
+<table class="table" id="table-classification">
     <thead>
         <tr>
             <th>#</th>
@@ -14,17 +14,14 @@
             <th>Action</th>
         </tr>
     </thead>
-    <tbody id="classificationTableBody">
-        @php
-        $nomor = 1 + (( $classifications->currentPage() -1 ) * $classifications->perPage() );
-        @endphp
+    <tbody>
         @foreach ($classifications as $classification)
             <tr>
-                <td>{{ $nomor++ }}</td>
+                <td>{{ $classification->id }}</td>
                 <td>{{ $classification->coreBusiness->name }}</td>
                 <td>{{ $classification->name }}</td>
                 <td>
-                    <button class="btn btn-warning btn-sm edit-btn" data-bs-toggle="modal" data-bs-target="#editClassificationModal"
+                    <button class="btn btn-warning edit-btn" data-bs-toggle="modal" data-bs-target="#editClassificationModal"
                         data-id="{{ $classification->id }}"
                         data-name="{{ $classification->name }}"
                         data-corebusiness-id="{{ $classification->core_business_id }}"
@@ -32,7 +29,7 @@
                     >
                         Edit
                     </button>
-                    <button class="btn btn-danger btn-sm delete-btn" data-bs-toggle="modal" data-bs-target="#deleteClassificationModal"
+                    <button class="btn btn-danger delete-btn" data-bs-toggle="modal" data-bs-target="#deleteClassificationModal"
                         data-id="{{ $classification->id }}"
                         data-name="{{ $classification->name }}"
                     >
@@ -43,7 +40,6 @@
         @endforeach
     </tbody>
 </table>
-{{ $classifications->links() }}
 <!-- Create Classification Modal -->
 <div class="modal fade" id="classificationModal" tabindex="-1" aria-labelledby="classificationModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -133,7 +129,21 @@
         </div>
     </div>
 </div>
+{!! Toastr::render() !!}
+<script>
+    $(document).ready(function () {
+    $('#table-classification').DataTable();
+});
+ </script>
+<script>
+    @if (session('success'))
+         toastr.success('{{ session('success') }}', 'Success');
+    @endif
 
+    @if (session('error'))
+         toastr.error('{{ session('error') }}', 'Error');
+    @endif
+</script>
 <script>
 
     $('#editClassificationModal').on('show.bs.modal', function (event) {

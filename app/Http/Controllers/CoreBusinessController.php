@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CoreBusiness;
 use Illuminate\Http\Request;
+use palPalani\Toastr\Facades\Toastr;
 
 class CoreBusinessController extends Controller
 {
@@ -12,7 +13,7 @@ class CoreBusinessController extends Controller
      */
     public function index()
     {
-        $core_businesses = CoreBusiness::paginate(5)->fragment('cbs');
+        $core_businesses = CoreBusiness::all();
         return view('core-business.index', compact('core_businesses'));
     }
 
@@ -29,17 +30,26 @@ class CoreBusinessController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|unique:core_businesses',
-        ]);
+        try {
+            $request->validate([
+                'name' => 'required|unique:core_businesses',
+            ]);
 
-        $core_business = new CoreBusiness([
-            'name' => $request->get('name'),
-        ]);
+            $core_business = new CoreBusiness([
+                'name' => $request->get('name'),
+            ]);
 
-        $core_business->save();
+            $core_business->save();
 
-        return redirect('/core-business')->with('success', 'Core Business added successfully!');
+            Toastr::success('Core Business added successfully!', 'Success');
+            return redirect('/core-business');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            Toastr::error('Failed to add Core Business: ' . $e->errors()['name'][0], 'Error');
+            return redirect()->back()->withInput();
+        } catch (\Exception $e) {
+            Toastr::error('Failed to add Core Business: ' . $e->getMessage(), 'Error');
+            return redirect()->back()->withInput();
+        }
     }
 
     /**

@@ -99,8 +99,10 @@ class VendorController extends Controller
         $selectedCoreBusinesses = $vendor->coreBusinesses->pluck('id')->toArray();
         $selectedClassifications = $vendor->classifications->pluck('id')->toArray();
 
+        $vendor_files = $vendor->vendorFiles;
+
         // Mengirimkan $selectedClassifications ke view
-        return view('vendors.show', compact('vendor', 'core_businesses', 'classifications', 'selectedCoreBusinesses', 'selectedClassifications'));
+        return view('vendors.show', compact('vendor', 'core_businesses', 'classifications', 'selectedCoreBusinesses', 'selectedClassifications', 'vendor_files'));
     }
 
     /**
@@ -118,8 +120,10 @@ class VendorController extends Controller
         $selectedCoreBusinesses = $vendor->coreBusinesses->pluck('id')->toArray();
         $selectedClassifications = $vendor->classifications->pluck('id')->toArray();
 
+        $vendor_files = $vendor->vendorFiles;
+
         // Mengirimkan $selectedClassifications ke view
-        return view('vendors.edit', compact('vendor', 'core_businesses', 'classifications', 'selectedCoreBusinesses', 'selectedClassifications'));
+        return view('vendors.edit', compact('vendor', 'core_businesses', 'classifications', 'selectedCoreBusinesses', 'selectedClassifications', 'vendor_files'));
     }
 
     /**

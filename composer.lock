@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c832fe5f16671c178d498915b2cadc0d",
+    "content-hash": "7f4845a09a6c16356db49d23ef76477e",
     "packages": [
         {
             "name": "brick/math",
@@ -2265,6 +2265,79 @@
                 }
             ],
             "time": "2023-02-08T01:06:31+00:00"
+        },
+        {
+            "name": "palpalani/laravel-toastr",
+            "version": "0.2.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/palpalani/laravel-toastr.git",
+                "reference": "730a9bb63f65b630e17a57c372507dfe5421f7ce"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/palpalani/laravel-toastr/zipball/730a9bb63f65b630e17a57c372507dfe5421f7ce",
+                "reference": "730a9bb63f65b630e17a57c372507dfe5421f7ce",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/session": "^9.0|^10.0",
+                "illuminate/support": "^9.0|^10.0",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^7.0|^8.0",
+                "phpunit/phpunit": "^9.5|^10.0",
+                "vimeo/psalm": "^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "palPalani\\Toastr\\ToastrServiceProvider"
+                    ],
+                    "aliases": {
+                        "Toastr": "palPalani\\Toastr\\Facades\\Toastr"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "palPalani\\Toastr\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "palPalani",
+                    "email": "palani.p@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Implements toastr.js for Laravel based projects",
+            "homepage": "https://github.com/palpalani/laravel-toastr",
+            "keywords": [
+                "laravel",
+                "laravel-toastr",
+                "notification",
+                "palpalani",
+                "php",
+                "toastr"
+            ],
+            "support": {
+                "issues": "https://github.com/palpalani/laravel-toastr/issues",
+                "source": "https://github.com/palpalani/laravel-toastr/tree/0.2.5"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/palpalani",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-02-24T05:06:43+00:00"
         },
         {
             "name": "phpoption/phpoption",
