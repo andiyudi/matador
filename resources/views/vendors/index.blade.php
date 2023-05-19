@@ -27,10 +27,10 @@
                                 <th>Email</th>
                                 <th>Capital</th>
                                 <th>Grade</th>
-                                {{-- <th>Is Blacklist</th>
+                                <th>Is Blacklist</th>
                                 <th>Blacklist At</th>
                                 <th>Status</th>
-                                <th>Expired At</th> --}}
+                                <th>Expired At</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -137,33 +137,33 @@
                         }
                     }
                 },
-                // { data: 'is_blacklist', name: 'is_blacklist',
-                // render: function (data) {
-                //         if (data === '0') {
-                //             return 'Not Blacklisted';
-                //         } else if (data === '1') {
-                //             return 'Blacklisted';
-                //         } else {
-                //             return '-';
-                //         }
-                //     }
-                // },
-                // { data: 'blacklist_at', name: 'blacklist_at' },
-                // {
-                // data: 'status', name: 'status',
-                //     render: function (data) {
-                //         if (data === '0') {
-                //             return 'Registered';
-                //         } else if (data === '1') {
-                //             return 'Active';
-                //         } else if (data === '2') {
-                //             return 'Expired';
-                //         } else {
-                //             return '-';
-                //         }
-                //     }
-                // },
-                // { data: 'expired_at', name: 'expired_at' },
+                { data: 'is_blacklist', name: 'is_blacklist',
+                render: function (data) {
+                        if (data === '0') {
+                            return 'Not Blacklisted';
+                        } else if (data === '1') {
+                            return 'Blacklisted';
+                        } else {
+                            return '-';
+                        }
+                    }
+                },
+                { data: 'blacklist_at', name: 'blacklist_at' },
+                {
+                data: 'status', name: 'status',
+                    render: function (data) {
+                        if (data === '0') {
+                            return 'Registered';
+                        } else if (data === '1') {
+                            return 'Active';
+                        } else if (data === '2') {
+                            return 'Expired';
+                        } else {
+                            return '-';
+                        }
+                    }
+                },
+                { data: 'expired_at', name: 'expired_at' },
                 {
                 data: 'action',
                 name: 'action',
