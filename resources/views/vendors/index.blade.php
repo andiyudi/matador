@@ -42,7 +42,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="uploadVendorFiles" tabindex="-1" aria-labelledby="uploadVendorFilesLabel" aria-hidden="true">
+<div class="modal fade" id="uploadVendorFiles" aria-labelledby="uploadVendorFilesLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <form method="POST" action="{{ route('vendors.upload') }}" id="uploadForm" enctype="multipart/form-data">
@@ -54,21 +54,43 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="existing_vendors">Existing Vendors</label>
-                        <select class="form-control" id="existing_vendors" name="existing_vendors">
-                            <option value="" selected disabled>-- Select Vendor --</option>
-                            @foreach($vendors as $vendor)
-                            <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
-                            @endforeach
-                        </select>
+                        <div class="col">
+                            <select class="form-select select2" id="existing_vendors" name="existing_vendors">
+                                <option value="" selected disabled>-- Select Vendor --</option>
+                                @foreach($vendors as $vendor)
+                                <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="file_type">File Type</label>
-                        <select class="form-control" id="file_type" name="file_type" required>
-                            <option value="" selected disabled>-- Select File Type --</option>
-                            <option value="0">Compro</option>
-                            <option value="1">Legalitas</option>
-                            <option value="2">Hasil Survey</option>
-                        </select>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="file_type" id="file_type_0" value="0" required>
+                                    <label class="form-check-label" for="file_type_0">
+                                        Compro
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="file_type" id="file_type_1" value="1">
+                                    <label class="form-check-label" for="file_type_1">
+                                        Legalitas
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="file_type" id="file_type_2" value="2">
+                                    <label class="form-check-label" for="file_type_2">
+                                        Hasil Survey
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="vendor_file">Vendor File</label>
@@ -83,9 +105,17 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $('.select2').select2({
+            dropdownParent: $(".modal-body"),
+            width: '100%'
+        });
+    });
+</script>
 <script type="text/javascript">
     $(document).ready(function () {
-       $('#vendors-table').DataTable({
+        $('#vendors-table').DataTable({
             processing: true,
             serverSide: true,
             ajax: '{{ route('vendors.index') }}',
