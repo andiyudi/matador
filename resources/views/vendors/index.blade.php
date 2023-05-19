@@ -21,14 +21,14 @@
                                 <th>Core Business</th>
                                 <th>Classification</th>
                                 <th>Address</th>
-                                <th>Area</th>
+                                {{-- <th>Area</th>
                                 <th>Director</th>
                                 <th>Phone</th>
                                 <th>Email</th>
-                                <th>Capital</th>
+                                <th>Capital</th> --}}
                                 <th>Grade</th>
-                                <th>Is Blacklist</th>
-                                <th>Blacklist At</th>
+                                {{-- <th>Is Blacklist</th>
+                                <th>Blacklist At</th> --}}
                                 <th>Status</th>
                                 <th>Expired At</th>
                                 <th>Action</th>
@@ -119,11 +119,11 @@
                 name: 'classifications.name'
                 },
                 { data: 'address', name: 'address' },
-                { data: 'area', name: 'area' },
-                { data: 'director', name: 'director' },
-                { data: 'phone', name: 'phone' },
-                { data: 'email', name: 'email' },
-                { data: 'capital', name: 'capital' },
+                // { data: 'area', name: 'area' },
+                // { data: 'director', name: 'director' },
+                // { data: 'phone', name: 'phone' },
+                // { data: 'email', name: 'email' },
+                // { data: 'capital', name: 'capital' },
                 { data: 'grade', name: 'grade',
                 render: function (data) {
                         if (data === '0') {
@@ -137,18 +137,18 @@
                         }
                     }
                 },
-                { data: 'is_blacklist', name: 'is_blacklist',
-                render: function (data) {
-                        if (data === '0') {
-                            return 'Not Blacklisted';
-                        } else if (data === '1') {
-                            return 'Blacklisted';
-                        } else {
-                            return '-';
-                        }
-                    }
-                },
-                { data: 'blacklist_at', name: 'blacklist_at' },
+                // { data: 'is_blacklist', name: 'is_blacklist',
+                // render: function (data) {
+                //         if (data === '0') {
+                //             return 'Not Blacklisted';
+                //         } else if (data === '1') {
+                //             return 'Blacklisted';
+                //         } else {
+                //             return '-';
+                //         }
+                //     }
+                // },
+                // { data: 'blacklist_at', name: 'blacklist_at' },
                 {
                 data: 'status', name: 'status',
                     render: function (data) {
@@ -171,31 +171,80 @@
                 searchable: false,
                 render: function (data, type, row, meta) {
                 return `
-                    <a href="/vendors/${row.id}/edit" class="btn btn-sm btn-warning">
-                        Edit
-                    </a>
-                    <a href="/vendors/${row.id}" class="btn btn-sm btn-info">
-                        Detail
-                    </a>
-                    <form action="/vendors/${row.id}" method="POST" class="d-inline">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-danger"
-                            onclick="return confirm('Are you sure you want to delete this vendor?')">
-                            Delete
-                        </button>
-                    </form>
-                    <form action="/vendors/${row.id}/blacklist" method="POST" class="d-inline">
-                        @csrf
-                        @method('PUT')
-                        <input type="hidden" name="is_blacklist" value="1">
-                        <button type="submit" class="btn btn-sm btn-secondary"
-                            onclick="return confirm('Are you sure you want to blacklist this vendor?')">
-                            Blacklist
-                        </button>
-                    </form>`;
+                            <a href="/vendors/${row.id}/edit" class="btn btn-sm btn-warning">Edit</a>
+                            <a href="/vendors/${row.id}" class="btn btn-sm btn-info">Detail</a>
+                            <button type="button" class="btn btn-sm btn-danger delete-vendor" data-id="${row.id}">Delete</button>
+                            <button type="button" class="btn btn-sm btn-secondary blacklist-vendor" data-id="${row.id}">Blacklist</button>
+                        `;
                 }
             }]
+        });
+        // Event handler untuk tombol Delete
+        $(document).on('click', '.delete-vendor', function () {
+            var vendorId = $(this).data('id');
+            Swal.fire({
+                title: 'Delete Vendor',
+                text: 'Are you sure you want to delete this vendor?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Delete',
+                cancelButtonText: 'Cancel',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Kirim permintaan penghapusan ke URL yang sesuai
+                    $.ajax({
+                        url: `/vendors/${vendorId}`,
+                        type: 'POST',
+                        data: {
+                            _method: 'DELETE',
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function (response) {
+                            Swal.fire('Vendor deleted successfully', '', 'success').then(() => {
+                                location.reload();
+                            });
+                        },
+                        error: function (xhr) {
+                            Swal.fire('Error deleting vendor', '', 'error');
+                        }
+                    });
+                }
+            });
+        });
+        // Event handler untuk tombol Blacklist
+        $(document).on('click', '.blacklist-vendor', function () {
+            var vendorId = $(this).data('id');
+            Swal.fire({
+                title: 'Blacklist Vendor',
+                text: 'Are you sure you want to blacklist this vendor?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Blacklist',
+                cancelButtonText: 'Cancel',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Kirim permintaan penambahan ke daftar blacklist ke URL yang sesuai
+                    $.ajax({
+                        url: `/vendors/${vendorId}/blacklist`,
+                        type: 'POST',
+                        data: {
+                            _method: 'PUT',
+                            is_blacklist: 1,
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function (response) {
+                            Swal.fire('Vendor blacklisted successfully', '', 'success').then(() => {
+                                location.reload();
+                            });
+                        },
+                        error: function (xhr) {
+                            Swal.fire('Error blacklisting vendor', '', 'error');
+                        }
+                    });
+                }
+            });
         });
     });
 </script>
@@ -210,11 +259,6 @@
         });
     });
 </script>
-
-
-
-
-
 
 @endsection
 @push('page-action')

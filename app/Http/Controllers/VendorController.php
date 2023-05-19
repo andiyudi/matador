@@ -8,6 +8,7 @@ use App\Models\Vendor;
 use App\Models\VendorFile;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class VendorController extends Controller
 {
@@ -80,7 +81,9 @@ class VendorController extends Controller
         // hubungkan vendor dengan classification yang dipilih
         $vendor->classifications()->attach($request->classification_id);
 
-        return redirect()->route('vendors.index')->with('success', 'Data vendor berhasil disimpan.');
+        Alert::success('Success', 'Vendor data successfully stored');
+
+        return redirect()->route('vendors.index');
     }
 
 
@@ -160,7 +163,8 @@ class VendorController extends Controller
         $vendor->coreBusinesses()->sync($request->core_business_id);
         $vendor->classifications()->sync($request->classification_id);
 
-        return redirect()->route('vendors.index')->with('success', 'Vendor updated successfully');
+        Alert::success('Success', 'Vendor data successfully updated');
+        return redirect()->route('vendors.index');
     }
 
     /**
@@ -169,7 +173,7 @@ class VendorController extends Controller
     public function destroy(Vendor $vendor)
     {
         $vendor->delete();
-        return redirect()->route('vendors.index')->with('success', 'Vendor deleted successfully');
+        return redirect()->route('vendors.index');
     }
 
     public function blacklist(Vendor $vendor)
@@ -178,13 +182,13 @@ class VendorController extends Controller
         $vendor->blacklist_at = now();
         $vendor->save();
 
-        return redirect()->back()->with('success', 'Vendor has been blacklisted.');
+        return redirect()->route('vendors.index');
     }
 
     public function upload(Request $request)
     {
         $this->validate($request, [
-            'vendor_file' => 'required|mimes:xlsx,xls,pdf,doc,docx',
+            'vendor_file' => 'required|mimes:xlsx,xls,pdf,doc,docx,jpg,jpeg,png',
             'existing_vendors' => 'required',
             'file_type' => 'required|in:0,1,2',
         ]);

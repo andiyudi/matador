@@ -8,6 +8,7 @@
     <!-- CSS files -->
    @include('includes.style')
    @stack('after-style')
+
   </head>
   <body >
     <script src="{{ asset ('') }}assets/dist/js/demo-theme.min.js?1674944402"></script>
@@ -49,5 +50,6 @@
     </div>
     <!-- Libs JS -->
     @include('includes.script')
+    @include('sweetalert::alert')
       </body>
 </html>

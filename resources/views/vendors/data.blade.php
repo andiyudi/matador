@@ -18,11 +18,11 @@
                                 <th>Core Business</th>
                                 <th>Classification</th>
                                 <th>Address</th>
-                                <th>Area</th>
+                                {{-- <th>Area</th>
                                 <th>Director</th>
                                 <th>Phone</th>
                                 <th>Email</th>
-                                <th>Capital</th>
+                                <th>Capital</th> --}}
                                 <th>Grade</th>
                                 <th>Is Blacklist</th>
                                 <th>Blacklist At</th>
@@ -73,11 +73,11 @@
                 name: 'classifications.name'
                 },
                 { data: 'address', name: 'address' },
-                { data: 'area', name: 'area' },
-                { data: 'director', name: 'director' },
-                { data: 'phone', name: 'phone' },
-                { data: 'email', name: 'email' },
-                { data: 'capital', name: 'capital' },
+                // { data: 'area', name: 'area' },
+                // { data: 'director', name: 'director' },
+                // { data: 'phone', name: 'phone' },
+                // { data: 'email', name: 'email' },
+                // { data: 'capital', name: 'capital' },
                 { data: 'grade', name: 'grade',
                 render: function (data) {
                         if (data === '0') {

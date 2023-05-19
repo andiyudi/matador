@@ -60,6 +60,7 @@
         </select>
     </div>
     <button type="submit" class="btn btn-success">Simpan</button>
+    @include('sweetalert::alert')
   </form>
   <script>
     $(document).ready(function () {

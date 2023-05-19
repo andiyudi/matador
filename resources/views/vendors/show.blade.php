@@ -97,6 +97,7 @@
 @else
 <p>No files found.</p>
 @endif
+<a href="{{ route('vendors.index') }}" class="btn btn-primary">Back</a>
 <script>
     $(document).ready(function () {
         $('.basic-multiple').select2();

@@ -106,6 +106,7 @@
 <p>No files found.</p>
 @endif
     <button type="submit" class="btn btn-success">Update</button>
+    @include('sweetalert::alert')
 </form>
 
 <script>
