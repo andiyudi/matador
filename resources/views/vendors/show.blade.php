@@ -1,8 +1,4 @@
 @extends('layouts.templates')
-@php
- $pretitle ='Show';
- $title ='Vendor Data';
-@endphp
 @section('content')
 <h1>Show Vendor Data</h1>
     <div class="mb-3">
@@ -40,20 +36,20 @@
     <div class="mb-3">
         <label for="director" class="form-label">Direktur</label>
         <input type="text" class="form-control" id="director" name="director" value="{{ $vendor->director }}" readonly>
-      </div>
-      <div class="mb-3">
+    </div>
+    <div class="mb-3">
         <label for="phone" class="form-label">Telepon</label>
         <input type="text" class="form-control" id="phone" name="phone" value="{{ $vendor->phone }}" readonly>
-      </div>
-      <div class="mb-3">
+    </div>
+    <div class="mb-3">
         <label for="email" class="form-label">Email</label>
         <input type="email" class="form-control" id="email" name="email" value="{{ $vendor->email }}" readonly>
-      </div>
-      <div class="mb-3">
+    </div>
+    <div class="mb-3">
         <label for="capital" class="form-label">Modal</label>
         <input type="text" class="form-control" id="capital" name="capital" value="{{ $vendor->capital }}" readonly>
-      </div>
-      <div class="mb-3">
+    </div>
+    <div class="mb-3">
         <label for="grade" class="form-label">Grade</label>
         <select class="form-control" id="grade" name="grade" disabled>
             <option value="" disabled>-- Select Grade --</option>
@@ -62,42 +58,43 @@
             <option value="2" {{ $vendor->grade == 2 ? 'selected' : '' }}>Besar</option>
         </select>
     </div>
-    <h3>Existing Files:</h3>
+<a href="{{ route('vendors.index') }}" class="btn btn-primary">Back</a>
+<h3>Existing Files:</h3>
 @if($vendor_files && $vendor_files->count() > 0)
 <table class="table">
-<thead>
-<tr>
-<th>Name</th>
-<th>File Type</th>
-<th>Updated At</th>
-<th>Actions</th>
-</tr>
-</thead>
-<tbody>
-@foreach($vendor_files as $file)
-<tr>
-<td>{{ $file->file_name }}</td>
-<td>  @if ($file->file_type == 0)
-    Compro
-@elseif ($file->file_type == 1)
-    Legalitas
-@elseif ($file->file_type == 2)
-    Hasil Survey
-@else
-    Unknown
-@endif</td>
-<td>{{ $file->updated_at }}</td>
-<td>
-<a href="#" target="_blank">View</a>
-</td>
-</tr>
-@endforeach
-</tbody>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>File Type</th>
+            <th>Updated At</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($vendor_files as $file)
+        <tr>
+            <td>{{ $file->file_name }}</td>
+            <td>@if ($file->file_type == 0)
+                Compro
+                @elseif ($file->file_type == 1)
+                Legalitas
+                @elseif ($file->file_type == 2)
+                Hasil Survey
+                @else
+                Unknown
+                @endif
+            </td>
+            <td>{{ $file->updated_at }}</td>
+            <td>
+                <a href="#" target="_blank">View</a>
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
 </table>
 @else
 <p>No files found.</p>
 @endif
-<a href="{{ route('vendors.index') }}" class="btn btn-primary">Back</a>
 <script>
     $(document).ready(function () {
         $('.basic-multiple').select2();

@@ -36,7 +36,7 @@ class ClassificationController extends Controller
     { {
             try {
                 $validatedData = $request->validate([
-                    'name' => 'required|unique:classifications',
+                    'name' => 'required',
                     'core_business_id' => 'required|exists:core_businesses,id'
                 ]);
 
@@ -52,14 +52,6 @@ class ClassificationController extends Controller
                 return redirect()->back()->withInput();
             }
         }
-        // $validatedData = $request->validate([
-        //     'name' => 'required',
-        //     'core_business_id' => 'required|exists:core_businesses,id'
-        // ]);
-
-        // Classification::create($validatedData);
-
-        // return redirect('/classifications')->with('success', 'Classification data has been created!');
     }
 
     /**

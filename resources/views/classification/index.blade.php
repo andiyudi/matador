@@ -53,7 +53,7 @@
                     @csrf
                     <div class="form-group">
                         <label for="core_business_id">Core Business</label>
-                        <select class="form-control" id="core_business_id" name="core_business_id">
+                        <select class="form-control" id="core_business_id" name="core_business_id" required>
                             <option value="" selected disabled>-- Select Core Business --</option>
                             @foreach($coreBusinesses as $coreBusiness)
                             <option value="{{ $coreBusiness->id }}">{{ $coreBusiness->name }}</option>
@@ -95,7 +95,7 @@
             </div>
             <div class="mb-3">
                 <label for="editClassificationName" class="form-label">Name</label>
-                <input type="text" class="form-control" id="editClassificationName" name="name">
+                <input type="text" class="form-control" id="editClassificationName" name="name" required>
               </div>
           </div>
           <div class="modal-footer">

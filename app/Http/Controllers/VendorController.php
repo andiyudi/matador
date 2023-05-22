@@ -134,38 +134,43 @@ class VendorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd(request()->all());
-        $vendor = Vendor::findOrFail($id);
-        // $request->validate([
-        //     'name' => 'required',
-        //     'address' => 'required',
-        //     'area' => 'required',
-        //     'director' => 'required',
-        //     'phone' => 'required',
-        //     'email' => 'required|email|unique:vendors,email,' . $vendor->id,
-        //     'capital' => 'required|numeric',
-        //     'grade' => 'required|integer',
-        //     'core_business_id' => 'required|array',
-        //     'classification_id' => 'required|array'
-        // ]);
-
-        $vendor->update([
-            'name' => $request->name,
-            'address' => $request->address,
-            'area' => $request->area,
-            'director' => $request->director,
-            'phone' => $request->phone,
-            'email' => $request->email,
-            'capital' => $request->capital,
-            'grade' => $request->grade,
+        // validasi input
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'address' => 'required',
+            'area' => 'required',
+            'director' => 'required',
+            'phone' => 'required',
+            'email' => 'required|email|unique:vendors,email,' . $id,
+            'capital' => 'required',
+            'grade' => 'required',
+            'core_business_id' => 'required|array',
+            'classification_id' => 'required|array'
         ]);
 
+        // perbarui data vendor
+        $vendor = Vendor::findOrFail($id);
+        $vendor->name = $request->name;
+        $vendor->address = $request->address;
+        $vendor->area = $request->area;
+        $vendor->director = $request->director;
+        $vendor->phone = $request->phone;
+        $vendor->email = $request->email;
+        $vendor->capital = $request->capital;
+        $vendor->grade = $request->grade;
+        $vendor->save();
+
+        // hubungkan vendor dengan core business yang dipilih
         $vendor->coreBusinesses()->sync($request->core_business_id);
+
+        // hubungkan vendor dengan classification yang dipilih
         $vendor->classifications()->sync($request->classification_id);
 
         Alert::success('Success', 'Vendor data successfully updated');
+
         return redirect()->route('vendors.index');
     }
+
 
     /**
      * Remove the specified resource from storage.

@@ -1,13 +1,6 @@
 @extends('layouts.templates')
-@php
- $pretitle ='Data';
- $title ='Available Vendor';
-@endphp
 @section('content')
 <h1>Available Vendor Data</h1>
-
-
-
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">

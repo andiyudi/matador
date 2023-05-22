@@ -1,8 +1,4 @@
 @extends('layouts.templates')
-@php
- $pretitle ='Data';
- $title ='Blacklist Vendor';
-@endphp
 @section('content')
 <h1>Blacklist Vendor Data</h1>
 <div class="container">
@@ -39,7 +35,7 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-       $('#vendors-data').DataTable({
+        $('#vendors-data').DataTable({
             processing: true,
             serverSide: true,
             ajax: '{{ route('vendors.data') }}',
@@ -119,19 +115,4 @@
         });
     });
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
 @endsection
-@push('page-action')
-
-@endpush
