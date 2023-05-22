@@ -5,61 +5,107 @@
     @csrf
     @method('PUT')
     <div class="mb-3">
-        <label for="name" class="form-label">Nama</label>
-        <input type="text" class="form-control" id="name" name="name" value="{{ $vendor->name }}" required>
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ $vendor->name }}">
+        @error('name')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+    <div class="row">
+        <div class="col mb-3">
+            <label for="core_business_id" class="form-label">Core Business</label>
+            <select class="form-select basic-multiple @error('core_business_id') is-invalid @enderror" name="core_business_id[]" id="core_business" multiple>
+                <option value="" disabled>Pilih Jenis Bisnis</option>
+                @foreach($core_businesses as $core_business)
+                    <option value="{{ $core_business->id }}">{{ $core_business->name }}</option>
+                @endforeach
+            </select>
+            @error('core_business_id')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        <div class="col mb-3">
+            <label for="classification_id" class="form-label">Classification</label>
+            <select class="form-select basic-multiple @error('classification_id') is-invalid @enderror" name="classification_id[]" id="classification" multiple>
+                <option value="" disabled>Pilih Klasifikasi</option>
+                @foreach($classifications as $classification)
+                    <option value="{{ $classification->id }}" {{ in_array($classification->id, $selectedClassifications) ? 'selected' : '' }}>
+                        {{ $classification->name }}
+                    </option>
+                @endforeach
+            </select>
+            @error('classification_id')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
     </div>
     <div class="mb-3">
-        <label for="core_business_id" class="form-label">Core Business</label>
-        <select class="form-select basic-multiple" name="core_business_id[]" id="core_business" multiple required>
-            <option value="" disabled>Pilih Jenis Bisnis</option>
-            @foreach($core_businesses as $core_business)
-                <option value="{{ $core_business->id }}">{{ $core_business->name }}</option>
-            @endforeach
-        </select>
+        <label for="address" class="form-label">Address</label>
+        <textarea class="form-control @error('address') is-invalid @enderror" id="address" name="address" rows="4">{{ $vendor->address }}</textarea>
+        @error('address')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
     </div>
-    <div class="mb-3">
-        <label for="classification_id" class="form-label">Klasifikasi</label>
-        <select class="form-select basic-multiple" name="classification_id[]" id="classification" multiple required>
-            <option value="" disabled>Pilih Klasifikasi</option>
-            @foreach($classifications as $classification)
-                <option value="{{ $classification->id }}" {{ in_array($classification->id, $selectedClassifications) ? 'selected' : '' }}>
-                    {{ $classification->name }}
-                </option>
-            @endforeach
-        </select>
+    <div class="row">
+        <div class="col mb-3">
+            <label for="area" class="form-label">Area</label>
+            <input type="text" class="form-control @error('area') is-invalid @enderror" id="area" name="area" value="{{ $vendor->area }}">
+            @error('area')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        <div class="col mb-3">
+            <label for="director" class="form-label">Director</label>
+            <input type="text" class="form-control @error('director') is-invalid @enderror" id="director" name="director" value="{{ $vendor->director }}">
+            @error('director')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
     </div>
-    <div class="mb-3">
-        <label for="address" class="form-label">Alamat</label>
-        <input type="text" class="form-control" id="address" name="address" value="{{ $vendor->address }}" required>
+    <div class="row">
+        <div class="col mb-3">
+            <label for="phone" class="form-label">Telephone</label>
+            <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" value="{{ $vendor->phone }}">
+            @error('phone')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        <div class="col mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ $vendor->email }}">
+            @error('email')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
     </div>
-    <div class="mb-3">
-        <label for="area" class="form-label">Area</label>
-        <input type="text" class="form-control" id="area" name="area" value="{{ $vendor->area }}" required>
-    </div>
-    <div class="mb-3">
-        <label for="director" class="form-label">Direktur</label>
-        <input type="text" class="form-control" id="director" name="director" value="{{ $vendor->director }}" required>
-    </div>
-    <div class="mb-3">
-        <label for="phone" class="form-label">Telepon</label>
-        <input type="text" class="form-control" id="phone" name="phone" value="{{ $vendor->phone }}" required>
-    </div>
-    <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email" name="email" value="{{ $vendor->email }}" required>
-    </div>
-    <div class="mb-3">
-        <label for="capital" class="form-label">Modal</label>
-        <input type="text" class="form-control" id="capital" name="capital" value="{{ $vendor->capital }}" required>
-    </div>
-    <div class="mb-3">
-        <label for="grade" class="form-label">Grade</label>
-        <select class="form-control" id="grade" name="grade" required>
-            <option value="" disabled>-- Select Grade --</option>
-            <option value="0" {{ $vendor->grade == 0 ? 'selected' : '' }}>Kecil</option>
-            <option value="1" {{ $vendor->grade == 1 ? 'selected' : '' }}>Menengah</option>
-            <option value="2" {{ $vendor->grade == 2 ? 'selected' : '' }}>Besar</option>
-        </select>
+    <div class="row">
+        <div class="col mb-3">
+            <label for="capital" class="form-label">Capital</label>
+            <input type="text" class="form-control @error('capital') is-invalid @enderror" id="capital" name="capital" value="{{ $vendor->capital }}">
+            @error('capital')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        <div class="col mb-3">
+            <label for="grade" class="form-label">Grade</label>
+            <div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input @error('grade') is-invalid @enderror" type="radio" name="grade" id="grade_kecil" value="0" {{ $vendor->grade == 0 ? 'checked' : '' }}>
+                    <label class="form-check-label" for="grade_kecil">Kecil</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input @error('grade') is-invalid @enderror" type="radio" name="grade" id="grade_menengah" value="1" {{ $vendor->grade == 1 ? 'checked' : '' }}>
+                    <label class="form-check-label" for="grade_menengah">Menengah</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input @error('grade') is-invalid @enderror" type="radio" name="grade" id="grade_besar" value="2" {{ $vendor->grade == 2 ? 'checked' : '' }}>
+                    <label class="form-check-label" for="grade_besar">Besar</label>
+                </div>
+            </div>
+            @error('grade')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
     </div>
     <button type="submit" class="btn btn-success">Update</button>
     @include('sweetalert::alert')
@@ -143,3 +189,6 @@
     });
 </script>
 @endsection
+@push('page-action')
+<a href="{{ route('vendors.index') }}" class="btn btn-primary">Back</a>
+@endpush

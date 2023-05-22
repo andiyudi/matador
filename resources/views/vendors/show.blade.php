@@ -1,11 +1,12 @@
 @extends('layouts.templates')
 @section('content')
 <h1>Show Vendor Data</h1>
-    <div class="mb-3">
-        <label for="name" class="form-label">Nama</label>
-        <input type="text" class="form-control" id="name" name="name" value="{{ $vendor->name }}" readonly>
-    </div>
-    <div class="mb-3">
+<div class="mb-3">
+    <label for="name" class="form-label">Name</label>
+    <input type="text" class="form-control" id="name" name="name" value="{{ $vendor->name }}" readonly>
+</div>
+<div class="row">
+    <div class="col mb-3">
         <label for="core_business_id" class="form-label">Core Business</label>
         <select class="form-select basic-multiple" name="core_business_id[]" id="core_business" multiple disabled>
             <option value="" disabled>Pilih Jenis Bisnis</option>
@@ -14,8 +15,8 @@
             @endforeach
         </select>
     </div>
-    <div class="mb-3">
-        <label for="classification_id" class="form-label">Klasifikasi</label>
+    <div class="col mb-3">
+        <label for="classification_id" class="form-label">Classification</label>
         <select class="form-select basic-multiple" name="classification_id[]" id="classification" multiple disabled>
             <option value="" disabled>Pilih Klasifikasi</option>
             @foreach($classifications as $classification)
@@ -25,40 +26,54 @@
             @endforeach
         </select>
     </div>
-    <div class="mb-3">
-        <label for="address" class="form-label">Alamat</label>
-        <input type="text" class="form-control" id="address" name="address" value="{{ $vendor->address }}" readonly>
-    </div>
-    <div class="mb-3">
+</div>
+<div class="mb-3">
+    <label for="address" class="form-label">Address</label>
+    <textarea class="form-control" id="address" name="address" rows="4" readonly>{{ $vendor->address }}</textarea>
+</div>
+<div class="row">
+    <div class="col mb-3">
         <label for="area" class="form-label">Area</label>
         <input type="text" class="form-control" id="area" name="area" value="{{ $vendor->area }}" readonly>
     </div>
-    <div class="mb-3">
-        <label for="director" class="form-label">Direktur</label>
+    <div class="col mb-3">
+        <label for="director" class="form-label">Director</label>
         <input type="text" class="form-control" id="director" name="director" value="{{ $vendor->director }}" readonly>
     </div>
-    <div class="mb-3">
-        <label for="phone" class="form-label">Telepon</label>
+</div>
+<div class="row">
+    <div class="col mb-3">
+        <label for="phone" class="form-label">Telephone</label>
         <input type="text" class="form-control" id="phone" name="phone" value="{{ $vendor->phone }}" readonly>
     </div>
-    <div class="mb-3">
+    <div class="col mb-3">
         <label for="email" class="form-label">Email</label>
         <input type="email" class="form-control" id="email" name="email" value="{{ $vendor->email }}" readonly>
     </div>
-    <div class="mb-3">
-        <label for="capital" class="form-label">Modal</label>
+</div>
+<div class="row">
+    <div class="col mb-3">
+        <label for="capital" class="form-label">Capital</label>
         <input type="text" class="form-control" id="capital" name="capital" value="{{ $vendor->capital }}" readonly>
     </div>
-    <div class="mb-3">
+    <div class="col mb-3">
         <label for="grade" class="form-label">Grade</label>
-        <select class="form-control" id="grade" name="grade" disabled>
-            <option value="" disabled>-- Select Grade --</option>
-            <option value="0" {{ $vendor->grade == 0 ? 'selected' : '' }}>Kecil</option>
-            <option value="1" {{ $vendor->grade == 1 ? 'selected' : '' }}>Menengah</option>
-            <option value="2" {{ $vendor->grade == 2 ? 'selected' : '' }}>Besar</option>
-        </select>
+        <div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="grade" id="grade_kecil" value="0" {{ $vendor->grade == 0 ? 'checked' : '' }} disabled>
+                <label class="form-check-label" for="grade_kecil">Kecil</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="grade" id="grade_menengah" value="1" {{ $vendor->grade == 1 ? 'checked' : '' }} disabled>
+                <label class="form-check-label" for="grade_menengah">Menengah</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="grade" id="grade_besar" value="2" {{ $vendor->grade == 2 ? 'checked' : '' }} disabled>
+                <label class="form-check-label" for="grade_besar">Besar</label>
+            </div>
+        </div>
     </div>
-<a href="{{ route('vendors.index') }}" class="btn btn-primary">Back</a>
+</div>
 <h3>Existing Files:</h3>
 @if($vendor_files && $vendor_files->count() > 0)
 <table class="table">
@@ -133,3 +148,6 @@
     });
 </script>
 @endsection
+@push('page-action')
+<a href="{{ route('vendors.index') }}" class="btn btn-primary">Back</a>
+@endpush
