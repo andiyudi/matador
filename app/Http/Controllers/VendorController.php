@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\CoreBusiness;
 use App\Models\Classification;
 use App\Models\Vendor;
@@ -9,6 +10,7 @@ use App\Models\VendorFile;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Storage;
 
 class VendorController extends Controller
 {
@@ -222,6 +224,18 @@ class VendorController extends Controller
         }
     }
 
+    public function fileDelete($fileId)
+    {
+        $vendorFile = VendorFile::findOrFail($fileId);
+
+        // Delete the file from storage
+        Storage::disk('public')->delete($vendorFile->file_path);
+
+        // Delete the file record from the database
+        $vendorFile->delete();
+
+        return response()->json(['success' => 'File deleted successfully']);
+    }
 
 
     public function data()
@@ -238,5 +252,52 @@ class VendorController extends Controller
         // $classifications = Classification::all();
 
         return view('vendors.data', compact('vendors'));
+    }
+
+    public function fileUpdate(Request $request, $id)
+    {
+        // Validate the form data
+        $validatedData = $request->validate([
+            'file_type' => 'required|in:0,1,2',
+            'edit_vendor_file' => 'nullable|file|mimes:xlsx,xls,pdf,doc,docx,jpg,jpeg,png',
+        ]);
+
+        try {
+            // Find the file
+            $file = VendorFile::findOrFail($id);
+
+            // Check if a new file is uploaded
+            if ($request->hasFile('edit_vendor_file')) {
+
+                // dd($file->file_path);
+                // Delete the existing file
+                if ($file->file_path) {
+                    Storage::disk('public')->delete($file->file_path);
+                }
+
+                // Upload the new file
+                $newFile = $request->file('edit_vendor_file');
+                $newFileName = time() . '_' . $newFile->getClientOriginalName();
+                $newFilePath = $newFile->storeAs('vendor_files', $newFileName, 'public');
+
+                // Update the file path and name
+                $file->file_path = $newFilePath;
+                $file->file_name = $newFileName;
+            }
+
+            // Update the file type
+            $file->file_type = $validatedData['file_type'];
+
+            // Save the changes
+            $file->save();
+
+            // Return success response
+            Alert::success('Success', 'File vendor data updated successfully.')->autoClose(3000)->persistent(true);
+            return redirect()->back();
+        } catch (\Exception $e) {
+            // Return error response
+            Alert::error('Failed to update file.')->autoClose(3000)->persistent(true);
+            return redirect()->back();
+        }
     }
 }

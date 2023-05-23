@@ -25,6 +25,8 @@ Route::get('/classifications/getByCoreBusiness', [ClassificationController::clas
 Route::put('/vendors/{vendor}/blacklist', [VendorController::class, 'blacklist'])->name('vendors.blacklist');
 Route::post('/vendors/upload', [VendorController::class, 'upload'])->name('vendors.upload');
 Route::get('/vendors/data', [VendorController::class, 'data'])->name('vendors.data');
+Route::delete('/vendors/file/{fileId}', [VendorController::class, 'fileDelete'])->name('vendors.file-delete');
+Route::put('/vendors/file/{id}', [VendorController::class, 'fileUpdate'])->name('vendors.file-update');
 
 Route::resource('core-business', CoreBusinessController::class);
 Route::resource('classifications', ClassificationController::class);

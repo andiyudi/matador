@@ -112,45 +112,149 @@
 </form>
 <h3>Existing Files:</h3>
 @if($vendor_files && $vendor_files->count() > 0)
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>File Type</th>
-            <th>Updated At</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($vendor_files as $file)
-        <tr>
-            <td>{{ $file->file_name }}</td>
-            <td>@if ($file->file_type == 0)
-                Compro
-                @elseif ($file->file_type == 1)
-                Legalitas
-                @elseif ($file->file_type == 2)
-                Hasil Survey
-                @else
-                Unknown
-                @endif
-            </td>
-            <td>{{ $file->updated_at }}</td>
-            <td>
-                <a href="#" target="_blank">View</a>
-                <a href="#" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $file->id }}').submit();">Delete</a>
-                <form id="delete-form-{{ $file->id }}" action="#" method="POST" style="display: none;">
-                @csrf
-                @method('DELETE')
-                </form>
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>File Type</th>
+                <th>Updated At</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($vendor_files as $file)
+                <tr>
+                    <td>{{ $file->file_name }}</td>
+                    <td>
+                        @if ($file->file_type == 0)
+                            Compro
+                        @elseif ($file->file_type == 1)
+                            Legalitas
+                        @elseif ($file->file_type == 2)
+                            Hasil Survey
+                        @else
+                            Unknown
+                        @endif
+                    </td>
+                    <td>{{ $file->updated_at }}</td>
+                    <td>
+                        <a href="{{ asset('storage/'.$file->file_path) }}" class="btn btn-sm btn-info" target="_blank">View</a>
+                        <a href="#" class="btn btn-sm btn-warning" onclick="event.preventDefault(); openEditModal({{ $file->id }});">Edit</a>
+                        <a href="#" class="btn btn-sm btn-danger" onclick="event.preventDefault(); confirmDelete({{ $file->id }});">Delete</a>
+                        <form id="delete-form-{{ $file->id }}" action="{{ route('vendors.file-delete', $file->id) }}" method="POST" style="display: none;">
+                            @csrf
+                            @method('DELETE')
+                        </form>
+                    </td>
+                </tr>
+                <div class="modal fade" id="editVendorFileModal{{ $file->id }}" tabindex="-1" aria-labelledby="editVendorFileModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editVendorFileModalLabel">Edit Vendor File</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="edit-form" action="{{ route('vendors.file-update', ['id' => $file->id]) }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="form-group">
+                                        <label for="vendor_name">Vendor Name</label>
+                                        <input type="text" class="form-control" id="vendor_name" name="vendor_name" value="{{ $file->vendor->name }}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="file_type">File Type</label>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="file_type" id="file_type_0" value="0" {{ $file->file_type == 0 ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="file_type_0">Compro</label>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="file_type" id="file_type_1" value="1" {{ $file->file_type == 1 ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="file_type_1">Legalitas</label>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="file_type" id="file_type_2" value="2" {{ $file->file_type == 2 ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="file_type_2">Hasil Survey</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edit_vendor_file">Upload File</label>
+                                        <input type="file" class="form-control" id="edit_vendor_file" name="edit_vendor_file">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-success" form="edit-form">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </tbody>
+    </table>
 @else
 <p>No files found.</p>
 @endif
+
+<script>
+    function openEditModal(fileId) {
+        // Get the edit modal element
+        var editModal = document.getElementById("editVendorFileModal" + fileId);
+
+        // Open the edit modal
+        $(editModal).modal("show");
+    }
+
+    function editFile(fileId) {
+    // Get the edit form element
+    var form = document.getElementById("edit-form-" + fileId);
+    var formData = new FormData(form);
+
+    // Send the AJAX request
+    fetch(form.action, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Show success message using Sweet Alert
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: data.message,
+            }).then(() => {
+                // Reload the page
+                location.reload();
+            });
+        } else {
+            // Show error message using Sweet Alert
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: data.message,
+            });
+        }
+    })
+    .catch(error => {
+        // Show error message using Sweet Alert
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'An error occurred while updating the file.',
+        });
+    });
+}
+</script>
 <script>
     $(document).ready(function () {
         $('.basic-multiple').select2();
@@ -187,6 +291,48 @@
             }
         });
     });
+</script>
+<script>
+    function confirmDelete(fileId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You will not be able to recover this file!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteFile(fileId);
+            }
+        });
+    }
+
+    function deleteFile(fileId) {
+        fetch("{{ route('vendors.file-delete', '') }}/" + fileId, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}",
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                Swal.fire('Deleted!', data.success, 'success').then(() => {
+                    // Refresh the page or update the file list
+                    location.reload();
+                });
+            } else if (data.error) {
+                Swal.fire('Error', data.error, 'error');
+            } else {
+                throw new Error('An error occurred while deleting the file.');
+            }
+        })
+        .catch(error => {
+            Swal.fire('Error', error.message, 'error');
+        });
+    }
 </script>
 @endsection
 @push('page-action')
