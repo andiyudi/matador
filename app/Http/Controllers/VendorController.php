@@ -192,29 +192,37 @@ class VendorController extends Controller
 
     public function upload(Request $request)
     {
-        $this->validate($request, [
-            'vendor_file' => 'required|mimes:xlsx,xls,pdf,doc,docx,jpg,jpeg,png',
-            'existing_vendors' => 'required',
-            'file_type' => 'required|in:0,1,2',
-        ]);
+        try {
+            $this->validate($request, [
+                'vendor_file' => 'required|mimes:xlsx,xls,pdf,doc,docx,jpg,jpeg,png',
+                'existing_vendors' => 'required',
+                'file_type' => 'required|in:0,1,2',
+            ]);
 
-        $existingVendor = Vendor::findOrFail($request->existing_vendors);
+            $existingVendor = Vendor::findOrFail($request->existing_vendors);
 
-        $file = $request->file('vendor_file');
-        $fileName = time() . '_' . $file->getClientOriginalName();
+            if ($request->hasFile('vendor_file')) {
+                $file = $request->file('vendor_file');
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $filePath = $file->storeAs('vendor_files', $fileName, 'public');
 
-        $filePath = $file->storeAs('vendor_files', $fileName, 'public');
+                $vendorFile = new VendorFile();
+                $vendorFile->vendor_id = $existingVendor->id;
+                $vendorFile->file_type = $request->file_type;
+                $vendorFile->file_name = $fileName;
+                $vendorFile->file_path = $filePath;
+                $vendorFile->save();
 
-        $vendorFile = new VendorFile();
-        $vendorFile->vendor_id = $existingVendor->id;
-        $vendorFile->file_type = $request->file_type;
-        $vendorFile->file_name = $fileName;
-        $vendorFile->file_path = $filePath;
-
-        $vendorFile->save();
-
-        return redirect()->back()->with('success', 'Vendor file uploaded successfully!');
+                return response()->json(['success' => 'Vendor file uploaded successfully!']);
+            } else {
+                throw new \Exception('No file uploaded.');
+            }
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
+
+
 
     public function data()
     {

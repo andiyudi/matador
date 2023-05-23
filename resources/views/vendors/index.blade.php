@@ -45,6 +45,15 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <div class="form-group">
                         <label for="existing_vendors">Existing Vendors</label>
                         <div class="col">
@@ -54,6 +63,9 @@
                                 <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
                                 @endforeach
                             </select>
+                            @error('existing_vendors')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
                     <div class="form-group">
@@ -61,7 +73,7 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="file_type" id="file_type_0" value="0" required>
+                                    <input class="form-check-input" type="radio" name="file_type" id="file_type_0" value="0">
                                     <label class="form-check-label" for="file_type_0">
                                         Compro
                                     </label>
@@ -84,10 +96,16 @@
                                 </div>
                             </div>
                         </div>
+                        @error('file_type')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <label for="vendor_file">Vendor File</label>
-                        <input type="file" class="form-control" id="vendor_file" name="vendor_file" required>
+                        <input type="file" class="form-control" id="vendor_file" name="vendor_file" accept=".xlsx,.xls,.pdf,.doc,.docx,.jpg,.jpeg,.png">
+                        @error('vendor_file')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -278,7 +296,31 @@
 
         uploadButton.addEventListener("click", function(event) {
             event.preventDefault();
-            uploadForm.submit();
+
+            var formData = new FormData(uploadForm);
+
+            fetch(uploadForm.action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Show success message using SweetAlert
+                    Swal.fire('Success', data.success, 'success').then(() => {
+                        window.location.href = "{{ route('vendors.index') }}";
+                    });
+                } else if (data.error) {
+                    // Show error message using SweetAlert
+                    Swal.fire('Error', data.error, 'error');
+                } else {
+                    throw new Error('An error occurred during file upload.');
+                }
+            })
+            .catch(error => {
+                // Show error message using SweetAlert
+                Swal.fire('Error', error.message, 'error');
+            });
         });
     });
 </script>
