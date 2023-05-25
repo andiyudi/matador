@@ -89,13 +89,13 @@
                 },
                 { data: 'is_blacklist', name: 'is_blacklist',
                 render: function (data) {
-                        if (data === '0') {
-                            return 'Not Blacklisted';
-                        } else if (data === '1') {
-                            return 'Blacklisted';
-                        } else {
-                            return '-';
-                        }
+                    if (data === '0') {
+                        return '<span class="badge bg-success">Not Blacklisted</span>';
+                    } else if (data === '1') {
+                        return '<span class="badge bg-danger">Blacklisted</span>';
+                    } else {
+                        return '<span class="badge bg-secondary">-</span>';
+                    }
                     }
                 },
                 { data: 'blacklist_at', name: 'blacklist_at' },

@@ -194,13 +194,13 @@
                 data: 'status', name: 'status',
                     render: function (data) {
                         if (data === '0') {
-                            return 'Registered';
+                            return '<span class="badge bg-info">Registered</span>';
                         } else if (data === '1') {
-                            return 'Active';
+                            return '<span class="badge bg-success">Active</span>';
                         } else if (data === '2') {
-                            return 'Expired';
+                            return '<span class="badge bg-danger">Expired</span>';
                         } else {
-                            return '-';
+                            return '<span class="badge bg-secondary">-</span>';
                         }
                     }
                 },
