@@ -101,7 +101,7 @@
             </td>
             <td>{{ $file->updated_at }}</td>
             <td>
-                <a href="#" target="_blank">View</a>
+                <a href="{{ asset('storage/'.$file->file_path) }}" class="btn btn-sm btn-info" target="_blank">View</a>
             </td>
         </tr>
         @endforeach
