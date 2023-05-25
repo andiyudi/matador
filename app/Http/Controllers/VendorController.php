@@ -8,6 +8,7 @@ use App\Models\Classification;
 use App\Models\Vendor;
 use App\Models\VendorFile;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Storage;
@@ -254,7 +255,31 @@ class VendorController extends Controller
         return view('vendors.data', compact('vendors'));
     }
 
-    public function fileUpdate(Request $request, $id)
+    public function fetchData($fileId): JsonResponse
+    {
+        try {
+            $file = VendorFile::with('vendor')->findOrFail($fileId);
+
+            // Buat data response yang akan dikirim sebagai JSON
+            $responseData = [
+                'success' => true,
+                'file' => $file,
+            ];
+
+            return response()->json($responseData);
+        } catch (\Exception $e) {
+            // Jika terjadi error, kirim response dengan status error
+            $responseData = [
+                'success' => false,
+                'message' => 'Failed to fetch file data.',
+            ];
+
+            return response()->json($responseData, 500);
+        }
+    }
+
+
+    public function fileUpdate(Request $request, $fileId)
     {
         // Validate the form data
         $validatedData = $request->validate([
@@ -264,7 +289,9 @@ class VendorController extends Controller
 
         try {
             // Find the file
-            $file = VendorFile::findOrFail($id);
+            $file = VendorFile::where('id', $fileId)
+                ->where('vendor_id', $request->vendor_id)
+                ->firstOrFail();
 
             // Check if a new file is uploaded
             if ($request->hasFile('edit_vendor_file')) {
@@ -291,13 +318,20 @@ class VendorController extends Controller
             // Save the changes
             $file->save();
 
-            // Return success response
-            Alert::success('Success', 'File vendor data updated successfully.')->autoClose(3000)->persistent(true);
-            return redirect()->back();
+            // Return success response as JSON
+            $responseData = [
+                'success' => true,
+                'message' => 'File vendor data updated successfully.',
+            ];
+            return response()->json($responseData);
         } catch (\Exception $e) {
-            // Return error response
-            Alert::error('Failed to update file.')->autoClose(3000)->persistent(true);
-            return redirect()->back();
+            // Return error response as JSON
+            $responseData = [
+                'success' => false,
+                'message' => 'Failed to update file.',
+            ];
+            // return response()->json($responseData, 500);
+            return response()->json(["Error" => $e->getMessage() . " Line : " . $e->getLine()]);
         }
     }
 }
