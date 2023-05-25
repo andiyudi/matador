@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CoreBusinessController;
 use App\Http\Controllers\ClassificationController;
 use App\Http\Controllers\VendorController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +22,7 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+Route::get('/dashboard/vendor-count', [DashboardController::class, 'getVendorCount'])->name('dashboard.vendor-count');
 Route::get('/classifications/getByCoreBusiness', [ClassificationController::class, 'getByCoreBusiness'])->name('classifications.getByCoreBusiness');
 Route::put('/vendors/{vendor}/blacklist', [VendorController::class, 'blacklist'])->name('vendors.blacklist');
 Route::post('/vendors/upload', [VendorController::class, 'upload'])->name('vendors.upload');
