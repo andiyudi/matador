@@ -94,8 +94,8 @@
                 <div class="dropdown-menu">
                 <div class="dropdown-menu-columns">
                     <div class="dropdown-menu-column">
-                    <a class="dropdown-item" href="#">
-                        Data Usulan Vendor
+                    <a class="dropdown-item" href="{{ route('procurement.index') }}">
+                        Usulan Pemenang
                     </a>
                     <a class="dropdown-item" href="#">
                         Input Penilaian

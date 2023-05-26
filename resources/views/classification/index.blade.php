@@ -4,42 +4,52 @@
 //  $title ='Classifications';
 @endphp
 @section('content')
-<h1>Data Classifications</h1>
-<table class="table" id="table-classification">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Core Business Name</th>
-            <th>Classification Name</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($classifications as $classification)
-            <tr>
-                <td>{{ $classification->id }}</td>
-                <td>{{ $classification->coreBusiness->name }}</td>
-                <td>{{ $classification->name }}</td>
-                <td>
-                    <button class="btn btn-warning edit-btn" data-bs-toggle="modal" data-bs-target="#editClassificationModal"
-                        data-id="{{ $classification->id }}"
-                        data-name="{{ $classification->name }}"
-                        data-corebusiness-id="{{ $classification->core_business_id }}"
-                        data-corebusiness-name="{{ $classification->coreBusiness->name }}"
-                    >
-                        Edit
-                    </button>
-                    <button class="btn btn-danger delete-btn" data-bs-toggle="modal" data-bs-target="#deleteClassificationModal"
-                        data-id="{{ $classification->id }}"
-                        data-name="{{ $classification->name }}"
-                    >
-                        Delete
-                    </button>
-                </td>
-            </tr>
-        @endforeach
-    </tbody>
-</table>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h1>Data Classifications</h1>
+                    <table class="table" id="table-classification">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Core Business Name</th>
+                                <th>Classification Name</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($classifications as $classification)
+                                <tr>
+                                    <td>{{ $classification->id }}</td>
+                                    <td>{{ $classification->coreBusiness->name }}</td>
+                                    <td>{{ $classification->name }}</td>
+                                    <td>
+                                        <button class="btn btn-warning edit-btn" data-bs-toggle="modal" data-bs-target="#editClassificationModal"
+                                            data-id="{{ $classification->id }}"
+                                            data-name="{{ $classification->name }}"
+                                            data-corebusiness-id="{{ $classification->core_business_id }}"
+                                            data-corebusiness-name="{{ $classification->coreBusiness->name }}"
+                                        >
+                                            Edit
+                                        </button>
+                                        <button class="btn btn-danger delete-btn" data-bs-toggle="modal" data-bs-target="#deleteClassificationModal"
+                                            data-id="{{ $classification->id }}"
+                                            data-name="{{ $classification->name }}"
+                                        >
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Create Classification Modal -->
 <div class="modal fade" id="classificationModal" tabindex="-1" aria-labelledby="classificationModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">

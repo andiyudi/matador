@@ -1,11 +1,11 @@
 @extends('layouts.templates')
 @section('content')
-<h1>Available Vendor Data</h1>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
+                    <h1>Available Vendor Data</h1>
                     <table class="table table-responsive" id="vendors-table">
                         <thead>
                             <tr>

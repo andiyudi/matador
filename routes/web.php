@@ -1,11 +1,12 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\VendorController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProcurementController;
 use App\Http\Controllers\CoreBusinessController;
 use App\Http\Controllers\ClassificationController;
-use App\Http\Controllers\VendorController;
-use App\Http\Controllers\DashboardController;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,7 @@ Route::put('/vendors/file/{fileId}', [VendorController::class, 'fileUpdate'])->n
 Route::resource('core-business', CoreBusinessController::class);
 Route::resource('classifications', ClassificationController::class);
 Route::resource('vendors', VendorController::class);
+Route::resource('procurement', ProcurementController::class);
 
 
 Route::get('/dashboard', function () {
