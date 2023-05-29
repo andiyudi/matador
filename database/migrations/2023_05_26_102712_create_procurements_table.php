@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('estimation_time');
             $table->string('division');
             $table->string('person_in_charge');
+            $table->enum('status', ['0', '1', '2'])->default('0'); // 0:process, 1:success, 2:cancelled
             $table->timestamps();
             $table->softDeletes();
         });

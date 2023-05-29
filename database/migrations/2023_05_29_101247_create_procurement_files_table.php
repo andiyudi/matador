@@ -11,19 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('procurement_vendor', function (Blueprint $table) {
+        Schema::create('procurement_files', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('procurement_id');
-            $table->unsignedBigInteger('vendor_id');
-            $table->enum('is_selected', ['0', '1'])->default('0'); // 0: not selected and 1: selected
+            $table->string('file_name');
+            $table->string('file_path');
+            $table->tinyInteger('file_type')->comment('0: File Selected Vendor, 1: File Cancelled Procurement');
             $table->timestamps();
 
-            // Add foreign key constraints
             $table->foreign('procurement_id')->references('id')->on('procurements')->onDelete('cascade');
-            $table->foreign('vendor_id')->references('id')->on('vendors')->onDelete('cascade');
-
-            // Add unique constraint to prevent duplicate entries
-            $table->unique(['procurement_id', 'vendor_id']);
         });
     }
 
@@ -32,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('procurement_vendor');
+        Schema::dropIfExists('procurement_files');
     }
 };

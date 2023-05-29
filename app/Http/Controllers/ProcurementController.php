@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Vendor;
 use App\Models\Procurement;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -25,7 +26,8 @@ class ProcurementController extends Controller
      */
     public function create()
     {
-        return view('procurement.create');
+        $vendors = Vendor::all();
+        return view('procurement.create', compact('vendors'));
     }
 
     /**
@@ -33,7 +35,18 @@ class ProcurementController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Create a new procurement
+        $procurement = new Procurement();
+        $procurement->name = $request->input('name');
+        $procurement->number = $request->input('number');
+        $procurement->estimation_time = $request->input('estimation_time');
+        $procurement->division = $request->input('division');
+        $procurement->person_in_charge = $request->input('person_in_charge');
+        $procurement->save();
+
+
+
+        return redirect()->route('procurement.index')->with('success', 'Procurement data has been saved.');
     }
 
     /**

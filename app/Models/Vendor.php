@@ -22,8 +22,14 @@ class Vendor extends Model
     {
         return $this->belongsToMany(Classification::class, 'classification_vendor');
     }
+
     public function vendorFiles()
     {
         return $this->hasMany(VendorFile::class);
+    }
+
+    public function procurement()
+    {
+        return $this->belongsToMany(Procurement::class, 'procurement_vendor');
     }
 }

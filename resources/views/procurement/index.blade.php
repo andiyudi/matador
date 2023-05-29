@@ -15,6 +15,7 @@
                                 <th>Estimation Time</th>
                                 <th>Division</th>
                                 <th>Person In Charge</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -73,6 +74,19 @@
                 { data: 'estimation_time', name: 'estimation_time' },
                 { data: 'division', name: 'division' },
                 { data: 'person_in_charge', name: 'person_in_charge' },
+                { data: 'status', name: 'status',
+                render: function (data) {
+                        if (data === '0') {
+                            return '<span class="badge bg-info">Process</span>';
+                        } else if (data === '1') {
+                            return '<span class="badge bg-success">Success</span>';
+                        } else if (data === '2') {
+                            return '<span class="badge bg-danger">Cancelled</span>';
+                        } else  {
+                            return '-';
+                        }
+                    }
+                },
                 {
                 data: 'action',
                 name: 'action',
