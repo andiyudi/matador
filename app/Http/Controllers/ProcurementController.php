@@ -26,7 +26,7 @@ class ProcurementController extends Controller
      */
     public function create()
     {
-        $vendors = Vendor::all();
+        $vendors = Vendor::where('is_blacklist', '0')->get();
         return view('procurement.create', compact('vendors'));
     }
 
