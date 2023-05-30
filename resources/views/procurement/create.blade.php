@@ -115,6 +115,16 @@
 
         if (selectedVendor) {
         const row = selectElement.parentNode.parentNode;
+
+    //     const statusInput = row.cells[1].querySelector('input[name="vendor_status"]');
+    // if (selectedVendor.status === 0) {
+    //   statusInput.value = "Registered";
+    // } else if (selectedVendor.status === 1) {
+    //   statusInput.value = "Active";
+    // } else if (selectedVendor.status === 2) {
+    //   statusInput.value = "Expired";
+    // }
+
         row.cells[1].querySelector('input[name="vendor_status"]').value = selectedVendor.status;
         row.cells[2].querySelector('input[name="vendor_director"]').value = selectedVendor.director;
         row.cells[3].querySelector('input[name="vendor_phone"]').value = selectedVendor.phone;
@@ -136,49 +146,57 @@
     }
 
     function addVendor() {
-        const selectElement = document.createElement('select');
-        selectElement.className = 'form-control select2';
-        selectElement.name = 'vendor_id[]';
-        selectElement.onchange = function() {
-        populateVendorData(this);
-        };
+  const selectElement = document.createElement('select');
+  selectElement.className = 'form-control select2';
+  selectElement.name = 'vendor_id[]';
+  selectElement.onchange = function() {
+    populateVendorData(this);
+  };
 
-        const optionElement = document.createElement('option');
-        optionElement.value = '';
-        optionElement.disabled = true;
-        optionElement.selected = true;
-        optionElement.textContent = 'Select Vendor';
+  const optionElement = document.createElement('option');
+  optionElement.value = '';
+  optionElement.disabled = true;
+  optionElement.selected = true;
+  optionElement.textContent = 'Select Vendor';
 
-        selectElement.appendChild(optionElement);
+  selectElement.appendChild(optionElement);
 
-        const vendorsData = {!! $vendors !!};
-        vendorsData.forEach(function(vendor) {
-        const optionElement = document.createElement('option');
-        optionElement.value = vendor.id;
-        optionElement.textContent = vendor.name;
-        selectElement.appendChild(optionElement);
-        });
+  const vendorsData = {!! $vendors !!};
+  vendorsData.forEach(function(vendor) {
+    const optionElement = document.createElement('option');
+    optionElement.value = vendor.id;
+    optionElement.textContent = vendor.name;
+    selectElement.appendChild(optionElement);
+  });
 
-        const tbody = document.getElementById('vendor-table').getElementsByTagName('tbody')[0];
-        const row = document.createElement('tr');
-        row.innerHTML = `
-        <td></td>
-        <td><input class="form-control" type="text" name="vendor_status" readonly></td>
-        <td><input class="form-control" type="text" name="vendor_director" readonly></td>
-        <td><input class="form-control" type="text" name="vendor_phone" readonly></td>
-        <td><input class="form-control" type="text" name="vendor_email" readonly></td>
-        <td>
-            <button type="button" class="btn btn-sm btn-danger" onclick="deleteVendorRow(this)">Delete</button>
-        </td>
-        `;
+  // Disable selected options
+  const selectedOptions = document.querySelectorAll('#vendor-table select.form-control.select2 option:checked');
+  selectedOptions.forEach(function(option) {
+    const selectedVendorId = option.value;
+    selectElement.querySelector(`option[value="${selectedVendorId}"]`).disabled = true;
+  });
 
-        const cell = row.cells[0];
-        cell.appendChild(selectElement);
+  const tbody = document.getElementById('vendor-table').getElementsByTagName('tbody')[0];
+  const row = document.createElement('tr');
+  row.innerHTML = `
+    <td></td>
+    <td><input class="form-control" type="text" name="vendor_status" readonly></td>
+    <td><input class="form-control" type="text" name="vendor_director" readonly></td>
+    <td><input class="form-control" type="text" name="vendor_phone" readonly></td>
+    <td><input class="form-control" type="text" name="vendor_email" readonly></td>
+    <td>
+      <button type="button" class="btn btn-sm btn-danger" onclick="deleteVendorRow(this)">Delete</button>
+    </td>
+  `;
 
-        tbody.appendChild(row);
+  const cell = row.cells[0];
+  cell.appendChild(selectElement);
 
-        $('.select2').select2();
-    }
+  tbody.appendChild(row);
+
+  $('.select2').select2();
+}
+
 
     function deleteVendorRow(button) {
         const row = button.parentNode.parentNode;
