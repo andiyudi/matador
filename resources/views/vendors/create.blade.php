@@ -10,7 +10,7 @@
                     @csrf
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name">
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}">
                         @error('name')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -43,7 +43,7 @@
                     <!-- Alamat -->
                     <div class="mb-3">
                         <label for="address" class="form-label">Address</label>
-                        <textarea class="form-control @error('address') is-invalid @enderror" id="address" name="address" rows="4"></textarea>
+                        <textarea class="form-control @error('address') is-invalid @enderror" id="address" name="address" rows="4">{{ old('address') }}</textarea>
                         @error('address')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -52,14 +52,14 @@
                     <div class="row">
                         <div class="col mb-3">
                             <label for="area" class="form-label">Area</label>
-                            <input type="text" class="form-control @error('area') is-invalid @enderror" id="area" name="area">
+                            <input type="text" class="form-control @error('area') is-invalid @enderror" id="area" name="area" value="{{ old('area') }}">
                             @error('area')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="col mb-3">
                             <label for="director" class="form-label">Director</label>
-                            <input type="text" class="form-control @error('director') is-invalid @enderror" id="director" name="director">
+                            <input type="text" class="form-control @error('director') is-invalid @enderror" id="director" name="director" value="{{ old('director') }}">
                             @error('director')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -69,14 +69,14 @@
                     <div class="row">
                         <div class="col mb-3">
                             <label for="phone" class="form-label">Telephone</label>
-                            <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone">
+                            <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" value="{{ old('phone') }}">
                             @error('phone')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="col mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email">
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}">
                             @error('email')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -86,7 +86,7 @@
                     <div class="row">
                         <div class="col mb-3">
                             <label for="capital" class="form-label">Capital</label>
-                            <input type="text" class="form-control @error('capital') is-invalid @enderror" id="capital" name="capital">
+                            <input type="text" class="form-control @error('capital') is-invalid @enderror" id="capital" name="capital" value="{{ old('capital') }}">
                             @error('capital')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

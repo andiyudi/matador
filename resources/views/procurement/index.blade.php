@@ -15,6 +15,7 @@
                                 <th>Estimation Time</th>
                                 <th>Division</th>
                                 <th>Person In Charge</th>
+                                <th>Vendors</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -74,6 +75,15 @@
                 { data: 'estimation_time', name: 'estimation_time' },
                 { data: 'division', name: 'division' },
                 { data: 'person_in_charge', name: 'person_in_charge' },
+                {
+                    data: 'vendors',
+                    render: function (data) {
+                        return data.map(function (item, index) {
+                            return (index+1) + "." + item.name + "<br>";
+                        }).join("");
+                    },
+                name: 'vendors.name'
+                 },
                 { data: 'status', name: 'status',
                 render: function (data) {
                         if (data === '0') {

@@ -15,8 +15,12 @@ class ProcurementController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $procurement = Procurement::all();
-            return DataTables::of($procurement)->make(true);
+            $procurements = Procurement::with('vendors')->get();
+            return DataTables::of($procurements)
+                ->addColumn('vendor_names', function ($procurement) {
+                    return $procurement->vendors->pluck('name')->implode(', ');
+                })
+                ->make(true);
         }
         return view('procurement.index');
     }
@@ -35,6 +39,13 @@ class ProcurementController extends Controller
      */
     public function store(Request $request)
     {
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'number' => 'required',
+            'estimation_time' => 'required',
+            'division' => 'required',
+            'person_in_charge' => 'required',
+        ]);
         // dd(request()->all());
         // Create a new procurement
         $procurement = new Procurement();
