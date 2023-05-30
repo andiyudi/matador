@@ -97,6 +97,7 @@
                             </table>
                         </div>
                     </div>
+                    @include('sweetalert::alert')
                     <button type="submit" class="btn btn-success">Save</button>
                 </form>
                 </div>
@@ -116,26 +117,18 @@
         if (selectedVendor) {
         const row = selectElement.parentNode.parentNode;
 
-        // const statusBadge = row.cells[1].querySelector('.vendor-status');
-        // if (selectedVendor.status === 0) {
-        // statusBadge.textContent = 'Registered';
-        // statusBadge.classList.remove('badge-success', 'badge-danger');
-        // statusBadge.classList.add('badge-info');
-        // } else if (selectedVendor.status === 1) {
-        // statusBadge.textContent = 'Active';
-        // statusBadge.classList.remove('badge-info', 'badge-danger');
-        // statusBadge.classList.add('badge-success');
-        // } else if (selectedVendor.status === 2) {
-        // statusBadge.textContent = 'Expired';
-        // statusBadge.classList.remove('badge-info', 'badge-success');
-        // statusBadge.classList.add('badge-danger');
-        // } else {
-        // statusBadge.textContent = '-';
-        // statusBadge.classList.remove('badge-info', 'badge-success', 'badge-danger');
-        // statusBadge.classList.add('badge-secondary');
-        // }
+        const statusSpan = row.cells[1].querySelector('.vendor-status');
+        if (selectedVendor.status === 0) {
+        statusSpan.textContent = 'Registered';
+        } else if (selectedVendor.status === 1) {
+        statusSpan.textContent = 'Active';
+        } else if (selectedVendor.status === 2) {
+        statusSpan.textContent = 'Expired';
+        } else {
+        statusSpan.textContent = 'Rekanan';
+        }
 
-    row.cells[1].querySelector('.vendor-status').textContent = selectedVendor.status;
+    // row.cells[1].querySelector('.vendor-status').textContent = selectedVendor.status;
     row.cells[2].querySelector('.vendor-director').textContent = selectedVendor.director;
     row.cells[3].querySelector('.vendor-phone').textContent = selectedVendor.phone;
     row.cells[4].querySelector('.vendor-email').textContent = selectedVendor.email;

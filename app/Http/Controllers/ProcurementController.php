@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Vendor;
 use App\Models\Procurement;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 
 class ProcurementController extends Controller
@@ -65,35 +66,70 @@ class ProcurementController extends Controller
             Vendor::whereIn('id', $vendorIds)->update([
                 'status' => '1', // Set status to 1 (active)
                 'activated_at' => today(), // Set activated_at to current timestamp
+                'expired_at' => (date('Y') . '-12-31'),
             ]);
         }
 
-
-        return redirect()->route('procurement.index')->with('success', 'Procurement data has been saved.');
+        Alert::success('Success', 'Procurement data has been saved.');
+        return redirect()->route('procurement.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Procurement $procurement)
+    public function show($id)
     {
-        //
+        $procurement = Procurement::findOrFail($id);
+        $vendors = $procurement->vendors;
+
+        return view('procurement.show', compact('procurement', 'vendors'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Procurement $procurement)
+    public function edit($id)
     {
-        //
+        $procurement = Procurement::find($id);
+        // Mengambil data procurement berdasarkan ID
+
+        $vendors = Vendor::all();
+        // Mengambil semua data vendor untuk dropdown
+
+        return view('procurement.edit', compact('procurement', 'vendors'));
+        // Menampilkan view edit dengan data procurement dan vendors
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Procurement $procurement)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'number' => 'required',
+            'estimation_time' => 'required',
+            'division' => 'required',
+            'person_in_charge' => 'required',
+        ]);
+        // Validasi input yang diperlukan
+
+        $procurement = Procurement::find($id);
+        // Mengambil data procurement berdasarkan ID
+
+        $procurement->name = $request->name;
+        $procurement->number = $request->number;
+        $procurement->estimation_time = $request->estimation_time;
+        $procurement->division = $request->division;
+        $procurement->person_in_charge = $request->person_in_charge;
+        $procurement->save();
+        // Memperbarui data procurement
+
+        $procurement->vendors()->sync($request->vendor_id);
+        // Memperbarui data vendor yang terkait dengan procurement
+
+        return redirect()->route('procurement.index')->with('success', 'Procurement data updated successfully.');
+        // Mengalihkan pengguna ke halaman index procurement dengan pesan sukses
     }
 
     /**
@@ -101,6 +137,7 @@ class ProcurementController extends Controller
      */
     public function destroy(Procurement $procurement)
     {
-        //
+        $procurement->delete();
+        return redirect()->route('procurement.index');
     }
 }

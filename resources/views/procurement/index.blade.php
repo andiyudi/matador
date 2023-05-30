@@ -104,10 +104,10 @@
                 searchable: false,
                 render: function (data, type, row, meta) {
                 return `
-                <button type="button" class="btn btn-sm btn-warning">Edit</button>
-                <button type="button" class="btn btn-sm btn-info">Detail</button>
-                <button type="button" class="btn btn-sm btn-danger">Delete</button>
-                <button type="button" class="btn btn-sm btn-light">Print</button>
+                <a href="/procurement/${row.id}/edit" class="btn btn-sm btn-warning">Edit</a>
+                <a href="/procurement/${row.id}" class="btn btn-sm btn-info">Detail</a>
+                <button type="button" class="btn btn-sm btn-danger delete-procurement" data-id="${row.id}">Delete</button>
+                <button type="button" class="btn btn-sm btn-light print-procurement" data-id="${row.id}">Print</button>
                 <button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                 Pick Vendor
                 </button>
@@ -117,7 +117,41 @@
             }]
         });
     });
+    // Event handler untuk tombol Delete
+    $(document).on('click', '.delete-procurement', function () {
+            var ProcurementId = $(this).data('id');
+            Swal.fire({
+                title: 'Delete Job',
+                text: 'Are you sure you want to delete this job?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Delete',
+                cancelButtonText: 'Cancel',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Kirim permintaan penghapusan ke URL yang sesuai
+                    $.ajax({
+                        url: `/procurement/${ProcurementId}`,
+                        type: 'POST',
+                        data: {
+                            _method: 'DELETE',
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function (response) {
+                            Swal.fire('Procurement deleted successfully', '', 'success').then(() => {
+                                location.reload();
+                            });
+                        },
+                        error: function (xhr) {
+                            Swal.fire('Error deleting procurement', '', 'error');
+                        }
+                    });
+                }
+            });
+        });
 </script>
+
 @endsection
 @push('page-action')
 <a href="{{ route('procurement.create') }}" class="btn btn-primary mb-3">Add Job Data</a>
