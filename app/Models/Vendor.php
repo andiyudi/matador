@@ -15,12 +15,12 @@ class Vendor extends Model
     ];
     public function coreBusinesses()
     {
-        return $this->belongsToMany(CoreBusiness::class, 'core_business_vendor');
+        return $this->belongsToMany(CoreBusiness::class, 'core_business_vendor')->withTimestamps();
     }
 
     public function classifications()
     {
-        return $this->belongsToMany(Classification::class, 'classification_vendor');
+        return $this->belongsToMany(Classification::class, 'classification_vendor')->withTimestamps();
     }
 
     public function vendorFiles()
@@ -30,6 +30,6 @@ class Vendor extends Model
 
     public function procurement()
     {
-        return $this->belongsToMany(Procurement::class, 'procurement_vendor');
+        return $this->belongsToMany(Procurement::class, 'procurement_vendor')->withTimestamps();
     }
 }

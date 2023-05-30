@@ -76,17 +76,17 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <input class="form-control" type="text" name="vendor_status" id="vendor_status" readonly>
-                                        </td>
-                                        <td>
-                                            <input class="form-control" type="text" name="vendor_director" id="vendor_director" readonly>
-                                        </td>
-                                        <td>
-                                            <input class="form-control" type="text" name="vendor_phone" id="vendor_phone" readonly>
-                                        </td>
-                                        <td>
-                                            <input class="form-control" type="text" name="vendor_email" id="vendor_email" readonly>
-                                        </td>
+                                            <span class="vendor-status"></span>
+                                          </td>
+                                          <td>
+                                            <span class="vendor-director"></span>
+                                          </td>
+                                          <td>
+                                            <span class="vendor-phone"></span>
+                                          </td>
+                                          <td>
+                                            <span class="vendor-email"></span>
+                                          </td>
                                         <td>
                                             <button type="button" class="btn btn-sm btn-primary" onclick="addVendor()">Add Vendor</button>
                                         </td>
@@ -116,28 +116,39 @@
         if (selectedVendor) {
         const row = selectElement.parentNode.parentNode;
 
-    //     const statusInput = row.cells[1].querySelector('input[name="vendor_status"]');
-    // if (selectedVendor.status === 0) {
-    //   statusInput.value = "Registered";
-    // } else if (selectedVendor.status === 1) {
-    //   statusInput.value = "Active";
-    // } else if (selectedVendor.status === 2) {
-    //   statusInput.value = "Expired";
-    // }
+        // const statusBadge = row.cells[1].querySelector('.vendor-status');
+        // if (selectedVendor.status === 0) {
+        // statusBadge.textContent = 'Registered';
+        // statusBadge.classList.remove('badge-success', 'badge-danger');
+        // statusBadge.classList.add('badge-info');
+        // } else if (selectedVendor.status === 1) {
+        // statusBadge.textContent = 'Active';
+        // statusBadge.classList.remove('badge-info', 'badge-danger');
+        // statusBadge.classList.add('badge-success');
+        // } else if (selectedVendor.status === 2) {
+        // statusBadge.textContent = 'Expired';
+        // statusBadge.classList.remove('badge-info', 'badge-success');
+        // statusBadge.classList.add('badge-danger');
+        // } else {
+        // statusBadge.textContent = '-';
+        // statusBadge.classList.remove('badge-info', 'badge-success', 'badge-danger');
+        // statusBadge.classList.add('badge-secondary');
+        // }
 
-        row.cells[1].querySelector('input[name="vendor_status"]').value = selectedVendor.status;
-        row.cells[2].querySelector('input[name="vendor_director"]').value = selectedVendor.director;
-        row.cells[3].querySelector('input[name="vendor_phone"]').value = selectedVendor.phone;
-        row.cells[4].querySelector('input[name="vendor_email"]').value = selectedVendor.email;
+    row.cells[1].querySelector('.vendor-status').textContent = selectedVendor.status;
+    row.cells[2].querySelector('.vendor-director').textContent = selectedVendor.director;
+    row.cells[3].querySelector('.vendor-phone').textContent = selectedVendor.phone;
+    row.cells[4].querySelector('.vendor-email').textContent = selectedVendor.email;
         } else {
         // Reset input fields
         const row = selectElement.parentNode.parentNode;
-        row.cells[1].querySelector('input[name="vendor_status"]').value = '';
-        row.cells[2].querySelector('input[name="vendor_director"]').value = '';
-        row.cells[3].querySelector('input[name="vendor_phone"]').value = '';
-        row.cells[4].querySelector('input[name="vendor_email"]').value = '';
+        row.cells[1].querySelector('.vendor-status').textContent = '';
+    row.cells[2].querySelector('.vendor-director').textContent = '';
+    row.cells[3].querySelector('.vendor-phone').textContent = '';
+    row.cells[4].querySelector('.vendor-email').textContent = '';
+  }
         }
-    }
+    // }
 
     function getVendorById(vendorId) {
         // Replace vendorsData with the actual data variable that contains vendor information
@@ -180,10 +191,18 @@
   const row = document.createElement('tr');
   row.innerHTML = `
     <td></td>
-    <td><input class="form-control" type="text" name="vendor_status" readonly></td>
-    <td><input class="form-control" type="text" name="vendor_director" readonly></td>
-    <td><input class="form-control" type="text" name="vendor_phone" readonly></td>
-    <td><input class="form-control" type="text" name="vendor_email" readonly></td>
+    <td>
+    <span class="vendor-status"></span>
+  </td>
+  <td>
+    <span class="vendor-director"></span>
+  </td>
+  <td>
+    <span class="vendor-phone"></span>
+  </td>
+  <td>
+    <span class="vendor-email"></span>
+  </td>
     <td>
       <button type="button" class="btn btn-sm btn-danger" onclick="deleteVendorRow(this)">Delete</button>
     </td>

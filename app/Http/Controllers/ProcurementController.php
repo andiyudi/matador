@@ -35,6 +35,7 @@ class ProcurementController extends Controller
      */
     public function store(Request $request)
     {
+        // dd(request()->all());
         // Create a new procurement
         $procurement = new Procurement();
         $procurement->name = $request->input('name');
@@ -44,6 +45,17 @@ class ProcurementController extends Controller
         $procurement->person_in_charge = $request->input('person_in_charge');
         $procurement->save();
 
+        // Save vendor_id in procurement_vendor table
+        // Save vendor_id in procurement_vendor table
+        $vendorIds = $request->input('vendor_id');
+        if (!empty($vendorIds)) {
+            $procurement->vendors()->attach($vendorIds);
+            // Update vendor status and activated_at
+            Vendor::whereIn('id', $vendorIds)->update([
+                'status' => '1', // Set status to 1 (active)
+                'activated_at' => today(), // Set activated_at to current timestamp
+            ]);
+        }
 
 
         return redirect()->route('procurement.index')->with('success', 'Procurement data has been saved.');

@@ -16,7 +16,7 @@ class Procurement extends Model
 
     public function vendors()
     {
-        return $this->belongsToMany(Vendor::class, 'procurement_vendor');
+        return $this->belongsToMany(Vendor::class, 'procurement_vendor')->withTimestamps();
     }
 
     public function files()
