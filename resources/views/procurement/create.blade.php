@@ -68,7 +68,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <select class="form-control select2" id="vendor_id" name="vendor_id" onchange="populateVendorData(this)">
+                                            <select class="form-control select2" id="vendor_id" name="vendor_id[]" onchange="populateVendorData(this)">
                                                 <option value="" disabled selected>Select Vendor</option>
                                                 @foreach($vendors AS $vendor)
                                                 <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
@@ -93,7 +93,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                 </tbody>
                             </table>
                         </div>
@@ -109,61 +108,83 @@
     $(document).ready(function() {
         $('.select2').select2();
     });
-</script>
-<script>
-    // Function to populate vendor data based on the selected option
+
     function populateVendorData(selectElement) {
         const selectedVendorId = selectElement.value;
         const selectedVendor = getVendorById(selectedVendorId);
 
         if (selectedVendor) {
-            document.getElementById('vendor_status').value = selectedVendor.status;
-            document.getElementById('vendor_director').value = selectedVendor.director;
-            document.getElementById('vendor_phone').value = selectedVendor.phone;
-            document.getElementById('vendor_email').value = selectedVendor.email;
+        const row = selectElement.parentNode.parentNode;
+        row.cells[1].querySelector('input[name="vendor_status"]').value = selectedVendor.status;
+        row.cells[2].querySelector('input[name="vendor_director"]').value = selectedVendor.director;
+        row.cells[3].querySelector('input[name="vendor_phone"]').value = selectedVendor.phone;
+        row.cells[4].querySelector('input[name="vendor_email"]').value = selectedVendor.email;
         } else {
-            document.getElementById('vendor_status').value = '';
-            document.getElementById('vendor_director').value = '';
-            document.getElementById('vendor_phone').value = '';
-            document.getElementById('vendor_email').value = '';
+        // Reset input fields
+        const row = selectElement.parentNode.parentNode;
+        row.cells[1].querySelector('input[name="vendor_status"]').value = '';
+        row.cells[2].querySelector('input[name="vendor_director"]').value = '';
+        row.cells[3].querySelector('input[name="vendor_phone"]').value = '';
+        row.cells[4].querySelector('input[name="vendor_email"]').value = '';
         }
     }
 
-    // Function to get vendor data by ID
     function getVendorById(vendorId) {
         // Replace vendorsData with the actual data variable that contains vendor information
         const vendorsData = {!! $vendors !!};
         return vendorsData.find(vendor => vendor.id == vendorId);
     }
 
-    // Function to add a new vendor row
     function addVendor() {
-        const selectElement = document.getElementById('vendor_id');
-        const selectedVendorId = selectElement.value;
-        const selectedVendor = getVendorById(selectedVendorId);
+        const selectElement = document.createElement('select');
+        selectElement.className = 'form-control select2';
+        selectElement.name = 'vendor_id[]';
+        selectElement.onchange = function() {
+        populateVendorData(this);
+        };
 
-        if (selectedVendor) {
-            const tbody = document.getElementById('vendor-table').getElementsByTagName('tbody')[0];
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${selectedVendor.name}</td>
-                <td>${selectedVendor.status}</td>
-                <td>${selectedVendor.director}</td>
-                <td>${selectedVendor.phone}</td>
-                <td>${selectedVendor.email}</td>
-                <td>
-                    <button type="button" class="btn btn-sm btn-danger" onclick="deleteVendorRow(this)">Delete</button>
-                </td>
-            `;
-            tbody.appendChild(row);
-        }
+        const optionElement = document.createElement('option');
+        optionElement.value = '';
+        optionElement.disabled = true;
+        optionElement.selected = true;
+        optionElement.textContent = 'Select Vendor';
+
+        selectElement.appendChild(optionElement);
+
+        const vendorsData = {!! $vendors !!};
+        vendorsData.forEach(function(vendor) {
+        const optionElement = document.createElement('option');
+        optionElement.value = vendor.id;
+        optionElement.textContent = vendor.name;
+        selectElement.appendChild(optionElement);
+        });
+
+        const tbody = document.getElementById('vendor-table').getElementsByTagName('tbody')[0];
+        const row = document.createElement('tr');
+        row.innerHTML = `
+        <td></td>
+        <td><input class="form-control" type="text" name="vendor_status" readonly></td>
+        <td><input class="form-control" type="text" name="vendor_director" readonly></td>
+        <td><input class="form-control" type="text" name="vendor_phone" readonly></td>
+        <td><input class="form-control" type="text" name="vendor_email" readonly></td>
+        <td>
+            <button type="button" class="btn btn-sm btn-danger" onclick="deleteVendorRow(this)">Delete</button>
+        </td>
+        `;
+
+        const cell = row.cells[0];
+        cell.appendChild(selectElement);
+
+        tbody.appendChild(row);
+
+        $('.select2').select2();
     }
 
-    // Function to delete a vendor row
     function deleteVendorRow(button) {
-        const row = button.closest('tr');
-        row.remove();
+        const row = button.parentNode.parentNode;
+        row.parentNode.removeChild(row);
     }
+
 </script>
 
 
