@@ -327,9 +327,11 @@
 
 @endsection
 @push('page-action')
-<a href="{{ route('vendors.create') }}" class="btn btn-primary mb-3">Add Vendor Data</a>
-<button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#uploadVendorFiles">
-    Upload File
-</button>
+<div class="container">
+    <a href="{{ route('vendors.create') }}" class="btn btn-primary mb-3">Add Vendor Data</a>
+    <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#uploadVendorFiles">
+        Upload File
+    </button>
+</div>
 
 @endpush

@@ -80,5 +80,7 @@
 
 @endsection
 @push('page-action')
-<a href="{{ route('procurement.index') }}" class="btn btn-primary mb-3">Back</a>
+<div class="container">
+    <a href="{{ route('procurement.index') }}" class="btn btn-primary mb-3">Back</a>
+</div>
 @endpush

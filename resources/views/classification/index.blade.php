@@ -184,7 +184,9 @@ $('#classificationTableBody').on('click', '.delete-btn', function () {
 </script>
 @endsection
 @push('page-action')
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#classificationModal" data-bs-action="create">
-    Add Classification Data
-</button>
+<div class="container">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#classificationModal" data-bs-action="create">
+        Add Classification Data
+    </button>
+</div>
 @endpush

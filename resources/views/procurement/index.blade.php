@@ -154,5 +154,7 @@
 
 @endsection
 @push('page-action')
-<a href="{{ route('procurement.create') }}" class="btn btn-primary mb-3">Add Job Data</a>
+<div class="container">
+    <a href="{{ route('procurement.create') }}" class="btn btn-primary mb-3">Add Job Data</a>
+</div>
 @endpush

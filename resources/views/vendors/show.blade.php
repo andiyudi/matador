@@ -169,5 +169,7 @@
 </script>
 @endsection
 @push('page-action')
-<a href="{{ route('vendors.index') }}" class="btn btn-primary">Back</a>
+<div class="container">
+    <a href="{{ route('vendors.index') }}" class="btn btn-primary">Back</a>
+</div>
 @endpush

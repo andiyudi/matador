@@ -161,7 +161,9 @@
 
 @endsection
 @push('page-action')
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createCoreBusinessModal">
-    Add Core Business Data
-</button>
+<div class="container">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createCoreBusinessModal">
+        Add Core Business Data
+    </button>
+</div>
 @endpush

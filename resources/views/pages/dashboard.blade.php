@@ -5,13 +5,28 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <h1>Welcome to Dashboard, {{ auth()->user()->name }}</h1>
                     <div class="row">
                         <div class="col-md-2">
                             <div class="card border-primary mb-3">
                                 <div class="card-body">
                                     <h6 class="card-title">Total All Vendors</h6>
                                     <p class="card-text" id="totalVendor">Loading...</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="card border-danger mb-3">
+                                <div class="card-body">
+                                    <h6 class="card-title">Blacklisted Vendors</h6>
+                                    <p class="card-text" id="blacklist">Loading...</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="card border-secondary mb-3">
+                                <div class="card-body">
+                                    <h6 class="card-title">Available Vendors</h6>
+                                    <p class="card-text" id="notBlacklist">Loading...</p>
                                 </div>
                             </div>
                         </div>
@@ -39,68 +54,53 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <div class="card border-danger mb-3">
-                                <div class="card-body">
-                                    <h6 class="card-title">Blacklisted Vendors</h6>
-                                    <p class="card-text" id="blacklist">Loading...</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="card border-secondary mb-3">
-                                <div class="card-body">
-                                    <h6 class="card-title">Available Vendors</h6>
-                                    <p class="card-text" id="notBlacklist">Loading...</p>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <h1>Data 5 Vendor Terakhir</h1>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Vendor Name</th>
-                                    <th>Status</th>
-                                    <th>Is Blacklist</th>
-                                </tr>
-                            </thead>
-                            <tbody  id="latestVendorsTable">
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <h1>Data 5 Pekerjaan Terakhir</h1>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Job Name</th>
-                                    <th>Procurement Number</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody  id="latestProcurementTable">
-                                <!-- Data will be populated dynamically -->
-                            </tbody>
-                        </table>
+                        <div class="col-md-6">
+                            <h1>Last 5 Vendor Data</h1>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Vendor Name</th>
+                                        <th>Status</th>
+                                        <th>Is Blacklist</th>
+                                    </tr>
+                                </thead>
+                                <tbody  id="latestVendorsTable">
+                                    <tr id="loadingRow">
+                                        <td colspan="4" class="text-center">Loading...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <h1>Last 5 Jobs Data</h1>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Job Name</th>
+                                        <th>Procurement Number</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody  id="latestProcurementTable">
+                                    <tr id="loadingRow">
+                                        <td colspan="4" class="text-center">Loading...</td>
+                                    </tr>
+                                    <!-- Data will be populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -153,20 +153,20 @@ function populateTable(data, tableId) {
         if (tableId === 'latestVendorsTable') {
             var cellVendorStatus = row.insertCell(2);
             if (data[i].status === "0") {
-                cellVendorStatus.innerHTML = '<span class="badge badge-info" style="background-color: blue; color: white;">Registered</span>';
+                cellVendorStatus.innerHTML = '<span class="badge text-bg-info">Registered</span>';
             } else if (data[i].status === "1") {
-                cellVendorStatus.innerHTML = '<span class="badge badge-success" style="background-color: green; color: white;">Active</span>';
+                cellVendorStatus.innerHTML = '<span class="badge text-bg-success">Active</span>';
             } else if (data[i].status === "2") {
-                cellVendorStatus.innerHTML = '<span class="badge badge-warning" style="background-color: yellow; color: white;">Expired</span>';
+                cellVendorStatus.innerHTML = '<span class="badge text-bg-warning">Expired</span>';
             } else {
                 cellVendorStatus.innerHTML = ''; // Handle case when status has unexpected value
             }
 
             var cellIsBlacklist = row.insertCell(3);
             if (data[i].is_blacklist === "1") {
-                cellIsBlacklist.innerHTML = '<span class="badge badge-danger" style="background-color: red; color: white;">Blacklist</span>';
+                cellIsBlacklist.innerHTML = '<span class="badge text-bg-danger">Blacklist</span>';
             } else if (data[i].is_blacklist === "0") {
-                cellIsBlacklist.innerHTML = '<span class="badge badge-success" style="background-color: green; color: white;">Available</span>';
+                cellIsBlacklist.innerHTML = '<span class="badge text-bg-success">Available</span>';
             } else {
                 cellIsBlacklist.innerHTML = ''; // Handle case when is_blacklist has unexpected value
             }
@@ -176,11 +176,11 @@ function populateTable(data, tableId) {
 
             var cellStatus = row.insertCell(3);
             if (data[i].status === "0") {
-                cellStatus.innerHTML = '<span class="badge badge-info" style="background-color: blue; color: white;">Process</span>';
+                cellStatus.innerHTML = '<span class="badge text-bg-info">Process</span>';
             } else if (data[i].status === "1") {
-                cellStatus.innerHTML = '<span class="badge badge-success" style="background-color: green; color: white;">Success</span>';
+                cellStatus.innerHTML = '<span class="badge text-bg-success">Success</span>';
             } else if (data[i].status === "2") {
-                cellStatus.innerHTML = '<span class="badge badge-warning" style="background-color: yellow; color: white;">Canceled</span>';
+                cellStatus.innerHTML = '<span class="badge text-bg-danger">Canceled</span>';
             } else {
                 cellStatus.innerHTML = ''; // Handle case when status has unexpected value
             }
@@ -195,6 +195,8 @@ function fetchVendorData() {
         .then(data => {
             if (data.success) {
                 populateTable(data.data, 'latestVendorsTable');
+                table.style.display = 'table'; // Tampilkan tabel setelah data diperoleh
+                loadingRow.style.display = 'none'; // Sembunyikan pesan loading
             } else {
                 console.log(data.message); // Display error message if any
             }
@@ -211,6 +213,8 @@ function fetchProcurementData() {
         .then(data => {
             if (data.success) {
                 populateTable(data.data, 'latestProcurementTable');
+                table.style.display = 'table'; // Tampilkan tabel setelah data diperoleh
+                loadingRow.style.display = 'none'; // Sembunyikan pesan loading
             } else {
                 console.log(data.message); // Display error message if any
             }
@@ -227,3 +231,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 @endsection
+@push('page-action')
+<div class="container">
+    <h1>Welcome to Dashboard, {{ auth()->user()->name }}</h1>
+</div>
+@endpush
