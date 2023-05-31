@@ -58,16 +58,15 @@ class ProcurementController extends Controller
         $procurement->save();
 
         // Save vendor_id in procurement_vendor table
-        // Save vendor_id in procurement_vendor table
         $vendorIds = $request->input('vendor_id');
         if (!empty($vendorIds)) {
             $procurement->vendors()->attach($vendorIds);
             // Update vendor status and activated_at
-            Vendor::whereIn('id', $vendorIds)->update([
-                'status' => '1', // Set status to 1 (active)
-                'activated_at' => today(), // Set activated_at to current timestamp
-                'expired_at' => (date('Y') . '-12-31'),
-            ]);
+            // Vendor::whereIn('id', $vendorIds)->update([
+            //     'status' => '1', // Set status to 1 (active)
+            //     'activated_at' => today(), // Set activated_at to current timestamp
+            //     'expired_at' => (date('Y') . '-12-31'),
+            // ]);
         }
 
         Alert::success('Success', 'Job data has been saved.');
@@ -93,10 +92,12 @@ class ProcurementController extends Controller
         $procurement = Procurement::find($id);
         // Mengambil data procurement berdasarkan ID
 
-        $vendors = Vendor::all();
+        $vendors = Vendor::where('is_blacklist', '0')->get();
         // Mengambil semua data vendor untuk dropdown
 
-        return view('procurement.edit', compact('procurement', 'vendors'));
+        $selectedVendors = $procurement->vendors;
+
+        return view('procurement.edit', compact('procurement', 'vendors', 'selectedVendors'));
         // Menampilkan view edit dengan data procurement dan vendors
     }
 
@@ -127,8 +128,8 @@ class ProcurementController extends Controller
 
         $procurement->vendors()->sync($request->vendor_id);
         // Memperbarui data vendor yang terkait dengan procurement
-
-        return redirect()->route('procurement.index')->with('success', 'Job data updated successfully.');
+        Alert::success('Success', 'Job data updated successfully.');
+        return redirect()->route('procurement.index');
         // Mengalihkan pengguna ke halaman index procurement dengan pesan sukses
     }
 

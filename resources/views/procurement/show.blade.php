@@ -54,8 +54,14 @@
                                         <tr>
                                             <td>{{ $vendor->name }}</td>
                                             <td>
-                                                @if($vendor->status === '1')
-                                                Rekanan
+                                                @if($vendor->status == '0')
+                                                <span class="vendor-status">Registered</span>
+                                                @elseif($vendor->status == '1')
+                                                <span class="vendor-status">Active</span>
+                                                @elseif($vendor->status == '2')
+                                                <span class="vendor-status">Expired</span>
+                                                @else
+                                                <span class="vendor-status"></span>
                                                 @endif
                                             </td>
                                             <td>{{ $vendor->director }}</td>

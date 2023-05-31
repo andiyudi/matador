@@ -77,7 +77,11 @@
                                 </thead>
                                 <tbody  id="latestVendorsTable">
                                     <tr id="loadingRow">
-                                        <td colspan="4" class="text-center">Loading...</td>
+                                        <td colspan="4" class="text-center">
+                                            <div class="spinner-border" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -95,7 +99,11 @@
                                 </thead>
                                 <tbody  id="latestProcurementTable">
                                     <tr id="loadingRow">
-                                        <td colspan="4" class="text-center">Loading...</td>
+                                        <td colspan="4" class="text-center">
+                                            <div class="spinner-border" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </td>
                                     </tr>
                                     <!-- Data will be populated dynamically -->
                                 </tbody>
@@ -176,11 +184,11 @@ function populateTable(data, tableId) {
 
             var cellStatus = row.insertCell(3);
             if (data[i].status === "0") {
-                cellStatus.innerHTML = '<span class="badge text-bg-info">Process</span>';
+                cellStatus.innerHTML = '<span class="badge rounded-pill text-bg-info">Process</span>';
             } else if (data[i].status === "1") {
-                cellStatus.innerHTML = '<span class="badge text-bg-success">Success</span>';
+                cellStatus.innerHTML = '<span class="badge rounded-pill text-bg-success">Success</span>';
             } else if (data[i].status === "2") {
-                cellStatus.innerHTML = '<span class="badge text-bg-danger">Canceled</span>';
+                cellStatus.innerHTML = '<span class="badge rounded-pill text-bg-danger">Canceled</span>';
             } else {
                 cellStatus.innerHTML = ''; // Handle case when status has unexpected value
             }

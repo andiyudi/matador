@@ -65,56 +65,53 @@
                                             <th>Director</th>
                                             <th>Phone</th>
                                             <th>Email</th>
-                                            <th>Action</th>
+                                            <th>
+                                                <button type="button" class="btn btn-sm btn-primary" onclick="addVendor()">Add Vendor</button>
+                                            </th>
                                         </tr>
-                                            @foreach ($procurement->vendors as $vendor)
+                                    </thead>
+                                    <tbody>
+                                        @foreach($selectedVendors AS $vendor)
                                         <tr>
-                                            <td>{{ $vendor->name }}</td>
                                             <td>
-                                                @if($vendor->status === '1')
-                                                Rekanan
+                                                <select class="form-control select2" name="vendor_id[]" onchange="populateVendorData(this)" required>
+                                                    <option value="" disabled>Select Vendor</option>
+                                                    @foreach($vendors AS $v)
+                                                    <option value="{{ $v->id }}" {{ $v->id == $vendor->id ? 'selected' : '' }}>{{ $v->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                            <td>
+                                                @if($vendor->status == '0')
+                                                <span class="vendor-status">Registered</span>
+                                                @elseif($vendor->status == '1')
+                                                <span class="vendor-status">Active</span>
+                                                @elseif($vendor->status == '2')
+                                                <span class="vendor-status">Expired</span>
+                                                @else
+                                                <span class="vendor-status"></span>
                                                 @endif
                                             </td>
-                                            <td>{{ $vendor->director }}</td>
-                                            <td>{{ $vendor->phone }}</td>
-                                            <td>{{ $vendor->email }}</td>
+                                            <td>
+                                                <span class="vendor-director">{{ $vendor->director }}</span>
+                                            </td>
+                                            <td>
+                                                <span class="vendor-phone">{{ $vendor->phone }}</span>
+                                            </td>
+                                            <td>
+                                                <span class="vendor-email">{{ $vendor->email }}</span>
+                                            </td>
                                             <td>
                                                 <button type="button" class="btn btn-sm btn-danger" onclick="deleteVendorRow(this)">Delete</button>
                                             </td>
                                         </tr>
                                         @endforeach
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <select class="form-control select2" id="vendor_id" name="vendor_id[]" onchange="populateVendorData(this)">
-                                                    <option value="" disabled selected>Select Vendor</option>
-                                                    @foreach($vendors AS $vendor)
-                                                    <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <span class="vendor-status"></span>
-                                            </td>
-                                            <td>
-                                                <span class="vendor-director"></span>
-                                            </td>
-                                            <td>
-                                                <span class="vendor-phone"></span>
-                                            </td>
-                                            <td>
-                                                <span class="vendor-email"></span>
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn btn-sm btn-primary" onclick="addVendor()">Add Vendor</button>
-                                            </td>
-                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-success">Update</button>
+                        @include('sweetalert::alert')
+                        <button type="submit" class="btn btn-success">Save</button>
                     </form>
                 </div>
             </div>
@@ -131,22 +128,31 @@
         const selectedVendor = getVendorById(selectedVendorId);
 
         if (selectedVendor) {
-        const row = selectElement.parentNode.parentNode;
+            const row = selectElement.parentNode.parentNode;
 
+            const statusSpan = row.cells[1].querySelector('.vendor-status');
+            if (selectedVendor.status === '0') {
+                statusSpan.textContent = 'Registered';
+            } else if (selectedVendor.status === '1') {
+                statusSpan.textContent = 'Active';
+            } else if (selectedVendor.status === '2') {
+                statusSpan.textContent = 'Expired';
+            } else {
+                statusSpan.textContent = 'Rekanan';
+            }
 
-        row.cells[1].querySelector('.vendor-status').textContent = selectedVendor.status;
-        row.cells[2].querySelector('.vendor-director').textContent = selectedVendor.director;
-        row.cells[3].querySelector('.vendor-phone').textContent = selectedVendor.phone;
-        row.cells[4].querySelector('.vendor-email').textContent = selectedVendor.email;
+            row.cells[2].querySelector('.vendor-director').textContent = selectedVendor.director;
+            row.cells[3].querySelector('.vendor-phone').textContent = selectedVendor.phone;
+            row.cells[4].querySelector('.vendor-email').textContent = selectedVendor.email;
         } else {
-        // Reset input fields
-        const row = selectElement.parentNode.parentNode;
-        row.cells[1].querySelector('.vendor-status').textContent = '';
-        row.cells[2].querySelector('.vendor-director').textContent = '';
-        row.cells[3].querySelector('.vendor-phone').textContent = '';
-        row.cells[4].querySelector('.vendor-email').textContent = '';
-  }
+            // Reset input fields
+            const row = selectElement.parentNode.parentNode;
+            row.cells[1].querySelector('.vendor-status').textContent = '';
+            row.cells[2].querySelector('.vendor-director').textContent = '';
+            row.cells[3].querySelector('.vendor-phone').textContent = '';
+            row.cells[4].querySelector('.vendor-email').textContent = '';
         }
+    }
 
     function getVendorById(vendorId) {
         // Replace vendorsData with the actual data variable that contains vendor information
@@ -155,71 +161,64 @@
     }
 
     function addVendor() {
-  const selectElement = document.createElement('select');
-  selectElement.className = 'form-control select2';
-  selectElement.name = 'vendor_id[]';
-  selectElement.onchange = function() {
-    populateVendorData(this);
-  };
+        const selectElement = document.createElement('select');
+        selectElement.className = 'form-control select2';
+        selectElement.name = 'vendor_id[]';
+        selectElement.onchange = function() {
+            populateVendorData(this);
+        };
 
-  const optionElement = document.createElement('option');
-  optionElement.value = '';
-  optionElement.disabled = true;
-  optionElement.selected = true;
-  optionElement.textContent = 'Select Vendor';
+        const optionElement = document.createElement('option');
+        optionElement.value = '';
+        optionElement.disabled = true;
+        optionElement.selected = true;
+        optionElement.textContent = 'Select Vendor';
 
-  selectElement.appendChild(optionElement);
+        selectElement.appendChild(optionElement);
 
-  const vendorsData = {!! $vendors !!};
-  vendorsData.forEach(function(vendor) {
-    const optionElement = document.createElement('option');
-    optionElement.value = vendor.id;
-    optionElement.textContent = vendor.name;
-    selectElement.appendChild(optionElement);
-  });
+        const vendorsData = {!! $vendors !!};
+        vendorsData.forEach(function(vendor) {
+            const optionElement = document.createElement('option');
+            optionElement.value = vendor.id;
+            optionElement.textContent = vendor.name;
+            selectElement.appendChild(optionElement);
+        });
 
-  // Disable selected options
-  const selectedOptions = document.querySelectorAll('#vendor-table select.form-control.select2 option:checked');
-  selectedOptions.forEach(function(option) {
-    const selectedVendorId = option.value;
-    selectElement.querySelector(`option[value="${selectedVendorId}"]`).disabled = true;
-  });
+        // Disable selected options
+        const selectedOptions = document.querySelectorAll('#vendor-table select.form-control.select2 option:checked');
+        selectedOptions.forEach(function(option) {
+            const selectedVendorId = option.value;
+            selectElement.querySelector(`option[value="${selectedVendorId}"]`).disabled = true;
+        });
 
-  const tbody = document.getElementById('vendor-table').getElementsByTagName('tbody')[0];
-  const row = document.createElement('tr');
-  row.innerHTML = `
-    <td></td>
-    <td>
-    <span class="vendor-status"></span>
-  </td>
-  <td>
-    <span class="vendor-director"></span>
-  </td>
-  <td>
-    <span class="vendor-phone"></span>
-  </td>
-  <td>
-    <span class="vendor-email"></span>
-  </td>
-    <td>
-      <button type="button" class="btn btn-sm btn-danger" onclick="deleteVendorRow(this)">Delete</button>
-    </td>
-  `;
+        const tbody = document.getElementById('vendor-table').getElementsByTagName('tbody')[0];
+        const row = tbody.insertRow(-1);
 
-  const cell = row.cells[0];
-  cell.appendChild(selectElement);
+        const cell1 = row.insertCell(0);
+        const cell2 = row.insertCell(1);
+        const cell3 = row.insertCell(2);
+        const cell4 = row.insertCell(3);
+        const cell5 = row.insertCell(4);
+        const cell6 = row.insertCell(5);
 
-  tbody.appendChild(row);
+        cell1.appendChild(selectElement);
+        cell2.innerHTML = '<span class="vendor-status"></span>';
+        cell3.innerHTML = '<span class="vendor-director"></span>';
+        cell4.innerHTML = '<span class="vendor-phone"></span>';
+        cell5.innerHTML = '<span class="vendor-email"></span>';
+        cell6.innerHTML = '<button type="button" class="btn btn-sm btn-danger" onclick="deleteVendorRow(this)">Delete</button>';
 
-  $('.select2').select2();
-}
-
+        $('.select2').select2();
+    }
 
     function deleteVendorRow(button) {
         const row = button.parentNode.parentNode;
         row.parentNode.removeChild(row);
     }
 </script>
+
+
+
 @endsection
 @push('page-action')
 <div class="container">

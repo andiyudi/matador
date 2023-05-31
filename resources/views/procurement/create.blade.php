@@ -118,11 +118,11 @@
         const row = selectElement.parentNode.parentNode;
 
         const statusSpan = row.cells[1].querySelector('.vendor-status');
-        if (selectedVendor.status === 0) {
+        if (selectedVendor.status === '0') {
         statusSpan.textContent = 'Registered';
-        } else if (selectedVendor.status === 1) {
+        } else if (selectedVendor.status === '1') {
         statusSpan.textContent = 'Active';
-        } else if (selectedVendor.status === 2) {
+        } else if (selectedVendor.status === '2') {
         statusSpan.textContent = 'Expired';
         } else {
         statusSpan.textContent = 'Rekanan';
