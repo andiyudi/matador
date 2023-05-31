@@ -83,7 +83,7 @@
                         }).join("");
                     },
                 name: 'vendors.name'
-                 },
+                },
                 { data: 'status', name: 'status',
                 render: function (data) {
                         if (data === '0') {
@@ -119,7 +119,7 @@
     });
     // Event handler untuk tombol Delete
     $(document).on('click', '.delete-procurement', function () {
-            var ProcurementId = $(this).data('id');
+            var procurementId = $(this).data('id');
             Swal.fire({
                 title: 'Delete Job',
                 text: 'Are you sure you want to delete this job?',
@@ -132,19 +132,19 @@
                 if (result.isConfirmed) {
                     // Kirim permintaan penghapusan ke URL yang sesuai
                     $.ajax({
-                        url: `/procurement/${ProcurementId}`,
+                        url: `/procurement/${procurementId}`,
                         type: 'POST',
                         data: {
                             _method: 'DELETE',
                             _token: '{{ csrf_token() }}'
                         },
                         success: function (response) {
-                            Swal.fire('Procurement deleted successfully', '', 'success').then(() => {
+                            Swal.fire('Job deleted successfully', '', 'success').then(() => {
                                 location.reload();
                             });
                         },
                         error: function (xhr) {
-                            Swal.fire('Error deleting procurement', '', 'error');
+                            Swal.fire('Error deleting job', '', 'error');
                         }
                     });
                 }

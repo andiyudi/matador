@@ -70,7 +70,7 @@ class ProcurementController extends Controller
             ]);
         }
 
-        Alert::success('Success', 'Procurement data has been saved.');
+        Alert::success('Success', 'Job data has been saved.');
         return redirect()->route('procurement.index');
     }
 
@@ -128,7 +128,7 @@ class ProcurementController extends Controller
         $procurement->vendors()->sync($request->vendor_id);
         // Memperbarui data vendor yang terkait dengan procurement
 
-        return redirect()->route('procurement.index')->with('success', 'Procurement data updated successfully.');
+        return redirect()->route('procurement.index')->with('success', 'Job data updated successfully.');
         // Mengalihkan pengguna ke halaman index procurement dengan pesan sukses
     }
 
