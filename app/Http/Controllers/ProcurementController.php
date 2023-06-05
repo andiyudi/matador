@@ -7,6 +7,7 @@ use App\Models\Procurement;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
+use Dompdf\Dompdf;
 
 class ProcurementController extends Controller
 {
@@ -16,7 +17,7 @@ class ProcurementController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $procurements = Procurement::with('vendors')->get();
+            $procurements = Procurement::with('vendors')->orderByDesc('id')->get();
             return DataTables::of($procurements)
                 ->addColumn('vendor_names', function ($procurement) {
                     return $procurement->vendors->pluck('name')->implode(', ');
@@ -139,6 +140,41 @@ class ProcurementController extends Controller
     public function destroy(Procurement $procurement)
     {
         $procurement->delete();
+        return redirect()->route('procurement.index');
+    }
+
+
+
+    public function print($id)
+    {
+        // Mendapatkan data procurement berdasarkan ID
+        $procurement = Procurement::find($id);
+
+        // Mendapatkan data nama pembuat, jabatan pembuat, nama atasan, dan jabatan atasan dari URL
+        $creatorName = request()->query('creatorName');
+        $creatorPosition = request()->query('creatorPosition');
+        $supervisorName = request()->query('supervisorName');
+        $supervisorPosition = request()->query('supervisorPosition');
+
+        // Membuat objek Dompdf
+        $dompdf = new Dompdf();
+
+        // Meneruskan data procurement dan data tambahan ke view print.blade.php
+        $html = view('procurement.print', compact('procurement', 'creatorName', 'creatorPosition', 'supervisorName', 'supervisorPosition'))->render();
+
+        // Menghasilkan file PDF dari tampilan HTML
+        $dompdf->loadHtml($html);
+        $dompdf->render();
+
+        // Mengirim file PDF sebagai respons ke browser
+        return $dompdf->stream('procurement.pdf');
+    }
+
+    public function cancel(Procurement $procurement)
+    {
+        $procurement->status = '2';
+        $procurement->save();
+
         return redirect()->route('procurement.index');
     }
 }
