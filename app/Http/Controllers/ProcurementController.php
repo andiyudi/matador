@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Dompdf\Dompdf;
+// use Dompdf\Options;
 use App\Models\Vendor;
 use App\Models\Procurement;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
-use Dompdf\Dompdf;
 
 class ProcurementController extends Controller
 {
@@ -156,8 +157,16 @@ class ProcurementController extends Controller
         $supervisorName = request()->query('supervisorName');
         $supervisorPosition = request()->query('supervisorPosition');
 
+        // $options = new Options();
+        // $options->set('isRemoteEnabled', true);
+        // $dompdf = new Dompdf($options);
         // Membuat objek Dompdf
         $dompdf = new Dompdf();
+        // Get Base64 of the Logo
+        // $path = Procurement::baseFolder() . '/public' . $config->WebsiteLogo()->getURL();
+        // $type = pathinfo($path, PATHINFO_EXTENSION);
+        // $data = file_get_contents($path);
+        // $logo = 'data:image/' . $type . ';base64,' . base64_encode($data);
 
         // Meneruskan data procurement dan data tambahan ke view print.blade.php
         $html = view('procurement.print', compact('procurement', 'creatorName', 'creatorPosition', 'supervisorName', 'supervisorPosition'))->render();
@@ -176,5 +185,19 @@ class ProcurementController extends Controller
         $procurement->save();
 
         return redirect()->route('procurement.index');
+    }
+
+    public function vendors($id)
+    {
+        $procurement = Procurement::findOrFail($id);
+        $vendors = $procurement->vendors()->select('vendors.id', 'vendors.name')->get();
+
+        // Mendapatkan vendor yang dipilih berdasarkan data procurement
+        $selectedVendors = $procurement->vendors()->pluck('vendors.id')->toArray();
+
+        return response()->json([
+            'vendors' => $vendors,
+            'selectedVendors' => $selectedVendors
+        ]);
     }
 }

@@ -60,7 +60,7 @@
     <table>
         <thead>
             <tr>
-                <td colspan="2" rowspan="2"><img src="{{ asset('assets/logo/cmnplogo.png') }}" alt="Logo"></td>
+                <td colspan="2" rowspan="2"><img src="{{ asset ('') }}assets/logo/cmnplogo.png" alt="Logo"></td>
                 <th colspan="4">PT. CITRA MARGA NUSAPHALA PERSADA Tbk.</th>
             </tr>
             <tr>

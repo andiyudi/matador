@@ -29,60 +29,64 @@
     </div>
 </div>
 <!-- Modal Print -->
-<div class="modal fade" id="print" tabindex="-1" aria-labelledby="printModalLabel" aria-hidden="true">
+<div class="modal fade" id="print" tabindex="-1" aria-labelledby="printLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="printModalLabel">Print Procurement</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="printForm">
+            <form id="printForm">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="printPopupLabel">Fill in the details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
                     <div class="mb-3">
                         <label for="creatorName" class="form-label">Creator Name</label>
-                        <input type="text" class="form-control" id="creatorName" name="creatorName" required>
+                        <input type="text" class="form-control" id="creatorName" placeholder="Enter creator name">
                     </div>
                     <div class="mb-3">
                         <label for="creatorPosition" class="form-label">Creator Position</label>
-                        <input type="text" class="form-control" id="creatorPosition" name="creatorPosition" required>
+                        <input type="text" class="form-control" id="creatorPosition" placeholder="Enter creator position">
                     </div>
                     <div class="mb-3">
                         <label for="supervisorName" class="form-label">Supervisor Name</label>
-                        <input type="text" class="form-control" id="supervisorName" name="supervisorName" required>
+                        <input type="text" class="form-control" id="supervisorName" placeholder="Enter supervisor name">
                     </div>
                     <div class="mb-3">
                         <label for="supervisorPosition" class="form-label">Supervisor Position</label>
-                        <input type="text" class="form-control" id="supervisorPosition" name="supervisorPosition" required>
+                        <input type="text" class="form-control" id="supervisorPosition" placeholder="Enter supervisor position">
                     </div>
-                </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="printBtn">Print</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+    <!-- Modal Vendor -->
+<div class="modal fade" id="vendorModal" tabindex="-1" aria-labelledby="vendorModalLabel" aria-hidden="true">
+    <!-- Konten Modal Vendor -->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="vendorModalLabel">Vendor List</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <select id="vendorSelect" class="form-select" aria-label="Select Vendor">
+                    <option selected disabled>Select Vendor</option>
+                </select>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="submitPrintForm()">Print</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="selectVendorBtn">Select</button>
             </div>
         </div>
     </div>
 </div>
-<!-- Modal Pilih Vendor -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-            ...
-            </div>
-            <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Understood</button>
-            </div>
-        </div>
-        </div>
-    </div>
+
 <script type="text/javascript">
-    $(document).ready(function () {
+$(document).ready(function () {
         $('#procurement-table').DataTable({
             processing: true,
             serverSide: true,
@@ -140,7 +144,7 @@
                     <li><a class="dropdown-item" href="/procurement/${row.id}">Detail</a></li>
                     <li><a type="button" class="dropdown-item delete-procurement" data-id="${row.id}">Delete</a></li>
                     <li><a type="button" class="dropdown-item print-procurement" data-bs-toggle="modal" data-bs-target="#print" data-id="${row.id}">Print</a></li>
-                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="/procurement/${row.id}">Pick Vendor</a></li>
+                    <li><a class="dropdown-item pick-vendor" data-bs-toggle="modal" data-bs-target="#vendorModal" data-id="${row.id}">Pick Vendor</a></li>
                     <li><a type="button" class="dropdown-item cancel-procurement" data-id="${row.id}">Canceled</a></li>
                     </ul>
                 </div>
@@ -148,28 +152,81 @@
                 }
             }]
         });
-        function submitPrintForm() {
-        // Mengambil nilai dari input form
-        var creatorName = document.getElementById('creatorName').value;
-        var creatorPosition = document.getElementById('creatorPosition').value;
-        var supervisorName = document.getElementById('supervisorName').value;
-        var supervisorPosition = document.getElementById('supervisorPosition').value;
+    });
+    // Handle form submission for printing
+    $('#printForm').submit(function (e) {
+        e.preventDefault();
 
-        // Mendapatkan ID procurement dari tombol print yang diklik
-        var procurementId = event.target.getAttribute('data-id');
+        var creatorName = $('#creatorName').val();
+        var creatorPosition = $('#creatorPosition').val();
+        var supervisorName = $('#supervisorName').val();
+        var supervisorPosition = $('#supervisorPosition').val();
+        var id = $('#printBtn').data('id');
 
-        // Membuat URL dengan mengirim parameter data form dan ID procurement
-        var printUrl = "/procurement/" + procurementId + "/print?" +
-            "creatorName=" + encodeURIComponent(creatorName) +
-            "&creatorPosition=" + encodeURIComponent(creatorPosition) +
-            "&supervisorName=" + encodeURIComponent(supervisorName) +
-            "&supervisorPosition=" + encodeURIComponent(supervisorPosition);
+        // Redirect to print page with filled data as query parameters
+        var printUrl = '/procurement/' + id + '/print' +
+            '?creatorName=' + encodeURIComponent(creatorName) +
+            '&creatorPosition=' + encodeURIComponent(creatorPosition) +
+            '&supervisorName=' + encodeURIComponent(supervisorName) +
+            '&supervisorPosition=' + encodeURIComponent(supervisorPosition);
+        window.location.href = printUrl;
+    });
 
-        // Membuka pop-up window untuk mencetak dengan URL yang telah dibuat
-        window.open(printUrl, '_blank');
-        event.preventDefault();
-        $('#print').modal('hide');
+    $(document).on('click', '.print-procurement', function () {
+        var id = $(this).data('id');
+        $('#printBtn').data('id', id);
+        $('#print').modal('show');
+    });
+
+    $(document).on('click', '.pick-vendor', function () {
+    var procurementId = $(this).data('id');
+    $.ajax({
+        url: '/procurement/' + procurementId + '/vendors',
+        type: 'GET',
+        success: function (response) {
+            // Menampilkan data vendor dalam elemen select
+            populateVendorSelect(response.vendors, response.selectedVendors);
+            $('#vendorModal').modal('show');
+        },
+        error: function (xhr) {
+            console.log(xhr);
+            // Handle error jika permintaan gagal
+        }
+    });
+});
+
+// Fungsi untuk mengisi elemen select dengan data vendor yang diterima dari server
+function populateVendorSelect(vendors, selectedVendors) {
+    var selectElement = $('#vendorSelect');
+    selectElement.empty();
+
+    // Tambahkan opsi default (tidak dipilih)
+    selectElement.append('<option selected disabled>Select Vendor</option>');
+
+    for (var i = 0; i < vendors.length; i++) {
+        var vendor = vendors[i];
+        var option = '<option value="' + vendor.id + '"';
+
+        // Memeriksa apakah vendor ini dipilih
+        if (selectedVendors.includes(vendor.id)) {
+            option += ' selected';
+        }
+
+        option += '>' + vendor.name + '</option>';
+        selectElement.append(option);
     }
+}
+
+
+    // Menangani klik tombol "Select" pada modal vendor
+    $(document).on('click', '#selectVendorBtn', function () {
+        var selectedVendorId = $('#vendorSelect').val();
+
+        // Lakukan sesuatu dengan ID vendor yang dipilih
+        // Misalnya, simpan ID vendor ke dalam variabel atau lakukan operasi lainnya
+
+        $('#vendorModal').modal('hide');
+        // Lakukan tindakan lainnya setelah memilih vendor
     });
 
     // Event handler untuk tombol Canceled Event
@@ -205,7 +262,7 @@
                     });
                 }
             });
-        });
+    });
     // Event handler untuk tombol Delete
     $(document).on('click', '.delete-procurement', function () {
             var procurementId = $(this).data('id');
@@ -238,9 +295,7 @@
                     });
                 }
             });
-        });
-
-
+    });
 </script>
 @endsection
 @push('page-action')

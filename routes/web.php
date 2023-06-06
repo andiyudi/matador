@@ -35,6 +35,7 @@ Route::get('vendors/file/fetch/{fileId}', [VendorController::class, 'fetchData']
 Route::put('/vendors/file/{fileId}', [VendorController::class, 'fileUpdate'])->name('vendors.file-update');
 Route::get('/procurement/{id}/print', [ProcurementController::class, 'print'])->name('procurement.print');
 Route::put('/procurement/{procurement}/cancel', [ProcurementController::class, 'cancel'])->name('procurement.cancel');
+Route::get('/procurement/{id}/vendors', [ProcurementController::class, 'vendors'])->name('procurement.vendors');
 
 Route::resource('core-business', CoreBusinessController::class);
 Route::resource('classifications', ClassificationController::class);
