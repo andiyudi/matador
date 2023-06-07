@@ -7,6 +7,7 @@ use Dompdf\Dompdf;
 use App\Models\Vendor;
 use App\Models\Procurement;
 use Illuminate\Http\Request;
+use App\Models\ProcurementFile;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -187,9 +188,9 @@ class ProcurementController extends Controller
         return redirect()->route('procurement.index');
     }
 
-    public function vendors($id)
+    public function vendors($procurementId)
     {
-        $procurement = Procurement::findOrFail($id);
+        $procurement = Procurement::findOrFail($procurementId);
         $vendors = $procurement->vendors()->select('vendors.id', 'vendors.name')->get();
 
         // Mendapatkan vendor yang dipilih berdasarkan data procurement
@@ -199,5 +200,53 @@ class ProcurementController extends Controller
             'vendors' => $vendors,
             'selectedVendors' => $selectedVendors
         ]);
+    }
+
+    public function upload(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:pdf',
+            'procurementId' => 'required',
+            'fileType' => 'required',
+        ]);
+
+        $file = $request->file('file');
+        $procurementId = $request->input('procurementId');
+        $fileType = $request->input('fileType');
+
+        $fileName = $file->getClientOriginalName();
+        $filePath = $file->store('procurement_files');
+
+        $procurementFile = new ProcurementFile();
+        $procurementFile->procurement_id = $procurementId;
+        $procurementFile->file_name = $fileName;
+        $procurementFile->file_path = $filePath;
+        $procurementFile->file_type = $fileType;
+        $procurementFile->save();
+
+        return response()->json(['file' => $procurementFile]);
+    }
+    public function updateSelectedVendor(Request $request)
+    {
+        $vendorId = $request->input('vendorId');
+        $procurementId = $request->input('procurementId');
+
+        try {
+            $procurement = Procurement::findOrFail($procurementId);
+
+            // Get the selected vendor
+            $vendor = $procurement->vendors()->where('vendor_id', $vendorId)->firstOrFail();
+
+            // Update the is_selected column for the selected vendor
+            $vendor->pivot->is_selected = '1';
+            $vendor->pivot->save();
+            // Update the status column of the procurement
+            $procurement->status = '1';
+            $procurement->save();
+
+            return response()->json(['success' => 'Vendor selection updated successfully!']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }

@@ -64,26 +64,31 @@
     </div>
 </div>
     <!-- Modal Vendor -->
-<div class="modal fade" id="vendorModal" tabindex="-1" aria-labelledby="vendorModalLabel" aria-hidden="true">
-    <!-- Konten Modal Vendor -->
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="vendorModalLabel">Vendor List</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <select id="vendorSelect" class="form-select" aria-label="Select Vendor">
-                    <option selected disabled>Select Vendor</option>
-                </select>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="selectVendorBtn">Select</button>
+    <div class="modal fade" id="vendor" tabindex="-1" aria-labelledby="vendorLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="vendorLabel">Pilih Pemenang</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" id="file_type" name="file_type" value="0" readonly>
+                    <input type="text" class="form-control" id="procurement_id" name="procurement_id" value="" readonly>
+                    <select id="vendor_id" name="vendor_id" class="form-select" aria-label="Select Vendor">
+                        <option selected disabled>Select Vendor</option>
+                    </select>
+                    <div class="mt-3">
+                        <label for="procurement_file" class="form-label">Upload File</label>
+                        <input type="file" class="form-control" id="procurement_file" accept=".pdf" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="selectVendorBtn">Select</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 <script type="text/javascript">
 $(document).ready(function () {
@@ -140,19 +145,19 @@ $(document).ready(function () {
                     Action
                     </button>
                     <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="/procurement/${row.id}/edit">Edit</a></li>
-                    <li><a class="dropdown-item" href="/procurement/${row.id}">Detail</a></li>
-                    <li><a type="button" class="dropdown-item delete-procurement" data-id="${row.id}">Delete</a></li>
-                    <li><a type="button" class="dropdown-item print-procurement" data-bs-toggle="modal" data-bs-target="#print" data-id="${row.id}">Print</a></li>
-                    <li><a class="dropdown-item pick-vendor" data-bs-toggle="modal" data-bs-target="#vendorModal" data-id="${row.id}">Pick Vendor</a></li>
-                    <li><a type="button" class="dropdown-item cancel-procurement" data-id="${row.id}">Canceled</a></li>
+                        <li><a class="dropdown-item edit-procurement" id="editButton_${row.id}" href="/procurement/${row.id}/edit">Edit</a></li>
+                        <li><a class="dropdown-item" href="/procurement/${row.id}">Detail</a></li>
+                        <li><a type="button" class="dropdown-item delete-procurement" id="deleteButton_${row.id}" data-id="${row.id}">Delete</a></li>
+                        <li><a type="button" class="dropdown-item print-procurement" data-bs-toggle="modal" data-bs-target="#print" id="printButton_${row.id}" data-id="${row.id}">Print</a></li>
+                        <li><a class="dropdown-item pick-vendor" data-bs-toggle="modal" data-bs-target="#vendor" id="pickVendorButton_${row.id}" data-id="${row.id}">Pick Vendor</a></li>
+                        <li><a type="button" class="dropdown-item cancel-procurement" id="cancelButton_${row.id}" data-id="${row.id}">Canceled</a></li>
                     </ul>
                 </div>
                 `;
                 }
             }]
         });
-    });
+
     // Handle form submission for printing
     $('#printForm').submit(function (e) {
         e.preventDefault();
@@ -179,56 +184,117 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '.pick-vendor', function () {
-    var procurementId = $(this).data('id');
-    $.ajax({
-        url: '/procurement/' + procurementId + '/vendors',
-        type: 'GET',
-        success: function (response) {
-            // Menampilkan data vendor dalam elemen select
-            populateVendorSelect(response.vendors, response.selectedVendors);
-            $('#vendorModal').modal('show');
+            var procurement_id = $(this).data('id');
+            $('#procurement_id').val(procurement_id);
+
+            $.ajax({
+                url: '/procurement/' + procurement_id + '/vendors',
+                type: 'GET',
+                success: function (response) {
+                    // Populate vendor select element
+                    populateVendorSelect(response.vendors, response.selectedVendors);
+                    $('#vendor').modal('show');
+                },
+                error: function (xhr) {
+                    console.log(xhr);
+                    // Handle error if the request fails
+                }
+            });
+        });
+
+        function populateVendorSelect(vendors, selectedVendors) {
+            var selectElement = $('#vendor_id');
+            selectElement.empty();
+
+            // Add default option (not selected)
+            selectElement.append('<option selected disabled>Select Vendor</option>');
+
+            for (var i = 0; i < vendors.length; i++) {
+                var vendor = vendors[i];
+                var option = '<option value="' + vendor.id + '"';
+
+                // Check if this vendor is selected
+                if (selectedVendors.includes(vendor.id)) {
+                    option += ' selected';
+                }
+
+                option += '>' + vendor.name + '</option>';
+                selectElement.append(option);
+            }
+        }
+
+        $(document).on('click', '#selectVendorBtn', function () {
+        var procurementId = $('#procurement_id').val();
+        var selectedVendorId = $('#vendor_id').val();
+        var fileType = $('#file_type').val();
+        var fileInput = document.getElementById('procurement_file');
+        var file = fileInput.files[0];
+
+        var formData = new FormData();
+        formData.append('file', file);
+        formData.append('procurementId', procurementId);
+        formData.append('fileType', fileType);
+
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            }
+        });
+
+        $.ajax({
+            url: '/procurement/upload',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                var fileId = response.file.id;
+                // Update the selected vendor's is_selected column in the procurement_vendor table
+                updateSelectedVendor(procurementId, selectedVendorId, fileId);
+            },
+            error: function (xhr) {
+                console.log(xhr);
+                // Handle the error if the file upload fails
+            }
+        });
+    });
+
+    function updateSelectedVendor(procurementId, vendorId, fileId) {
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            }
+        });
+
+        $.ajax({
+            url: '/procurement/update-selected-vendor',
+            type: 'POST',
+            data: {
+                vendorId: vendorId,
+                procurementId: procurementId
+            },
+            success: function (response) {
+                // Handle the response after the update succeeds
+
+               // Close the modal
+            $('#vendor').modal('hide');
+
+            // Perform other actions after the update succeeds
+            Swal.fire('Vendor selected successfully', '', 'success').then(() => {
+                // Reload the page
+                location.reload();
+            });
         },
-        error: function (xhr) {
-            console.log(xhr);
-            // Handle error jika permintaan gagal
-        }
-    });
-});
-
-// Fungsi untuk mengisi elemen select dengan data vendor yang diterima dari server
-function populateVendorSelect(vendors, selectedVendors) {
-    var selectElement = $('#vendorSelect');
-    selectElement.empty();
-
-    // Tambahkan opsi default (tidak dipilih)
-    selectElement.append('<option selected disabled>Select Vendor</option>');
-
-    for (var i = 0; i < vendors.length; i++) {
-        var vendor = vendors[i];
-        var option = '<option value="' + vendor.id + '"';
-
-        // Memeriksa apakah vendor ini dipilih
-        if (selectedVendors.includes(vendor.id)) {
-            option += ' selected';
-        }
-
-        option += '>' + vendor.name + '</option>';
-        selectElement.append(option);
+            error: function (xhr) {
+                console.log(xhr);
+                // Handle the error if the update fails
+            }
+        });
     }
-}
-
-
-    // Menangani klik tombol "Select" pada modal vendor
-    $(document).on('click', '#selectVendorBtn', function () {
-        var selectedVendorId = $('#vendorSelect').val();
-
-        // Lakukan sesuatu dengan ID vendor yang dipilih
-        // Misalnya, simpan ID vendor ke dalam variabel atau lakukan operasi lainnya
-
-        $('#vendorModal').modal('hide');
-        // Lakukan tindakan lainnya setelah memilih vendor
-    });
-
     // Event handler untuk tombol Canceled Event
     $(document).on('click', '.cancel-procurement', function () {
             var procurementId = $(this).data('id');
@@ -248,7 +314,6 @@ function populateVendorSelect(vendors, selectedVendors) {
                         type: 'POST',
                         data: {
                             _method: 'PUT',
-                            is_blacklist: 1,
                             _token: '{{ csrf_token() }}'
                         },
                         success: function (response) {
@@ -296,10 +361,14 @@ function populateVendorSelect(vendors, selectedVendors) {
                 }
             });
     });
+});
 </script>
 @endsection
 @push('page-action')
 <div class="container">
     <a href="{{ route('procurement.create') }}" class="btn btn-primary mb-3">Add Job Data</a>
 </div>
+@endpush
+@push('after-style')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 @endpush
