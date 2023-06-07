@@ -290,6 +290,7 @@ $(document).ready(function () {
             });
         },
             error: function (xhr) {
+                Swal.fire('Error selected vendor', '', 'error');
                 console.log(xhr);
                 // Handle the error if the update fails
             }

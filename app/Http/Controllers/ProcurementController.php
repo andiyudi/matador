@@ -214,8 +214,8 @@ class ProcurementController extends Controller
         $procurementId = $request->input('procurementId');
         $fileType = $request->input('fileType');
 
-        $fileName = $file->getClientOriginalName();
-        $filePath = $file->store('procurement_files');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $filePath = $file->storeAs('procurement_files', $fileName, 'public');
 
         $procurementFile = new ProcurementFile();
         $procurementFile->procurement_id = $procurementId;
@@ -226,6 +226,7 @@ class ProcurementController extends Controller
 
         return response()->json(['file' => $procurementFile]);
     }
+
     public function updateSelectedVendor(Request $request)
     {
         $vendorId = $request->input('vendorId');
