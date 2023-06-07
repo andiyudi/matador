@@ -40,7 +40,7 @@
         <table class="tg" width="100%">
         <thead>
           <tr>
-            <th class="tg-zv4m" colspan="2" rowspan="2"><img src="{{ public_path('assets/logo/cmnplogo.png') }}" alt="Logo"></th>
+            <th class="tg-zv4m" colspan="2" rowspan="2"><img src="{{ $logoBase64 }}" alt="Logo" style="max-width: 100px; max-height: 50px;"></th>
             <th class="tg-t0vf" colspan="4">PT. CITRA MARGA NUSAPHALA PERSADA Tbk.</th>
           </tr>
           <tr>
@@ -107,7 +107,17 @@
                   <tr>
                     <td class="ti-0lax">{{ $loop->iteration }}</td>
                     <td class="ti-0lax">{{ $vendor->name }}</td>
-                    <td class="ti-0lax">{{ $vendor->status }}</td>
+                    <td class="ti-0lax">
+                        @if($vendor->status == 0)
+                        Registered
+                        @elseif($vendor->status == 1)
+                            Active
+                        @elseif($vendor->status == 2)
+                            Expired
+                        @else
+                            Rekanan
+                        @endif
+                    </td>
                     <td class="ti-0lax">{{ $vendor->director }}</td>
                     <td class="ti-0lax">{{ $vendor->phone }}</td>
                     <td class="ti-0lax">{{ $vendor->email }}</td>

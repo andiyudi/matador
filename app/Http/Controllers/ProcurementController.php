@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Dompdf\Dompdf;
-// use Dompdf\Options;
 use App\Models\Vendor;
 use App\Models\Procurement;
 use Illuminate\Http\Request;
@@ -158,20 +157,18 @@ class ProcurementController extends Controller
         $supervisorName = request()->query('supervisorName');
         $supervisorPosition = request()->query('supervisorPosition');
 
-        // $options = new Options();
-        // $options->set('isRemoteEnabled', true);
-        // $dompdf = new Dompdf($options);
+        // Mengambil path file logo
+        $logoPath = public_path('assets/logo/cmnplogo.png');
+
+        // Membaca file logo dan mengonversi menjadi base64
+        $logoData = file_get_contents($logoPath);
+        $logoBase64 = 'data:image/png;base64,' . base64_encode($logoData);
+
+        // Meneruskan data procurement, data tambahan, dan base64 logo ke view print.blade.php
+        $html = view('procurement.print', compact('procurement', 'creatorName', 'creatorPosition', 'supervisorName', 'supervisorPosition', 'logoBase64'))->render();
+
         // Membuat objek Dompdf
         $dompdf = new Dompdf();
-        // Get Base64 of the Logo
-        // $path = Procurement::baseFolder() . '/public' . $config->WebsiteLogo()->getURL();
-        // $type = pathinfo($path, PATHINFO_EXTENSION);
-        // $data = file_get_contents($path);
-        // $logo = 'data:image/' . $type . ';base64,' . base64_encode($data);
-
-        // Meneruskan data procurement dan data tambahan ke view print.blade.php
-        $html = view('procurement.print', compact('procurement', 'creatorName', 'creatorPosition', 'supervisorName', 'supervisorPosition'))->render();
-
         // Menghasilkan file PDF dari tampilan HTML
         $dompdf->loadHtml($html);
         $dompdf->render();
@@ -179,6 +176,7 @@ class ProcurementController extends Controller
         // Mengirim file PDF sebagai respons ke browser
         return $dompdf->stream('procurement.pdf');
     }
+
 
     public function cancel(Procurement $procurement)
     {
