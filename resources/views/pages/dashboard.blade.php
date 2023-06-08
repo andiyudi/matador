@@ -58,7 +58,7 @@
                 </div>
             </div>
         </div>
-        {{-- <div class="col-md-12">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
@@ -97,7 +97,7 @@
                     </div>
                 </div>
             </div>
-        </div> --}}
+        </div>
     </div>
     <div class="row justify-content-center">
         <div class="col-md-12">
@@ -158,7 +158,7 @@
 
 <script>
     // Fungsi untuk mengambil data jumlah vendor terdaftar, aktif, dan kedaluwarsa melalui API
-function fetchData() {
+function fetchDataVendor() {
     fetch('{{ route('dashboard.vendor-count') }}')
     .then(response => response.json())
     .then(data => {
@@ -177,26 +177,27 @@ function fetchData() {
         console.log(error);
     });
 }
-// function fetchDataProcurement() {
-//     fetch('{{ route('dashboard.procurement-count') }}')
-//     .then(response => response.json())
-//     .then(data => {
-//         if (data.success) {
-//         document.getElementById('totalProcurement').textContent = data.totalProcurement;
-//         document.getElementById('processProcurement').textContent = data.processProcurement;
-//         document.getElementById('successProcurement').textContent = data.successProcurement;
-//         document.getElementById('canceledProcurement').textContent = data.canceledProcurement;
-//         } else {
-//         console.log(data.message); // Menampilkan pesan error jika ada
-//         }
-//     })
-//     .catch(error => {
-//         console.log(error);
-//     });
-// }
+function fetchDataProcurement() {
+    fetch('{{ route('dashboard.procurement-count') }}')
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+        document.getElementById('totalProcurement').textContent = data.totalProcurement;
+        document.getElementById('processProcurement').textContent = data.processProcurement;
+        document.getElementById('successProcurement').textContent = data.successProcurement;
+        document.getElementById('canceledProcurement').textContent = data.canceledProcurement;
+        } else {
+        console.log(data.message); // Menampilkan pesan error jika ada
+        }
+    })
+    .catch(error => {
+        console.log(error);
+    });
+}
 
 // Memanggil fungsi fetchData saat halaman selesai dimuat
-document.addEventListener('DOMContentLoaded', fetchData);
+document.addEventListener('DOMContentLoaded', fetchDataVendor);
+document.addEventListener('DOMContentLoaded', fetchDataProcurement);
 
 </script>
 <script>
