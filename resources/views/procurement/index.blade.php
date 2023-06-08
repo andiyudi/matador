@@ -145,8 +145,8 @@ $(document).ready(function () {
                     Action
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item edit-procurement" id="editButton_${row.id}" href="procurement/${row.id}/edit">Edit</a></li>
-                        <li><a class="dropdown-item" href="procurement/${row.id}">Detail</a></li>
+                        <li><a class="dropdown-item edit-procurement" id="editButton_${row.id}" href="${route('procurement.edit', {procurement: row.id})}">Edit</a></li>
+                        <li><a class="dropdown-item" href="${route('procurement.show', {procurement: row.id})}">Detail</a></li>
                         <li><a type="button" class="dropdown-item delete-procurement" id="deleteButton_${row.id}" data-id="${row.id}">Delete</a></li>
                         <li><a type="button" class="dropdown-item print-procurement" data-bs-toggle="modal" data-bs-target="#print" id="printButton_${row.id}" data-id="${row.id}">Print</a></li>
                         <li><a class="dropdown-item pick-vendor" data-bs-toggle="modal" data-bs-target="#vendor" id="pickVendorButton_${row.id}" data-id="${row.id}">Pick Vendor</a></li>
@@ -169,7 +169,7 @@ $(document).ready(function () {
         var id = $('#printBtn').data('id');
 
         // Redirect to print page with filled data as query parameters
-        var printUrl = 'procurement/' + id + '/print' +
+        var printUrl = route('procurement.print', id) +
             '?creatorName=' + encodeURIComponent(creatorName) +
             '&creatorPosition=' + encodeURIComponent(creatorPosition) +
             '&supervisorName=' + encodeURIComponent(supervisorName) +
@@ -188,7 +188,7 @@ $(document).ready(function () {
             $('#procurement_id').val(procurement_id);
 
             $.ajax({
-                url: 'procurement/' + procurement_id + '/vendors',
+                url: route('procurement.vendors', procurement_id),
                 type: 'GET',
                 success: function (response) {
                     // Populate vendor select element
@@ -244,7 +244,7 @@ $(document).ready(function () {
         });
 
         $.ajax({
-            url: 'procurement/upload',
+            url: route('procurement.upload'),
             type: 'POST',
             data: formData,
             processData: false,
@@ -271,7 +271,7 @@ $(document).ready(function () {
         });
 
         $.ajax({
-            url: 'procurement/update-selected-vendor',
+            url: route('procurement.update_selected_vendor'),
             type: 'POST',
             data: {
                 vendorId: vendorId,
@@ -311,7 +311,7 @@ $(document).ready(function () {
                 if (result.isConfirmed) {
                     // Kirim permintaan penambahan ke daftar blacklist ke URL yang sesuai
                     $.ajax({
-                        url: `procurement/${procurementId}/cancel`,
+                        url: route('procurement.cancel', {procurement: procurementId}),
                         type: 'POST',
                         data: {
                             _method: 'PUT',
@@ -344,7 +344,7 @@ $(document).ready(function () {
                 if (result.isConfirmed) {
                     // Kirim permintaan penghapusan ke URL yang sesuai
                     $.ajax({
-                        url: `procurement/${procurementId}`,
+                        url: route('procurement.destroy', {procurement: procurementId}),
                         type: 'POST',
                         data: {
                             _method: 'DELETE',

@@ -138,7 +138,7 @@
         var modal = $(this)
 
         var form = $('#deleteCoreBusinessForm')
-        form.attr('action', 'core-business/' + id)
+        form.attr('action', route('core-business.destroy', {core_business: id}))
     })
 </script>
 
@@ -153,7 +153,7 @@
         modal.find('.modal-body #editCoreBusinessName').val(name)
 
         var form = $('#editCoreBusinessForm')
-        form.attr('action', 'core-business/' + id)
+        form.attr('action', route('core-business.update', {core_business: id}))
     })
 </script>
 

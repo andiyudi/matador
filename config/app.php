@@ -171,6 +171,7 @@ return [
         Yajra\DataTables\DataTablesServiceProvider::class,
         PalPalani\Toastr\ToastrServiceProvider::class,
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,
+        Tightenco\Ziggy\ZiggyServiceProvider::class,
 
     ])->toArray(),
 

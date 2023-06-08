@@ -11,6 +11,7 @@
 
   </head>
   <body >
+    @routes()
     <script src="{{ asset ('') }}assets/dist/js/demo-theme.min.js?1674944402"></script>
 
     <div class="page">

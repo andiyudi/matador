@@ -212,8 +212,8 @@
                 searchable: false,
                 render: function (data, type, row, meta) {
                 return `
-                            <a href="vendors/${row.id}/edit" class="btn btn-sm btn-warning">Edit</a>
-                            <a href="vendors/${row.id}" class="btn btn-sm btn-info">Detail</a>
+                            <a href="${route('vendors.edit', {vendor: row.id})}" class="btn btn-sm btn-warning">Edit</a>
+                            <a href="${route('vendors.show', {vendor: row.id})}" class="btn btn-sm btn-info">Detail</a>
                             <button type="button" class="btn btn-sm btn-danger delete-vendor" data-id="${row.id}">Delete</button>
                             <button type="button" class="btn btn-sm btn-secondary blacklist-vendor" data-id="${row.id}">Blacklist</button>
                         `;
@@ -235,7 +235,7 @@
                 if (result.isConfirmed) {
                     // Kirim permintaan penghapusan ke URL yang sesuai
                     $.ajax({
-                        url: `vendors/${vendorId}`,
+                        url: route('vendors.destroy', {vendor: vendorId}),
                         type: 'POST',
                         data: {
                             _method: 'DELETE',
@@ -268,7 +268,7 @@
                 if (result.isConfirmed) {
                     // Kirim permintaan penambahan ke daftar blacklist ke URL yang sesuai
                     $.ajax({
-                        url: `vendors/${vendorId}/blacklist`,
+                        url: route('vendors.blacklist', {vendor: vendorId}),
                         type: 'POST',
                         data: {
                             _method: 'PUT',

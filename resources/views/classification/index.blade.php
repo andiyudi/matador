@@ -120,7 +120,7 @@
 <div class="modal fade" id="deleteClassificationModal" tabindex="-1" aria-labelledby="deleteClassificationModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <form action="" method="POST" id="deleteClassificationForm">
+            <form action="{{ route('classifications.destroy',  $classification) }}" method="POST" id="deleteClassificationForm">
                 @csrf
                 @method('DELETE')
                 <div class="modal-header">
@@ -167,19 +167,19 @@
         modal.find('.modal-body #editClassificationCoreBusiness').val(coreBusinessId)
 
         var form = $('#editClassificationForm')
-        form.attr('action', 'classifications/' + id)
+        form.attr('action', route('classifications.update', {classification: id}))
     })
 // Event Delegation for Edit and Delete Buttons
-$('#classificationTableBody').on('click', '.delete-btn', function () {
-    var id = $(this).data('id')
-    var name = $(this).data('name')
+// $('#classificationTableBody').on('click', '.delete-btn', function () {
+//     var id = $(this).data('id')
+//     var name = $(this).data('name')
 
-    var modal = $('#deleteClassificationModal')
-    modal.find('#deleteClassificationName').text(name)
+//     var modal = $('#deleteClassificationModal')
+//     modal.find('#deleteClassificationName').text(name)
 
-    var form = $('#deleteClassificationForm')
-    form.attr('action', 'classifications/' + id)
-})
+//     var form = $('#deleteClassificationForm')
+//     form.attr('action', route('classifications.destroy', {classification: id}))
+// })
 
 </script>
 @endsection

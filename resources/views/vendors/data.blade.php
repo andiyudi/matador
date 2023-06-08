@@ -106,7 +106,7 @@
                 searchable: false,
                 render: function (data, type, row, meta) {
                 return `
-                    <a href="/vendors/${row.id}" class="btn btn-sm btn-info">
+                    <a href="${route('vendors.show', {vendor: row.id})}" class="btn btn-sm btn-info">
                         Detail
                     </a>
                     `;
