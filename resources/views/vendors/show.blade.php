@@ -142,7 +142,7 @@
             var core_business_ids = $(this).val();
             if (core_business_ids) {
                 $.ajax({
-                    url: '/classifications/getByCoreBusiness',
+                    url: 'classifications/getByCoreBusiness',
                     type: 'GET',
                     dataType: 'json',
                     data: {

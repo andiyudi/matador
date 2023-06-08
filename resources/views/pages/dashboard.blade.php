@@ -58,6 +58,46 @@
                 </div>
             </div>
         </div>
+        {{-- <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="card border-primary mb-3">
+                                <div class="card-body">
+                                    <h6 class="card-title">Total All Jobs</h6>
+                                    <p class="card-text" id="totalProcurement">Loading...</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card border-info mb-3">
+                                <div class="card-body">
+                                    <h6 class="card-title">Process Jobs</h6>
+                                    <p class="card-text" id="processProcurement">Loading...</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card border-success mb-3">
+                                <div class="card-body">
+                                    <h6 class="card-title">Success Jobs</h6>
+                                    <p class="card-text" id="successProcurement">Loading...</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card border-danger mb-3">
+                                <div class="card-body">
+                                    <h6 class="card-title">Canceled Jobs</h6>
+                                    <p class="card-text" id="canceledProcurement">Loading...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> --}}
     </div>
     <div class="row justify-content-center">
         <div class="col-md-12">
@@ -137,6 +177,23 @@ function fetchData() {
         console.log(error);
     });
 }
+// function fetchDataProcurement() {
+//     fetch('{{ route('dashboard.procurement-count') }}')
+//     .then(response => response.json())
+//     .then(data => {
+//         if (data.success) {
+//         document.getElementById('totalProcurement').textContent = data.totalProcurement;
+//         document.getElementById('processProcurement').textContent = data.processProcurement;
+//         document.getElementById('successProcurement').textContent = data.successProcurement;
+//         document.getElementById('canceledProcurement').textContent = data.canceledProcurement;
+//         } else {
+//         console.log(data.message); // Menampilkan pesan error jika ada
+//         }
+//     })
+//     .catch(error => {
+//         console.log(error);
+//     });
+// }
 
 // Memanggil fungsi fetchData saat halaman selesai dimuat
 document.addEventListener('DOMContentLoaded', fetchData);

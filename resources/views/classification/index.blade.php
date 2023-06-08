@@ -167,7 +167,7 @@
         modal.find('.modal-body #editClassificationCoreBusiness').val(coreBusinessId)
 
         var form = $('#editClassificationForm')
-        form.attr('action', '/classifications/' + id)
+        form.attr('action', 'classifications/' + id)
     })
 // Event Delegation for Edit and Delete Buttons
 $('#classificationTableBody').on('click', '.delete-btn', function () {
@@ -178,7 +178,7 @@ $('#classificationTableBody').on('click', '.delete-btn', function () {
     modal.find('#deleteClassificationName').text(name)
 
     var form = $('#deleteClassificationForm')
-    form.attr('action', '/classifications/' + id)
+    form.attr('action', 'classifications/' + id)
 })
 
 </script>

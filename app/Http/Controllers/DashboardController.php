@@ -29,6 +29,23 @@ class DashboardController extends Controller
         ]);
     }
 
+    // public function getProcurementCount(): JsonResponse
+    // {
+    //     $processProcurement = Procurement::where('status', '0')->count();
+    //     $successProcurement = Procurement::where('status', '1')->count();
+    //     $canceledProcurement = Procurement::where('status', '2')->count();
+
+    //     $totalProcurementCount = Procurement::count();
+
+    //     return response()->json([
+    //         'success' => true,
+    //         'totalProcurement' => $totalProcurementCount,
+    //         'processProcurement' => $processProcurement,
+    //         'successProcurement' => $successProcurement,
+    //         'canceledProcurement' => $canceledProcurement,
+    //     ]);
+    // }
+
     public function getDataTableVendor(): JsonResponse
     {
         $latestVendors = Vendor::orderBy('created_at', 'desc')->limit(5)->get();
