@@ -35,11 +35,12 @@
                                             Edit
                                         </button>
                                         <button class="btn btn-danger delete-btn" data-bs-toggle="modal" data-bs-target="#deleteClassificationModal"
-                                            data-id="{{ $classification->id }}"
-                                            data-name="{{ $classification->name }}"
-                                        >
-                                            Delete
-                                        </button>
+                                        data-id="{{ $classification->id }}"
+                                        data-name="{{ $classification->name }}"
+                                        data-route="{{ route('classifications.destroy', $classification->id) }}"
+                                    >
+                                        Delete
+                                    </button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -120,7 +121,7 @@
 <div class="modal fade" id="deleteClassificationModal" tabindex="-1" aria-labelledby="deleteClassificationModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <form action="{{ route('classifications.destroy',  $classification) }}" method="POST" id="deleteClassificationForm">
+            <form action="" method="POST" id="deleteClassificationForm">
                 @csrf
                 @method('DELETE')
                 <div class="modal-header">
@@ -133,12 +134,13 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="submit" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
 {!! Toastr::render() !!}
 <script>
     $(document).ready(function () {
@@ -170,16 +172,20 @@
         form.attr('action', route('classifications.update', {classification: id}))
     })
 // Event Delegation for Edit and Delete Buttons
-// $('#classificationTableBody').on('click', '.delete-btn', function () {
-//     var id = $(this).data('id')
-//     var name = $(this).data('name')
+$(document).ready(function () {
+    $('.delete-btn').click(function () {
+        var id = $(this).data('id');
+        var name = $(this).data('name');
 
-//     var modal = $('#deleteClassificationModal')
-//     modal.find('#deleteClassificationName').text(name)
+        $('#deleteClassificationModal #deleteClassificationName').text(name);
+        $('#deleteClassificationForm').attr('action', route('classifications.destroy', id));
+    });
 
-//     var form = $('#deleteClassificationForm')
-//     form.attr('action', route('classifications.destroy', {classification: id}))
-// })
+    $('#confirmDeleteBtn').click(function () {
+        $('#deleteClassificationForm').submit();
+    });
+});
+
 
 </script>
 @endsection
