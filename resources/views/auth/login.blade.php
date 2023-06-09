@@ -25,7 +25,7 @@
       	--tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
       }
       body {
-        background-image: url('/assets/logo/background-login.jpg');
+        background-image: url('{{ asset ('') }}assets/logo/background-login.jpg');
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
