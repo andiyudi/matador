@@ -25,8 +25,16 @@
       	--tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
       }
       body {
+        background-image: url('/assets/logo/background-login.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
       	font-feature-settings: "cv03", "cv04", "cv11";
       }
+      .logo-image {
+    width: 200px;
+    height: auto;
+    }
     </style>
   </head>
   <body  class=" d-flex flex-column">
@@ -34,6 +42,7 @@
     <div class="page page-center">
       <div class="container container-tight py-4">
         <div class="text-center mb-4">
+            <img src="{{ asset('assets/logo/cmnplogo.png') }}" alt="Logo" class="mb-3 logo-image">
         </div>
         <div class="card card-md">
           <div class="card-body">
