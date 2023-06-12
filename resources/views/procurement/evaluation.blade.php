@@ -28,6 +28,28 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="evaluation" tabindex="-1" aria-labelledby="evaluationLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="evaluationLabel">Upload Penilaian</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control" id="file_type" name="file_type" value="0" readonly>
+                <input type="text" class="form-control" id="procurement_id" name="procurement_id" value="" readonly>
+                <div class="mt-3">
+                    <label for="procurement_file" class="form-label">Upload File</label>
+                    <input type="file" class="form-control" id="procurement_file" accept=".pdf" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="selectVendorBtn">Select</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     $(document).ready(function () {
         $('#evaluation-table').DataTable({

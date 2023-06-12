@@ -1,29 +1,40 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-profile-information-form')
-                </div>
-            </div>
-
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-password-form')
-                </div>
-            </div>
-
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.delete-user-form')
+@extends('layouts.templates')
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h1>Change Password</h1>
+                    <form action="{{ route('password.update') }}" method="post">
+                        @csrf
+                        @method('put')
+                        <div class="col-md-6 mb-3">
+                            <div class="form-floating">
+                                <input type="password" class="form-control" name="current_password" id="current_password" placeholder="Password" required>
+                                <label for="current_password">Current Password</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="form-floating">
+                                <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
+                                <label for="password">New Password</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="form-floating">
+                                <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" placeholder="Password" required>
+                                <label for="password_confirmation">Confirm Password</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <button type="submit" class="btn btn-pill btn-success">Save</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-</x-app-layout>
+</div>
+@endsection
+
