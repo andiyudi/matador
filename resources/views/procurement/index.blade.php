@@ -38,58 +38,61 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="creatorName" class="form-label">Creator Name</label>
-                        <input type="text" class="form-control" id="creatorName" placeholder="Enter creator name">
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="creatorName" class="form-label">Creator Name</label>
+                            <input type="text" class="form-control" id="creatorName" placeholder="Enter creator name" required>
+                        </div>
+                        <div class="col mb-3">
+                            <label for="supervisorName" class="form-label">Supervisor Name</label>
+                            <input type="text" class="form-control" id="supervisorName" placeholder="Enter supervisor name" required>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="creatorPosition" class="form-label">Creator Position</label>
-                        <input type="text" class="form-control" id="creatorPosition" placeholder="Enter creator position">
-                    </div>
-                    <div class="mb-3">
-                        <label for="supervisorName" class="form-label">Supervisor Name</label>
-                        <input type="text" class="form-control" id="supervisorName" placeholder="Enter supervisor name">
-                    </div>
-                    <div class="mb-3">
-                        <label for="supervisorPosition" class="form-label">Supervisor Position</label>
-                        <input type="text" class="form-control" id="supervisorPosition" placeholder="Enter supervisor position">
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="creatorPosition" class="form-label">Creator Position</label>
+                            <input type="text" class="form-control" id="creatorPosition" placeholder="Enter creator position" required>
+                        </div>
+                        <div class="col mb-3">
+                            <label for="supervisorPosition" class="form-label">Supervisor Position</label>
+                            <input type="text" class="form-control" id="supervisorPosition" placeholder="Enter supervisor position" required>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary" id="printBtn">Print</button>
+                    <button type="submit" class="btn btn-success" id="printBtn">Print</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-    <!-- Modal Vendor -->
-    <div class="modal fade" id="vendor" tabindex="-1" aria-labelledby="vendorLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="vendorLabel">Pilih Pemenang</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<!-- Modal Vendor -->
+<div class="modal fade" id="vendor" tabindex="-1" aria-labelledby="vendorLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="vendorLabel">Pilih Pemenang</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control" id="file_type" name="file_type" value="0" readonly>
+                <input type="text" class="form-control" id="procurement_id" name="procurement_id" value="" readonly>
+                <select id="vendor_id" name="vendor_id" class="form-select" aria-label="Select Vendor">
+                    <option selected disabled>Select Vendor</option>
+                </select>
+                <div class="mt-3">
+                    <label for="procurement_file" class="form-label">Upload File</label>
+                    <input type="file" class="form-control" id="procurement_file" accept=".pdf" required>
                 </div>
-                <div class="modal-body">
-                    <input type="text" class="form-control" id="file_type" name="file_type" value="0" readonly>
-                    <input type="text" class="form-control" id="procurement_id" name="procurement_id" value="" readonly>
-                    <select id="vendor_id" name="vendor_id" class="form-select" aria-label="Select Vendor">
-                        <option selected disabled>Select Vendor</option>
-                    </select>
-                    <div class="mt-3">
-                        <label for="procurement_file" class="form-label">Upload File</label>
-                        <input type="file" class="form-control" id="procurement_file" accept=".pdf" required>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="selectVendorBtn">Select</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success" id="selectVendorBtn">Select</button>
             </div>
         </div>
     </div>
-
+</div>
 <script type="text/javascript">
 $(document).ready(function () {
         $('#procurement-table').DataTable({
@@ -186,12 +189,20 @@ $(document).ready(function () {
             '&supervisorName=' + encodeURIComponent(supervisorName) +
             '&supervisorPosition=' + encodeURIComponent(supervisorPosition);
         window.location.href = printUrl;
+
+        // Close the modal after submitting the form
+        $('#print').modal('hide');
     });
 
     $(document).on('click', '.print-procurement', function () {
         var id = $(this).data('id');
         $('#printBtn').data('id', id);
         $('#print').modal('show');
+    });
+
+    $('#print').on('hidden.bs.modal', function () {
+    // Reset the form when the modal is closed
+    $('#printForm')[0].reset();
     });
 
     $(document).on('click', '.pick-vendor', function () {
@@ -320,7 +331,7 @@ $(document).ready(function () {
                 reverseButtons: true
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Kirim permintaan penambahan ke daftar blacklist ke URL yang sesuai
+                    // Kirim permintaan penambahan ke daftar cancel ke URL yang sesuai
                     $.ajax({
                         url: route('procurement.cancel', {procurement: procurementId}),
                         type: 'POST',
