@@ -39,6 +39,7 @@ Route::put('/procurement/{procurement}/cancel', [ProcurementController::class, '
 Route::get('/procurement/{procurementId}/vendors', [ProcurementController::class, 'vendors'])->name('procurement.vendors');
 Route::post('/procurement/upload', [ProcurementController::class, 'upload'])->name('procurement.upload');
 Route::post('/procurement/update-selected-vendor', [ProcurementController::class, 'updateSelectedVendor'])->name('procurement.update_selected_vendor');
+Route::get('/procurement/evaluation', [ProcurementController::class, 'evaluation'])->name('procurement.evaluation');
 
 Route::resource('core-business', CoreBusinessController::class);
 Route::resource('classifications', ClassificationController::class);

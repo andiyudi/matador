@@ -96,7 +96,7 @@
                     <a class="dropdown-item" href="{{ route('procurement.index') }}">
                         Usulan Pemenang
                     </a>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="{{ route('procurement.evaluation') }}">
                         Input Penilaian
                     </a>
                 </div>

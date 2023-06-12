@@ -248,4 +248,27 @@ class ProcurementController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+    public function evaluation()
+    {
+        if (request()->ajax()) {
+            $procurements = Procurement::where('status', '1')
+                ->whereHas('vendors', function ($query) {
+                    $query->where('is_selected', '1');
+                })
+                ->with(['vendors' => function ($query) {
+                    $query->where('is_selected', '1')->select('name');
+                }])
+                ->orderByDesc('id')
+                ->get();
+
+            return DataTables::of($procurements)
+                ->addColumn('vendor_selected', function ($procurement) {
+                    return implode(", ", $procurement->vendors->pluck('name')->toArray());
+                })
+                ->make(true);
+        }
+
+        return view('procurement.evaluation');
+    }
 }
