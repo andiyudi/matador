@@ -233,15 +233,25 @@ class ProcurementController extends Controller
         try {
             $procurement = Procurement::findOrFail($procurementId);
 
-            // Get the selected vendor
-            $vendor = $procurement->vendors()->where('vendor_id', $vendorId)->firstOrFail();
+            // Get all the vendors associated with the procurement
+            $vendors = $procurement->vendors;
 
             // Update the is_selected column for the selected vendor
-            $vendor->pivot->is_selected = '1';
-            $vendor->pivot->save();
+            foreach ($vendors as $vendor) {
+                if ($vendor->id == $vendorId) {
+                    $vendor->pivot->is_selected = '1';
+                } else {
+                    $vendor->pivot->is_selected = '0';
+                }
+                $vendor->pivot->save();
+            }
+
             // Update the status column of the procurement
             $procurement->status = '1';
             $procurement->save();
+
+            // Update the status of all the vendors
+            Vendor::whereIn('id', $vendors->pluck('id')->toArray())->update(['status' => '1']);
 
             return response()->json(['success' => 'Vendor selection updated successfully!']);
         } catch (\Exception $e) {
