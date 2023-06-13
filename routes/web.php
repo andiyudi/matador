@@ -22,30 +22,31 @@ use App\Http\Controllers\ClassificationController;
 Route::get('/', function () {
     return view('auth.login');
 });
-
-Route::get('/dashboard/vendor-count', [DashboardController::class, 'getVendorCount'])->name('dashboard.vendor-count');
-Route::get('/dashboard/procurement-count', [DashboardController::class, 'getProcurementCount'])->name('dashboard.procurement-count');
-Route::get('/dashboard/table-data-vendor', [DashboardController::class, 'getDataTableVendor'])->name('dashboard.table-data-vendor');
-Route::get('/dashboard/table-data-procurement', [DashboardController::class, 'getDataTableProcurement'])->name('dashboard.table-data-procurement');
-Route::get('/classifications/getByCoreBusiness', [ClassificationController::class, 'getByCoreBusiness'])->name('classifications.getByCoreBusiness');
-Route::put('/vendors/{vendor}/blacklist', [VendorController::class, 'blacklist'])->name('vendors.blacklist');
-Route::post('/vendors/upload', [VendorController::class, 'upload'])->name('vendors.upload');
-Route::get('/vendors/data', [VendorController::class, 'data'])->name('vendors.data');
-Route::delete('/vendors/file/{fileId}', [VendorController::class, 'fileDelete'])->name('vendors.file-delete');
-Route::get('/vendors/file/fetch/{fileId}', [VendorController::class, 'fetchData'])->name('vendors.file-fetch');
-Route::put('/vendors/file/{fileId}', [VendorController::class, 'fileUpdate'])->name('vendors.file-update');
-Route::get('/procurement/{id}/print', [ProcurementController::class, 'print'])->name('procurement.print');
-Route::put('/procurement/{procurement}/cancel', [ProcurementController::class, 'cancel'])->name('procurement.cancel');
-Route::get('/procurement/{procurementId}/vendors', [ProcurementController::class, 'vendors'])->name('procurement.vendors');
-Route::post('/procurement/upload', [ProcurementController::class, 'upload'])->name('procurement.upload');
-Route::post('/procurement/update-selected-vendor', [ProcurementController::class, 'updateSelectedVendor'])->name('procurement.update_selected_vendor');
-Route::get('/procurement/evaluation', [ProcurementController::class, 'evaluation'])->name('procurement.evaluation');
-
-Route::resource('core-business', CoreBusinessController::class);
-Route::resource('classifications', ClassificationController::class);
-Route::resource('vendors', VendorController::class);
-Route::resource('procurement', ProcurementController::class);
-
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard/vendor-count', [DashboardController::class, 'getVendorCount'])->name('dashboard.vendor-count');
+    Route::get('/dashboard/procurement-count', [DashboardController::class, 'getProcurementCount'])->name('dashboard.procurement-count');
+    Route::get('/dashboard/table-data-vendor', [DashboardController::class, 'getDataTableVendor'])->name('dashboard.table-data-vendor');
+    Route::get('/dashboard/table-data-procurement', [DashboardController::class, 'getDataTableProcurement'])->name('dashboard.table-data-procurement');
+    Route::get('/classifications/getByCoreBusiness', [ClassificationController::class, 'getByCoreBusiness'])->name('classifications.getByCoreBusiness');
+    Route::put('/vendors/{vendor}/blacklist', [VendorController::class, 'blacklist'])->name('vendors.blacklist');
+    Route::post('/vendors/upload', [VendorController::class, 'upload'])->name('vendors.upload');
+    Route::get('/vendors/data', [VendorController::class, 'data'])->name('vendors.data');
+    Route::delete('/vendors/file/{fileId}', [VendorController::class, 'fileDelete'])->name('vendors.file-delete');
+    Route::get('/vendors/file/fetch/{fileId}', [VendorController::class, 'fetchData'])->name('vendors.file-fetch');
+    Route::put('/vendors/file/{fileId}', [VendorController::class, 'fileUpdate'])->name('vendors.file-update');
+    Route::get('/procurement/{id}/print', [ProcurementController::class, 'print'])->name('procurement.print');
+    Route::put('/procurement/{procurement}/cancel', [ProcurementController::class, 'cancel'])->name('procurement.cancel');
+    Route::get('/procurement/{procurementId}/vendors', [ProcurementController::class, 'vendors'])->name('procurement.vendors');
+    Route::post('/procurement/upload', [ProcurementController::class, 'upload'])->name('procurement.upload');
+    Route::post('/procurement/update-selected-vendor', [ProcurementController::class, 'updateSelectedVendor'])->name('procurement.update_selected_vendor');
+    Route::get('/procurement/evaluation', [ProcurementController::class, 'evaluation'])->name('procurement.evaluation');
+});
+Route::middleware(['auth'])->group(function () {
+    Route::resource('core-business', CoreBusinessController::class);
+    Route::resource('classifications', ClassificationController::class);
+    Route::resource('vendors', VendorController::class);
+    Route::resource('procurement', ProcurementController::class);
+});
 
 Route::get('/dashboard', function () {
     return view('pages.dashboard');
