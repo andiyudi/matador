@@ -138,35 +138,36 @@ $(document).ready(function () {
                 },
                 {
                     data: 'status',
-      name: 'status',
-      orderable: false,
-      searchable: false,
-      render: function (data, type, row) {
-        var actionButtons = '';
+                name: 'status',
+                orderable: false,
+                searchable: false,
+                render: function (data, type, row) {
+                var actionButtons = '';
+                var source='index';
 
         if (data === '0') {
-          actionButtons += '<a class="dropdown-item edit-procurement" id="editButton_' + row.id + '" href="' + route('procurement.edit', {procurement: row.id}) + '">Edit</a>';
-          actionButtons += '<a class="dropdown-item" href="' + route('procurement.show', {procurement: row.id}) + '">Detail</a>';
-          actionButtons += '<a type="button" class="dropdown-item delete-procurement" id="deleteButton_' + row.id + '" data-id="' + row.id + '">Delete</a>';
-          actionButtons += '<a type="button" class="dropdown-item print-procurement" data-bs-toggle="modal" data-bs-target="#print" id="printButton_' + row.id + '" data-id="' + row.id + '">Print</a>';
-          actionButtons += '<a class="dropdown-item pick-vendor" data-bs-toggle="modal" data-bs-target="#vendor" id="pickVendorButton_' + row.id + '" data-id="' + row.id + '">Pick Vendor</a>';
-          actionButtons += '<a type="button" class="dropdown-item cancel-procurement" id="cancelButton_' + row.id + '" data-id="' + row.id + '">Canceled</a>';
+            actionButtons += '<a class="dropdown-item edit-procurement" id="editButton_' + row.id + '" href="' + route('procurement.edit', {procurement: row.id}) + '">Edit</a>';
+            actionButtons += '<a class="dropdown-item" href="' + route('procurement.show', {procurement: row.id, source: source}) + '">Detail</a>';
+            actionButtons += '<a type="button" class="dropdown-item delete-procurement" id="deleteButton_' + row.id + '" data-id="' + row.id + '">Delete</a>';
+            actionButtons += '<a type="button" class="dropdown-item print-procurement" data-bs-toggle="modal" data-bs-target="#print" id="printButton_' + row.id + '" data-id="' + row.id + '">Print</a>';
+            actionButtons += '<a class="dropdown-item pick-vendor" data-bs-toggle="modal" data-bs-target="#vendor" id="pickVendorButton_' + row.id + '" data-id="' + row.id + '">Pick Vendor</a>';
+            actionButtons += '<a type="button" class="dropdown-item cancel-procurement" id="cancelButton_' + row.id + '" data-id="' + row.id + '">Canceled</a>';
         } else if (data === '1') {
-          actionButtons += '<a class="dropdown-item" href="' + route('procurement.show', {procurement: row.id}) + '">Detail</a>';
-          actionButtons += '<a type="button" class="dropdown-item cancel-procurement" id="cancelButton_' + row.id + '" data-id="' + row.id + '">Canceled</a>';
+            actionButtons += '<a class="dropdown-item" href="' + route('procurement.show', {procurement: row.id, source: source}) + '">Detail</a>';
+            actionButtons += '<a type="button" class="dropdown-item cancel-procurement" id="cancelButton_' + row.id + '" data-id="' + row.id + '">Canceled</a>';
         } else if (data === '2') {
-          actionButtons += '<a class="dropdown-item" href="' + route('procurement.show', {procurement: row.id}) + '">Detail</a>';
+            actionButtons += '<a class="dropdown-item" href="' + route('procurement.show', {procurement: row.id, source: source}) + '">Detail</a>';
         }
 
         return `
-          <div class="btn-group btn-sm" role="group">
-            <button type="button" class="btn btn-sm btn-dark btn-pill dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-              Action
-            </button>
-            <ul class="dropdown-menu">
-              ` + actionButtons + `
-            </ul>
-          </div>
+            <div class="btn-group btn-sm" role="group">
+                <button type="button" class="btn btn-sm btn-dark btn-pill dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    Action
+                </button>
+                <ul class="dropdown-menu">
+                ` + actionButtons + `
+                </ul>
+            </div>
         `;
                 }
             }]

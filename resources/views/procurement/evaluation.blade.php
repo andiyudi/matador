@@ -87,13 +87,14 @@
                 orderable: false,
                 searchable: false,
                 render: function (data, type, row, meta) {
+                var source = 'evaluation'; // Nilai sumber halaman ini sesuaikan dengan halaman procurement.evaluation
                 return `
                 <div class="btn-group btn-sm" role="group">
                     <button type="button" class="btn btn-sm btn-dark btn-pill dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     Action
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="${route('procurement.show', {procurement: row.id})}">Detail</a></li>
+                        <li><a class="dropdown-item" href="${route('procurement.show', {procurement: row.id, source: source})}">Detail</a></li>
                         <li><a class="dropdown-item evaluation" data-bs-toggle="modal" data-bs-target="#evaluation" id="evaluation_${row.id}" data-id="${row.id}">Upload</a></li>
                     </ul>
                 </div>

@@ -105,8 +105,9 @@
                 orderable: false,
                 searchable: false,
                 render: function (data, type, row, meta) {
+                    var source = 'data';
                 return `
-                    <a href="${route('vendors.show', {vendor: row.id})}" class="btn btn-sm btn-info">
+                    <a href="${route('vendors.show', {vendor: row.id, source:source})}" class="btn btn-sm btn-info">
                         Detail
                     </a>
                     `;

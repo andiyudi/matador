@@ -170,6 +170,13 @@
 @endsection
 @push('page-action')
 <div class="container">
-    <a href="{{ route('vendors.index') }}" class="btn btn-primary">Back</a>
+    @if ($source === 'index')
+        <a href="{{ route('vendors.index') }}" class="btn btn-primary">Back</a>
+    @elseif ($source === 'data')
+        <a href="{{ route('vendors.data') }}" class="btn btn-primary">Back</a>
+    @else
+        <!-- Default fallback action -->
+        <a href="{{ route('vendors.index') }}" class="btn btn-primary">Back</a>
+    @endif
 </div>
 @endpush

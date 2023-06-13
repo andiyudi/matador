@@ -211,9 +211,10 @@
                 orderable: false,
                 searchable: false,
                 render: function (data, type, row, meta) {
+                    var source = 'index';
                 return `
                             <a href="${route('vendors.edit', {vendor: row.id})}" class="btn btn-sm btn-warning">Edit</a>
-                            <a href="${route('vendors.show', {vendor: row.id})}" class="btn btn-sm btn-info">Detail</a>
+                            <a href="${route('vendors.show', {vendor: row.id, source:source})}" class="btn btn-sm btn-info">Detail</a>
                             <button type="button" class="btn btn-sm btn-danger delete-vendor" data-id="${row.id}">Delete</button>
                             <button type="button" class="btn btn-sm btn-secondary blacklist-vendor" data-id="${row.id}">Blacklist</button>
                         `;

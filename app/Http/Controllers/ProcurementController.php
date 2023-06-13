@@ -82,8 +82,9 @@ class ProcurementController extends Controller
     {
         $procurement = Procurement::findOrFail($id);
         $vendors = $procurement->vendors;
+        $source = request('source');
 
-        return view('procurement.show', compact('procurement', 'vendors'));
+        return view('procurement.show', compact('procurement', 'vendors', 'source'));
     }
 
     /**

@@ -87,6 +87,13 @@
 @endsection
 @push('page-action')
 <div class="container">
-    <a href="{{ route('procurement.index') }}" class="btn btn-primary mb-3">Back</a>
+    @if ($source === 'index')
+        <a href="{{ route('procurement.index') }}" class="btn btn-primary">Back</a>
+    @elseif ($source === 'evaluation')
+        <a href="{{ route('procurement.evaluation') }}" class="btn btn-primary">Back</a>
+    @else
+        <!-- Default fallback action -->
+        <a href="{{ route('procurement.index') }}" class="btn btn-primary">Back</a>
+    @endif
 </div>
 @endpush

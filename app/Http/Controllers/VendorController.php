@@ -97,6 +97,7 @@ class VendorController extends Controller
     {
         $core_businesses = CoreBusiness::all();
         $classifications = Classification::all();
+        $source = request('source');
         // return view('vendors.edit', compact('vendor', 'core_businesses', 'classifications'));
         // Mengambil data vendor yang akan diedit
         $vendor = Vendor::findOrFail($id);
@@ -108,7 +109,7 @@ class VendorController extends Controller
         $vendor_files = $vendor->vendorFiles;
 
         // Mengirimkan $selectedClassifications ke view
-        return view('vendors.show', compact('vendor', 'core_businesses', 'classifications', 'selectedCoreBusinesses', 'selectedClassifications', 'vendor_files'));
+        return view('vendors.show', compact('vendor', 'core_businesses', 'classifications', 'selectedCoreBusinesses', 'selectedClassifications', 'vendor_files', 'source'));
     }
 
     /**
