@@ -14,12 +14,22 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::create([
-            'name' => 'Administrator',
-            'username' => 'admin',
-            'email' => 'admin@mail.com',
-            'email_verified_at' => now(),
-            'password' => Hash::make('password'),
-        ]);
+        $user = [
+            [
+                'name' => 'Administrator',
+                'username' => 'admin',
+                'email' => 'admin@mail.com',
+                'email_verified_at' => now(),
+                'password' => Hash::make('password'),
+            ],
+            [
+                'name' => 'Pengadaan',
+                'username' => 'umum',
+                'email' => 'umum@mail.com',
+                'email_verified_at' => now(),
+                'password' => Hash::make('12345678'),
+            ],
+        ];
+        User::insert($user);
     }
 }

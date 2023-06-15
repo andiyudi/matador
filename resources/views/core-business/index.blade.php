@@ -1,8 +1,4 @@
 @extends('layouts.templates')
-@php
-//  $pretitle ='Data';
-//  $title ='Core Business';
-@endphp
 @section('content')
 <div class="container">
     <div class="row justify-content-center">

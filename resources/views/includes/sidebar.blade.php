@@ -39,16 +39,16 @@
                 <div class="dropdown-menu">
                 <div class="dropdown-menu-columns">
                     <div class="dropdown-menu-column">
-                    <a class="dropdown-item" href="{{ route('core-business.index') }}">
-                        Core Business
-                    </a>
-                    <a class="dropdown-item" href="{{ route('classifications.index') }}">
-                        Clasifications
-                    </a>
-                    <a class="dropdown-item" href="{{ route('divisions.index') }}">
-                        Divisions
-                    </a>
-                </div>
+                        <a class="dropdown-item" href="{{ route('divisions.index') }}">
+                            Divisions
+                        </a>
+                        <a class="dropdown-item" href="{{ route('core-business.index') }}">
+                            Core Business
+                        </a>
+                        <a class="dropdown-item" href="{{ route('classifications.index') }}">
+                            Clasifications
+                        </a>
+                    </div>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -66,15 +66,15 @@
                 </span>
                 </a>
                 <div class="dropdown-menu">
-                <div class="dropdown-menu-columns">
-                    <div class="dropdown-menu-column">
-                    <a class="dropdown-item" href="{{ route('vendors.index') }}">
-                        Available Vendor
-                    </a>
-                    <a class="dropdown-item" href="{{ route('vendors.data') }}">
-                        Blacklist Vendor
-                    </a>
-                </div>
+                    <div class="dropdown-menu-columns">
+                        <div class="dropdown-menu-column">
+                        <a class="dropdown-item" href="{{ route('vendors.index') }}">
+                            Available Vendor
+                        </a>
+                        <a class="dropdown-item" href="{{ route('vendors.data') }}">
+                            Blacklist Vendor
+                        </a>
+                    </div>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -94,15 +94,15 @@
                 </span>
                 </a>
                 <div class="dropdown-menu">
-                <div class="dropdown-menu-columns">
-                    <div class="dropdown-menu-column">
-                    <a class="dropdown-item" href="{{ route('procurement.index') }}">
-                        Usulan Pemenang
-                    </a>
-                    <a class="dropdown-item" href="{{ route('procurement.evaluation') }}">
-                        Upload Penilaian
-                    </a>
-                </div>
+                    <div class="dropdown-menu-columns">
+                        <div class="dropdown-menu-column">
+                        <a class="dropdown-item" href="{{ route('procurement.index') }}">
+                            Usulan Pemenang
+                        </a>
+                        <a class="dropdown-item" href="{{ route('procurement.evaluation') }}">
+                            Upload Penilaian
+                        </a>
+                    </div>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -116,22 +116,22 @@
                         <path d="M17 14l0 7"></path>
                         <path d="M13 13l0 8"></path>
                         <path d="M21 12l0 9"></path>
-                     </svg>
+                    </svg>
                 </span>
                 <span class="nav-link-title">
                     Vendor Evaluation
                 </span>
                 </a>
                 <div class="dropdown-menu">
-                <div class="dropdown-menu-columns">
-                    <div class="dropdown-menu-column">
-                    <a class="dropdown-item" href="#">
-                        CMNP To Vendor
-                    </a>
-                    <a class="dropdown-item" href="#">
-                        Vendor To CMNP
-                    </a>
-                </div>
+                    <div class="dropdown-menu-columns">
+                        <div class="dropdown-menu-column">
+                        <a class="dropdown-item" href="#">
+                            CMNP To Vendor
+                        </a>
+                        <a class="dropdown-item" href="#">
+                            Vendor To CMNP
+                        </a>
+                    </div>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -153,15 +153,15 @@
                 </span>
                 </a>
                 <div class="dropdown-menu">
-                <div class="dropdown-menu-columns">
-                    <div class="dropdown-menu-column">
-                    <a class="dropdown-item" href="#">
-                        Rekap Vendor
-                    </a>
-                    <a class="dropdown-item" href="#">
-                        Rekap Penilaian
-                    </a>
-                </div>
+                    <div class="dropdown-menu-columns">
+                        <div class="dropdown-menu-column">
+                        <a class="dropdown-item" href="#">
+                            Rekap Vendor
+                        </a>
+                        <a class="dropdown-item" href="#">
+                            Rekap Penilaian
+                        </a>
+                    </div>
                 </div>
             </li>
             <li class="nav-item">
