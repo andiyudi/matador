@@ -16,11 +16,13 @@ return new class extends Migration
             $table->string('name');
             $table->string('number');
             $table->string('estimation_time');
-            $table->string('division');
+            $table->unsignedBigInteger('division_id');
             $table->string('person_in_charge');
-            $table->enum('status', ['0', '1', '2'])->default('0'); // 0:process, 1:success, 2:cancelled
+            $table->enum('status', ['0', '1', '2', '3'])->default('0'); // 0:process, 1:success, 2:cancelled, 3.repeated
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('division_id')->references('id')->on('divisions')->onDelete('cascade');
         });
     }
 

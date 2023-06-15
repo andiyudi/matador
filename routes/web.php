@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProcurementController;
 use App\Http\Controllers\CoreBusinessController;
@@ -46,6 +47,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('classifications', ClassificationController::class);
     Route::resource('vendors', VendorController::class);
     Route::resource('procurement', ProcurementController::class);
+    Route::resource('divisions', DivisionController::class);
 });
 
 Route::get('/dashboard', function () {

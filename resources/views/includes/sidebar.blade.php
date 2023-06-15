@@ -45,7 +45,7 @@
                     <a class="dropdown-item" href="{{ route('classifications.index') }}">
                         Clasifications
                     </a>
-                    <a class="dropdown-item" href="{{ route('classifications.index') }}">
+                    <a class="dropdown-item" href="{{ route('divisions.index') }}">
                         Divisions
                     </a>
                 </div>

@@ -23,4 +23,9 @@ class Procurement extends Model
     {
         return $this->hasMany(ProcurementFile::class);
     }
+
+    public function division()
+    {
+        return $this->belongsTo(Division::class);
+    }
 }
