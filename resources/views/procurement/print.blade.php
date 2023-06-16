@@ -80,7 +80,7 @@
                 <tr>
                     <td class="tb-0pky" width=22%>Pengguna Barang/Jasa</td>
                     <td class="tb-0pky" width=3%>:</td>
-                    <td class="tb-0pky" colspan="4">{{ $procurement->division }}</td>
+                    <td class="tb-0pky" colspan="4">{{ $procurement->division->name }}</td>
                 </tr>
                 <tr>
                     <td class="tb-0pky" width=22%>P.I.C</td>

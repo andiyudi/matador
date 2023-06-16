@@ -38,7 +38,12 @@
                     <div class="row mb-3">
                         <label for="division" class="col-sm-2 col-form-label">Division</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control @error('division') is-invalid @enderror" id="division" name="division" value="{{ old('division') }}">
+                            <select class="form-control select2 @error('division') is-invalid @enderror" id="division" name="division">
+                                <option value="">Select Division</option>
+                                @foreach ($divisions as $division)
+                                    <option value="{{ $division->id }}" {{ old('division') == $division->id ? 'selected' : '' }}>{{ $division->name }}</option>
+                                @endforeach
+                            </select>
                             @error('division')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -223,5 +228,7 @@
 
 @endsection
 @push('page-action')
-<a href="{{ route('procurement.index') }}" class="btn btn-primary mb-3">Back</a>
+<div class="container">
+    <a href="{{ route('procurement.index') }}" class="btn btn-primary mb-3">Back</a>
+</div>
 @endpush

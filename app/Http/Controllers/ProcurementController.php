@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Dompdf\Dompdf;
 use App\Models\Vendor;
+use App\Models\Division;
 use App\Models\Procurement;
 use Illuminate\Http\Request;
 use App\Models\ProcurementFile;
@@ -18,7 +19,12 @@ class ProcurementController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $procurements = Procurement::with('vendors')->orderByDesc('id')->get();
+            $procurements = Procurement::leftJoin('divisions', 'procurements.division_id', '=', 'divisions.id')
+                ->with('vendors')
+                ->orderByDesc('procurements.id')
+                ->select('procurements.*', 'divisions.name as division_name')
+                ->get();
+
             return DataTables::of($procurements)
                 ->addColumn('vendor_names', function ($procurement) {
                     return $procurement->vendors->pluck('name')->implode(', ');
@@ -28,13 +34,15 @@ class ProcurementController extends Controller
         return view('procurement.index');
     }
 
+
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
+        $divisions = Division::all();
         $vendors = Vendor::where('is_blacklist', '0')->get();
-        return view('procurement.create', compact('vendors'));
+        return view('procurement.create', compact('divisions', 'vendors'));
     }
 
     /**
@@ -55,7 +63,7 @@ class ProcurementController extends Controller
         $procurement->name = $request->input('name');
         $procurement->number = $request->input('number');
         $procurement->estimation_time = $request->input('estimation_time');
-        $procurement->division = $request->input('division');
+        $procurement->division_id = $request->input('division');
         $procurement->person_in_charge = $request->input('person_in_charge');
         $procurement->save();
 
@@ -81,10 +89,11 @@ class ProcurementController extends Controller
     public function show($id)
     {
         $procurement = Procurement::findOrFail($id);
+        $divisions = Division::all();
         $vendors = $procurement->vendors;
         $source = request('source');
 
-        return view('procurement.show', compact('procurement', 'vendors', 'source'));
+        return view('procurement.show', compact('procurement', 'divisions', 'vendors', 'source'));
     }
 
     /**
@@ -94,13 +103,13 @@ class ProcurementController extends Controller
     {
         $procurement = Procurement::find($id);
         // Mengambil data procurement berdasarkan ID
-
+        $divisions = Division::all();
         $vendors = Vendor::where('is_blacklist', '0')->get();
         // Mengambil semua data vendor untuk dropdown
 
         $selectedVendors = $procurement->vendors;
 
-        return view('procurement.edit', compact('procurement', 'vendors', 'selectedVendors'));
+        return view('procurement.edit', compact('procurement', 'divisions', 'vendors', 'selectedVendors'));
         // Menampilkan view edit dengan data procurement dan vendors
     }
 
@@ -124,7 +133,7 @@ class ProcurementController extends Controller
         $procurement->name = $request->name;
         $procurement->number = $request->number;
         $procurement->estimation_time = $request->estimation_time;
-        $procurement->division = $request->division;
+        $procurement->division_id = $request->division;
         $procurement->person_in_charge = $request->person_in_charge;
         $procurement->save();
         // Memperbarui data procurement
@@ -270,12 +279,16 @@ class ProcurementController extends Controller
                 ->with(['vendors' => function ($query) {
                     $query->where('is_selected', '1')->select('name');
                 }])
+                ->with('division') // Tambahkan eager loading untuk relasi division
                 ->orderByDesc('id')
                 ->get();
 
             return DataTables::of($procurements)
                 ->addColumn('vendor_selected', function ($procurement) {
                     return implode(", ", $procurement->vendors->pluck('name')->toArray());
+                })
+                ->addColumn('division_name', function ($procurement) {
+                    return $procurement->division->name;
                 })
                 ->make(true);
         }

@@ -112,7 +112,10 @@ $(document).ready(function () {
                 { data: 'name', name: 'name' },
                 { data: 'number', name: 'number' },
                 { data: 'estimation_time', name: 'estimation_time' },
-                { data: 'division', name: 'division' },
+                {
+                    data: 'division_name',
+                    name: 'division_name'
+                },
                 { data: 'person_in_charge', name: 'person_in_charge' },
                 {
                     data: 'vendors',

@@ -27,7 +27,7 @@
                     <div class="row mb-3">
                         <label for="division" class="col-sm-2 col-form-label">Division</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="division" name="division" value="{{ $procurement->division }}" readonly>
+                            <input type="text" class="form-control" id="division" name="division" value="{{ $procurement->division->name }}" readonly>
                         </div>
                     </div>
                     <div class="row mb-3">

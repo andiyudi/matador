@@ -39,7 +39,14 @@
                         <div class="row mb-3">
                             <label for="division" class="col-sm-2 col-form-label">Division</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control @error('division') is-invalid @enderror" id="division" name="division" value="{{ $procurement->division }}">
+                                <select class="form-control select2 @error('division') is-invalid @enderror" id="division" name="division">
+                                    <option value="">Select Division</option>
+                                    @foreach ($divisions as $division)
+                                        <option value="{{ $division->id }}" {{ $procurement->division_id == $division->id ? 'selected' : '' }}>
+                                            {{ $division->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
                                 @error('division')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
