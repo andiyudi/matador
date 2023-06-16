@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProcurementController;
 use App\Http\Controllers\CoreBusinessController;
 use App\Http\Controllers\ClassificationController;
+use App\Http\Controllers\LogActivityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,9 @@ use App\Http\Controllers\ClassificationController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('/add-to-log', [LogActivityController::class, 'myTestAddToLog'])->name('add-to-log');
+Route::get('/logActivity', [LogActivityController::class, 'logActivity'])->name('logActivity');
 
 Route::get('/', function () {
     return view('auth.login');
