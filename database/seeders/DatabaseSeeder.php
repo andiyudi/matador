@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Procurement;
+use App\Models\Vendor;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,6 +23,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // \App\Models\User::factory(10)->create();
+        Vendor::factory(20)->create();
+        Procurement::factory(20)->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',

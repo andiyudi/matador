@@ -77,7 +77,7 @@ class ClassificationSeeder extends Seeder
             ['core_business_id' => 6, 'name' => 'AIR BERSIH'],
             ['core_business_id' => 6, 'name' => 'ALAT TULIS KANTOR'],
             ['core_business_id' => 7, 'name' => 'KESEHATAN'],
-            ['core_business_id' => 7, 'name' => 'CIVIL ENGINEERING COMPLETED RISK ( CECR )'],
+            ['core_business_id' => 7, 'name' => 'CIVIL ENGINEERING COMPLETED RISK (CECR)'],
             ['core_business_id' => 7, 'name' => 'PROPERTY ALL RISK EARTHQUAKE'],
             // Tambahkan data classification lainnya sesuai kebutuhan
         ];

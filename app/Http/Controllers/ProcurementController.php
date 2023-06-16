@@ -40,7 +40,7 @@ class ProcurementController extends Controller
      */
     public function create()
     {
-        $divisions = Division::all();
+        $divisions = Division::where('status', '1')->get();
         $vendors = Vendor::where('is_blacklist', '0')->get();
         return view('procurement.create', compact('divisions', 'vendors'));
     }
@@ -103,7 +103,7 @@ class ProcurementController extends Controller
     {
         $procurement = Procurement::find($id);
         // Mengambil data procurement berdasarkan ID
-        $divisions = Division::all();
+        $divisions = Division::where('status', '1')->get();
         $vendors = Vendor::where('is_blacklist', '0')->get();
         // Mengambil semua data vendor untuk dropdown
 
