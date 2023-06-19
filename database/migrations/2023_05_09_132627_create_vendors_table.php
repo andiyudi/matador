@@ -15,16 +15,16 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('address');
+            $table->string('domicility');
             $table->string('area');
             $table->string('director');
             $table->string('phone');
             $table->string('email');
             $table->string('capital');
+            $table->string('reference');
             $table->enum('grade', ['0', '1', '2']); //0:kecil, 1:menengah, 2: besar
-            $table->enum('is_blacklist', ['0', '1'])->default('0'); // 0: not blacklisted and 1: blacklisted
-            $table->date('blacklist_at')->nullable()->default(null);
-            $table->date('activated_at')->nullable()->default(null);
-            $table->enum('status', ['0', '1', '2'])->default('0'); //0:registered, 1:active, 2:expired
+            $table->date('join_date');
+            $table->enum('status', ['0', '1', '2', '3'])->default('0'); //0:registered, 1:active, 2:inactive, 3:blacklisted
             $table->date('expired_at')->nullable()->default(date('Y') . '-12-31');
             $table->timestamps();
             $table->softDeletes();

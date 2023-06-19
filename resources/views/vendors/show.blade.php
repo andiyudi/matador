@@ -32,9 +32,15 @@
                             </select>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="address" class="form-label">Address</label>
-                        <textarea class="form-control" id="address" name="address" rows="4" readonly>{{ $vendor->address }}</textarea>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="address" class="form-label">Address</label>
+                            <textarea class="form-control" id="address" name="address" rows="4" readonly>{{ $vendor->address }}</textarea>
+                        </div>
+                        <div class="col mb-3">
+                            <label for="domicility" class="form-label">Residence Address</label>
+                            <textarea class="form-control" id="domicility" name="domicility" rows="4" readonly>{{ $vendor->domicility }}</textarea>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col mb-3">
@@ -54,6 +60,16 @@
                         <div class="col mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" name="email" value="{{ $vendor->email }}" readonly>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="join_date" class="form-label">Join_Date</label>
+                            <input type="date" class="form-control" id="join_date" name="join_date" value="{{ $vendor->join_date }}" readonly>
+                        </div>
+                        <div class="col mb-3">
+                            <label for="reference" class="form-label">Reference</label>
+                            <input type="reference" class="form-control" id="reference" name="reference" value="{{ $vendor->reference }}" readonly>
                         </div>
                     </div>
                     <div class="row">
@@ -110,6 +126,8 @@
                                 Legalitas
                                 @elseif ($file->file_type == 2)
                                 Hasil Survey
+                                @elseif ($file->file_type == 3)
+                                File Blacklist
                                 @else
                                 Unknown
                                 @endif

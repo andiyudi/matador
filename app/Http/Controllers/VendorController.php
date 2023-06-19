@@ -21,15 +21,13 @@ class VendorController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $vendors = Vendor::where('is_blacklist', '0')
+            $vendors = Vendor::where('status', '!=', '3')
                 ->with('coreBusinesses:name', 'classifications:name')
                 ->get();
             return DataTables::of($vendors)->make(true);
         }
 
-        $vendors = Vendor::where('is_blacklist', '0')->get();
-        // $core_businesses = CoreBusiness::all();
-        // $classifications = Classification::all();
+        $vendors = Vendor::where('status', '!=', '3')->get();
 
         return view('vendors.index', compact('vendors'));
     }
@@ -56,12 +54,15 @@ class VendorController extends Controller
         $validatedData = $request->validate([
             'name' => 'required',
             'address' => 'required',
+            'domicility' => 'required',
             'area' => 'required',
             'director' => 'required',
             'phone' => 'required',
             'email' => 'required|email|unique:vendors',
             'capital' => 'required',
             'grade' => 'required',
+            'join_date' => 'required',
+            'reference' => 'required',
             'core_business_id' => 'required|array',
             'classification_id' => 'required|array'
         ]);
@@ -70,12 +71,15 @@ class VendorController extends Controller
         $vendor = new Vendor;
         $vendor->name = $request->name;
         $vendor->address = $request->address;
+        $vendor->domicility = $request->domicility;
         $vendor->area = $request->area;
         $vendor->director = $request->director;
         $vendor->phone = $request->phone;
         $vendor->email = $request->email;
         $vendor->capital = $request->capital;
         $vendor->grade = $request->grade;
+        $vendor->join_date = $request->join_date;
+        $vendor->reference = $request->reference;
         $vendor->save();
 
         // hubungkan vendor dengan core business yang dipilih
@@ -98,7 +102,6 @@ class VendorController extends Controller
         $core_businesses = CoreBusiness::all();
         $classifications = Classification::all();
         $source = request('source');
-        // return view('vendors.edit', compact('vendor', 'core_businesses', 'classifications'));
         // Mengambil data vendor yang akan diedit
         $vendor = Vendor::findOrFail($id);
 
@@ -119,7 +122,6 @@ class VendorController extends Controller
     {
         $core_businesses = CoreBusiness::all();
         $classifications = Classification::all();
-        // return view('vendors.edit', compact('vendor', 'core_businesses', 'classifications'));
         // Mengambil data vendor yang akan diedit
         $vendor = Vendor::findOrFail($id);
 
@@ -142,12 +144,15 @@ class VendorController extends Controller
         $validatedData = $request->validate([
             'name' => 'required',
             'address' => 'required',
+            'domicility' => 'required',
             'area' => 'required',
             'director' => 'required',
             'phone' => 'required',
             'email' => 'required|email|unique:vendors,email,' . $id,
             'capital' => 'required',
             'grade' => 'required',
+            'reference' => 'required',
+            'join_date' => 'required',
             'core_business_id' => 'required|array',
             'classification_id' => 'required|array'
         ]);
@@ -156,12 +161,15 @@ class VendorController extends Controller
         $vendor = Vendor::findOrFail($id);
         $vendor->name = $request->name;
         $vendor->address = $request->address;
+        $vendor->domicility = $request->domicility;
         $vendor->area = $request->area;
         $vendor->director = $request->director;
         $vendor->phone = $request->phone;
         $vendor->email = $request->email;
         $vendor->capital = $request->capital;
         $vendor->grade = $request->grade;
+        $vendor->join_date = $request->join_date;
+        $vendor->reference = $request->reference;
         $vendor->save();
 
         // hubungkan vendor dengan core business yang dipilih
@@ -187,8 +195,7 @@ class VendorController extends Controller
 
     public function blacklist(Vendor $vendor)
     {
-        $vendor->is_blacklist = '1';
-        $vendor->blacklist_at = now();
+        $vendor->status = '3'; // Ubah status vendor menjadi 3 (blacklisted)s
         $vendor->save();
 
         return redirect()->route('vendors.index');
@@ -200,7 +207,7 @@ class VendorController extends Controller
             $this->validate($request, [
                 'vendor_file' => 'required|mimes:xlsx,xls,pdf,doc,docx,jpg,jpeg,png',
                 'existing_vendors' => 'required',
-                'file_type' => 'required|in:0,1,2',
+                'file_type' => 'required|in:0,1,2,3',
             ]);
 
             $existingVendor = Vendor::findOrFail($request->existing_vendors);
@@ -243,15 +250,13 @@ class VendorController extends Controller
     public function data()
     {
         if (request()->ajax()) {
-            $vendors = Vendor::where('is_blacklist', '1')
+            $vendors = Vendor::where('status', '3')
                 ->with('coreBusinesses:name', 'classifications:name')
                 ->get();
             return DataTables::of($vendors)->make(true);
         }
 
-        $vendors = Vendor::where('is_blacklist', '1')->get();
-        // $core_businesses = CoreBusiness::all();
-        // $classifications = Classification::all();
+        $vendors = Vendor::where('status', '3')->get();
 
         return view('vendors.data', compact('vendors'));
     }
@@ -297,7 +302,6 @@ class VendorController extends Controller
             // Check if a new file is uploaded
             if ($request->hasFile('edit_vendor_file')) {
 
-                // dd($file->file_path);
                 // Delete the existing file
                 if ($file->file_path) {
                     Storage::disk('public')->delete($file->file_path);

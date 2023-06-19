@@ -40,13 +40,23 @@
                             @enderror
                         </div>
                     </div>
-                    <!-- Alamat -->
-                    <div class="mb-3">
-                        <label for="address" class="form-label">Address</label>
-                        <textarea class="form-control @error('address') is-invalid @enderror" id="address" name="address" rows="4">{{ old('address') }}</textarea>
-                        @error('address')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                    <div class="row">
+                        <!-- Alamat -->
+                        <div class="col mb-3">
+                            <label for="address" class="form-label">Address</label>
+                            <textarea class="form-control @error('address') is-invalid @enderror" id="address" name="address" rows="4">{{ old('address') }}</textarea>
+                            @error('address')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <!-- Alamat 2 -->
+                        <div class="col mb-3">
+                            <label for="domicility" class="form-label">Residence Address</label>
+                            <textarea class="form-control @error('domicility') is-invalid @enderror" id="domicility" name="domicility" rows="4">{{ old('domicility') }}</textarea>
+                            @error('domicility')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
                     <!-- Area dan Direktur -->
                     <div class="row">
@@ -78,6 +88,23 @@
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}">
                             @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <!-- Join date dan Reference -->
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="join_date" class="form-label">Join Date</label>
+                            <input type="date" class="form-control @error('join_date') is-invalid @enderror" id="join_date" name="join_date" value="{{ old('join_date') ?? date('Y-m-d') }}">
+                            @error('join_date')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="col mb-3">
+                            <label for="reference" class="form-label">Reference</label>
+                            <input type="text" class="form-control @error('reference') is-invalid @enderror" id="reference" name="reference" value="{{ old('reference') }}">
+                            @error('reference')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>

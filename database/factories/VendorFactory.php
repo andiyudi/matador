@@ -26,15 +26,15 @@ class VendorFactory extends Factory
         return [
             'name' => $this->faker->company,
             'address' => $this->faker->address,
+            'domicility' => $this->faker->address,
             'area' => $this->faker->city,
             'director' => $this->faker->name,
             'phone' => $this->faker->phoneNumber,
             'email' => $this->faker->email,
             'capital' => $this->faker->numberBetween(100000000, 1000000000),
             'grade' => $this->faker->randomElement(['0', '1', '2']),
-            'is_blacklist' => '0',
-            'blacklist_at' => null,
-            'activated_at' => null,
+            'join_date' => now(),
+            'reference' => $this->faker->name(),
             'status' => '0',
             'expired_at' => date('Y') . '-12-31',
         ];
@@ -48,11 +48,13 @@ class VendorFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function (Vendor $vendor) {
-            $coreBusinesses = CoreBusiness::inRandomOrder()->limit(3)->pluck('id')->toArray();
-            $classifications = Classification::inRandomOrder()->limit(9)->pluck('id')->toArray();
+            $coreBusinesses = CoreBusiness::inRandomOrder()->limit(2)->get();
 
-            $vendor->coreBusinesses()->attach($coreBusinesses);
-            $vendor->classifications()->attach($classifications);
+            $coreBusinesses->each(function ($coreBusiness) use ($vendor) {
+                $classifications = $coreBusiness->classifications()->inRandomOrder()->limit(2)->pluck('id')->toArray();
+                $vendor->coreBusinesses()->attach($coreBusiness->id);
+                $vendor->classifications()->attach($classifications);
+            });
         });
     }
 }

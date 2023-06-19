@@ -6,22 +6,16 @@
             <div class="card">
                 <div class="card-body">
                     <h1>Available Vendor Data</h1>
-                    <table class="table table-responsive" id="vendors-table">
+                    <table class="table table-responsive table-bordered table-striped table-hover" id="vendors-table">
                         <thead>
                             <tr>
                                 <th>No</th>
                                 <th>Name</th>
                                 <th>Core Business</th>
                                 <th>Classification</th>
-                                <th>Address</th>
-                                {{-- <th>Area</th>
                                 <th>Director</th>
                                 <th>Phone</th>
-                                <th>Email</th>
-                                <th>Capital</th> --}}
                                 <th>Grade</th>
-                                {{-- <th>Is Blacklist</th>
-                                <th>Blacklist At</th> --}}
                                 <th>Status</th>
                                 <th>Expired At</th>
                                 <th>Action</th>
@@ -69,7 +63,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="file_type">File Type</label>
+                        <label>File Type</label>
                         <div class="row">
                             <div class="col">
                                 <div class="form-check">
@@ -92,6 +86,14 @@
                                     <input class="form-check-input" type="radio" name="file_type" id="file_type_2" value="2">
                                     <label class="form-check-label" for="file_type_2">
                                         Hasil Survey
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="file_type" id="file_type_3" value="3">
+                                    <label class="form-check-label" for="file_type_3">
+                                        Blacklist
                                     </label>
                                 </div>
                             </div>
@@ -159,12 +161,8 @@
                     },
                 name: 'classifications.name'
                 },
-                { data: 'address', name: 'address' },
-                // { data: 'area', name: 'area' },
-                // { data: 'director', name: 'director' },
-                // { data: 'phone', name: 'phone' },
-                // { data: 'email', name: 'email' },
-                // { data: 'capital', name: 'capital' },
+                { data: 'director', name: 'director' },
+                { data: 'phone', name: 'phone' },
                 { data: 'grade', name: 'grade',
                 render: function (data) {
                         if (data === '0') {
@@ -178,18 +176,6 @@
                         }
                     }
                 },
-                // { data: 'is_blacklist', name: 'is_blacklist',
-                // render: function (data) {
-                //         if (data === '0') {
-                //             return 'Not Blacklisted';
-                //         } else if (data === '1') {
-                //             return 'Blacklisted';
-                //         } else {
-                //             return '-';
-                //         }
-                //     }
-                // },
-                // { data: 'blacklist_at', name: 'blacklist_at' },
                 {
                 data: 'status', name: 'status',
                     render: function (data) {
@@ -198,9 +184,11 @@
                         } else if (data === '1') {
                             return '<span class="badge bg-success">Active</span>';
                         } else if (data === '2') {
-                            return '<span class="badge bg-danger">Expired</span>';
+                            return '<span class="badge bg-warning">Expired</span>';
+                        } else if (data === '3') {
+                            return '<span class="badge bg-danger">Blacklist</span>';
                         } else {
-                            return '<span class="badge bg-secondary">-</span>';
+                            return '<span class="badge bg-secondary">Unknown</span>';
                         }
                     }
                 },

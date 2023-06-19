@@ -20,8 +20,7 @@
                                 <th>Email</th>
                                 <th>Capital</th> --}}
                                 <th>Grade</th>
-                                <th>Is Blacklist</th>
-                                <th>Blacklist At</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -87,18 +86,22 @@
                         }
                     }
                 },
-                { data: 'is_blacklist', name: 'is_blacklist',
-                render: function (data) {
-                    if (data === '0') {
-                        return '<span class="badge bg-success">Not Blacklisted</span>';
-                    } else if (data === '1') {
-                        return '<span class="badge bg-danger">Blacklisted</span>';
-                    } else {
-                        return '<span class="badge bg-secondary">-</span>';
-                    }
+                {
+                    data: 'status', name: 'status',
+                    render: function (data) {
+                        if (data === '0') {
+                            return '<span class="badge bg-info">Registered</span>';
+                        } else if (data === '1') {
+                            return '<span class="badge bg-success">Active</span>';
+                        } else if (data === '2') {
+                            return '<span class="badge bg-warning">Expired</span>';
+                        } else if (data === '3') {
+                            return '<span class="badge bg-danger">Blacklist</span>';
+                        } else {
+                            return '<span class="badge bg-secondary">Unknown</span>';
+                        }
                     }
                 },
-                { data: 'blacklist_at', name: 'blacklist_at' },
                 {
                 data: 'action',
                 name: 'action',

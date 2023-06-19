@@ -44,12 +44,21 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="address" class="form-label">Address</label>
-                        <textarea class="form-control @error('address') is-invalid @enderror" id="address" name="address" rows="4">{{ $vendor->address }}</textarea>
-                        @error('address')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="address" class="form-label">Address</label>
+                            <textarea class="form-control @error('address') is-invalid @enderror" id="address" name="address" rows="4">{{ $vendor->address }}</textarea>
+                            @error('address')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="col mb-3">
+                            <label for="domicility" class="form-label">Residence Address</label>
+                            <textarea class="form-control @error('domicility') is-invalid @enderror" id="domicility" name="domicility" rows="4">{{ $vendor->domicility }}</textarea>
+                            @error('domicility')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col mb-3">
@@ -79,6 +88,22 @@
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ $vendor->email }}">
                             @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="join_date" class="form-label">Join Date</label>
+                            <input type="date" class="form-control @error('join_date') is-invalid @enderror" id="join_date" name="join_date" value="{{ $vendor->join_date }}">
+                            @error('join_date')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="col mb-3">
+                            <label for="reference" class="form-label">Reference</label>
+                            <input type="reference" class="form-control @error('reference') is-invalid @enderror" id="reference" name="reference" value="{{ $vendor->reference }}">
+                            @error('reference')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -147,6 +172,8 @@
                                             Legalitas
                                         @elseif ($file->file_type == 2)
                                             Hasil Survey
+                                        @elseif ($file->file_type == 3)
+                                            File Blacklist
                                         @else
                                             Unknown
                                         @endif
