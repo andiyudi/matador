@@ -15,14 +15,6 @@
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <div class="card border-danger mb-3">
-                                <div class="card-body">
-                                    <h6 class="card-title">Blacklisted Vendors</h6>
-                                    <p class="card-text" id="blacklist">Loading...</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
                             <div class="card border-info mb-3">
                                 <div class="card-body">
                                     <h6 class="card-title">Registered Vendors</h6>
@@ -46,6 +38,14 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-2">
+                            <div class="card border-danger mb-3">
+                                <div class="card-body">
+                                    <h6 class="card-title">Blacklisted Vendors</h6>
+                                    <p class="card-text" id="blacklist">Loading...</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -54,7 +54,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="card border-primary mb-3">
                                 <div class="card-body">
                                     <h6 class="card-title">Total All Jobs</h6>
@@ -62,7 +62,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="card border-info mb-3">
                                 <div class="card-body">
                                     <h6 class="card-title">Process Jobs</h6>
@@ -70,7 +70,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="card border-success mb-3">
                                 <div class="card-body">
                                     <h6 class="card-title">Success Jobs</h6>
@@ -78,7 +78,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
+                            <div class="card border-warning mb-3">
+                                <div class="card-body">
+                                    <h6 class="card-title">Repeated Jobs</h6>
+                                    <p class="card-text" id="repeatedProcurement">Loading...</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
                             <div class="card border-danger mb-3">
                                 <div class="card-body">
                                     <h6 class="card-title">Canceled Jobs</h6>
@@ -159,7 +167,6 @@ function fetchDataVendor() {
         document.getElementById('active').textContent = data.active;
         document.getElementById('expired').textContent = data.expired;
         document.getElementById('blacklist').textContent = data.blacklist;
-        // document.getElementById('notBlacklist').textContent = data.notBlacklist;
         } else {
         console.log(data.message); // Menampilkan pesan error jika ada
         }
@@ -177,6 +184,7 @@ function fetchDataProcurement() {
         document.getElementById('processProcurement').textContent = data.processProcurement;
         document.getElementById('successProcurement').textContent = data.successProcurement;
         document.getElementById('canceledProcurement').textContent = data.canceledProcurement;
+        document.getElementById('repeatedProcurement').textContent = data.repeatedProcurement;
         } else {
         console.log(data.message); // Menampilkan pesan error jika ada
         }

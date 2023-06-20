@@ -261,7 +261,11 @@ class ProcurementController extends Controller
             $procurement->save();
 
             // Update the status of all the vendors
-            Vendor::whereIn('id', $vendors->pluck('id')->toArray())->update(['status' => '1']);
+            Vendor::whereIn('id', $vendors->pluck('id')->toArray())
+                ->update([
+                    'status' => '1',
+                    'expired_at' => date('Y') . '-12-31'
+                ]);
 
             return response()->json(['success' => 'Vendor selection updated successfully!']);
         } catch (\Exception $e) {

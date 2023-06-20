@@ -62,17 +62,17 @@
                     </svg>
                 </span>
                 <span class="nav-link-title">
-                    Data Vendor
+                    Vendors Data
                 </span>
                 </a>
                 <div class="dropdown-menu">
                     <div class="dropdown-menu-columns">
                         <div class="dropdown-menu-column">
                         <a class="dropdown-item" href="{{ route('vendors.index') }}">
-                            Available Vendor
+                            Available Vendors
                         </a>
                         <a class="dropdown-item" href="{{ route('vendors.data') }}">
-                            Blacklist Vendor
+                            Blacklist Vendors
                         </a>
                     </div>
                 </div>
@@ -90,17 +90,17 @@
                     </svg>
                 </span>
                 <span class="nav-link-title">
-                    Usulan Vendor
+                    Jobs Tender
                 </span>
                 </a>
                 <div class="dropdown-menu">
                     <div class="dropdown-menu-columns">
                         <div class="dropdown-menu-column">
                         <a class="dropdown-item" href="{{ route('procurement.index') }}">
-                            Usulan Pemenang
+                            Jobs Data
                         </a>
                         <a class="dropdown-item" href="{{ route('procurement.evaluation') }}">
-                            Upload Penilaian
+                            Review Jobs
                         </a>
                     </div>
                 </div>

@@ -21,7 +21,9 @@ class UpdateVendorStatusJob implements ShouldQueue
     {
 
         // Dapatkan vendor yang statusnya belum expired
-        $vendors = Vendor::where('status', '!=', 'expired')->get();
+        $vendors = Vendor::where('status', '!=', '2')
+            ->where('status', '!=', '3')
+            ->get();
 
         foreach ($vendors as $vendor) {
             // Cek apakah tanggal expired sudah melewati hari ini

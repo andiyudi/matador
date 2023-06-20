@@ -14,11 +14,8 @@
                                 <th>Core Business</th>
                                 <th>Classification</th>
                                 <th>Address</th>
-                                {{-- <th>Area</th>
                                 <th>Director</th>
                                 <th>Phone</th>
-                                <th>Email</th>
-                                <th>Capital</th> --}}
                                 <th>Grade</th>
                                 <th>Status</th>
                                 <th>Action</th>
@@ -68,11 +65,8 @@
                 name: 'classifications.name'
                 },
                 { data: 'address', name: 'address' },
-                // { data: 'area', name: 'area' },
-                // { data: 'director', name: 'director' },
-                // { data: 'phone', name: 'phone' },
-                // { data: 'email', name: 'email' },
-                // { data: 'capital', name: 'capital' },
+                { data: 'director', name: 'director' },
+                { data: 'phone', name: 'phone' },
                 { data: 'grade', name: 'grade',
                 render: function (data) {
                         if (data === '0') {
@@ -94,7 +88,7 @@
                         } else if (data === '1') {
                             return '<span class="badge bg-success">Active</span>';
                         } else if (data === '2') {
-                            return '<span class="badge bg-warning">Expired</span>';
+                            return '<span class="badge bg-warning">InActive</span>';
                         } else if (data === '3') {
                             return '<span class="badge bg-danger">Blacklist</span>';
                         } else {
@@ -122,6 +116,6 @@
 @endsection
 @push('page-action')
 <div class="container">
-    <a href="{{ route('vendors.index') }}" class="btn btn-primary mb-3">Back</a>
+    <a href="{{ route('vendors.index') }}" class="btn btn-primary mb-3">Back To Available Vendors</a>
 </div>
 @endpush

@@ -25,7 +25,6 @@ class DashboardController extends Controller
             'active' => $activeCount,
             'expired' => $expiredCount,
             'blacklist' => $blacklistCount,
-            // 'notBlacklist' => $notBlacklistCount,
         ]);
     }
 
@@ -34,6 +33,7 @@ class DashboardController extends Controller
         $processProcurement = Procurement::where('status', '0')->count();
         $successProcurement = Procurement::where('status', '1')->count();
         $canceledProcurement = Procurement::where('status', '2')->count();
+        $repeatedProcurement = Procurement::where('status', '3')->count();
 
         $totalProcurementCount = Procurement::count();
 
@@ -43,6 +43,7 @@ class DashboardController extends Controller
             'processProcurement' => $processProcurement,
             'successProcurement' => $successProcurement,
             'canceledProcurement' => $canceledProcurement,
+            'repeatedProcurement' => $repeatedProcurement,
         ]);
     }
 

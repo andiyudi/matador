@@ -207,9 +207,11 @@ function blacklistVendor(vendorId) {
                         } else if (data === '1') {
                             return '<span class="badge bg-success">Active</span>';
                         } else if (data === '2') {
-                            return '<span class="badge bg-danger">Expired</span>';
+                            return '<span class="badge bg-warning">InActive</span>';
+                        } else if (data === '3') {
+                            return '<span class="badge bg-danger">Blacklist</span>';
                         } else {
-                            return '<span class="badge bg-secondary">-</span>';
+                            return '<span class="badge bg-secondary">Unknown</span>';
                         }
                     }
                 },
