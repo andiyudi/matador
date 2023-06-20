@@ -21,6 +21,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <!--data displayed here-->
                         </tbody>
                     </table>
                 </div>
@@ -108,4 +109,8 @@
     });
 </script>
 @endsection
-
+@push('page-action')
+<div class="container">
+    <a href="{{ route('procurement.index') }}" class="btn btn-primary mb-3">Back To Jobs Data</a>
+</div>
+@endpush

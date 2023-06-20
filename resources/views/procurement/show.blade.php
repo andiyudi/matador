@@ -59,7 +59,9 @@
                                                 @elseif($vendor->status == '1')
                                                 <span class="vendor-status">Active</span>
                                                 @elseif($vendor->status == '2')
-                                                <span class="vendor-status">Expired</span>
+                                                <span class="vendor-status">InActive</span>
+                                                @elseif($vendor->status == '3')
+                                                <span class="vendor-status">Blacklist</span>
                                                 @else
                                                 <span class="vendor-status"></span>
                                                 @endif
@@ -78,12 +80,6 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
 @endsection
 @push('page-action')
 <div class="container">

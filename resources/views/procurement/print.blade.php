@@ -118,9 +118,11 @@
                         @elseif($vendor->status == 1)
                             Active
                         @elseif($vendor->status == 2)
-                            Expired
+                            InActive
+                        @elseif($vendor->status == 3)
+                            Blacklist
                         @else
-                            Rekanan
+                            Unknown
                         @endif
                     </td>
                     <td class="ti-0lax">{{ $vendor->director }}</td>

@@ -128,9 +128,11 @@
         } else if (selectedVendor.status === '1') {
         statusSpan.textContent = 'Active';
         } else if (selectedVendor.status === '2') {
-        statusSpan.textContent = 'Expired';
+        statusSpan.textContent = 'InActive';
+        } else if (selectedVendor.status === '3') {
+        statusSpan.textContent = 'Blacklist';
         } else {
-        statusSpan.textContent = 'Rekanan';
+        statusSpan.textContent = 'Unknown';
         }
 
     // row.cells[1].querySelector('.vendor-status').textContent = selectedVendor.status;

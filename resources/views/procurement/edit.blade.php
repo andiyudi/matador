@@ -94,9 +94,11 @@
                                                 @elseif($vendor->status == '1')
                                                 <span class="vendor-status">Active</span>
                                                 @elseif($vendor->status == '2')
-                                                <span class="vendor-status">Expired</span>
+                                                <span class="vendor-status">InActive</span>
+                                                @elseif($vendor->status == '3')
+                                                <span class="vendor-status">Blacklist</span>
                                                 @else
-                                                <span class="vendor-status"></span>
+                                                <span class="vendor-status">Unknown</span>
                                                 @endif
                                             </td>
                                             <td>
@@ -143,9 +145,11 @@
             } else if (selectedVendor.status === '1') {
                 statusSpan.textContent = 'Active';
             } else if (selectedVendor.status === '2') {
-                statusSpan.textContent = 'Expired';
+                statusSpan.textContent = 'InActive';
+            } else if (selectedVendor.status === '3') {
+                statusSpan.textContent = 'Blacklist';
             } else {
-                statusSpan.textContent = 'Rekanan';
+                statusSpan.textContent = 'Unknown';
             }
 
             row.cells[2].querySelector('.vendor-director').textContent = selectedVendor.director;
