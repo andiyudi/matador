@@ -90,7 +90,9 @@ class VendorController extends Controller
 
         Alert::success('Success', 'Vendor data successfully stored');
 
-        return redirect()->route('vendors.index');
+        // return redirect()->route('vendors.index');
+        // Alihkan ke halaman edit dengan ID vendor yang baru saja dibuat
+        return redirect()->route('vendors.edit', $vendor->id);
     }
 
 
@@ -132,7 +134,7 @@ class VendorController extends Controller
         $vendor_files = $vendor->vendorFiles;
 
         // Mengirimkan $selectedClassifications ke view
-        return view('vendors.edit', compact('vendor', 'core_businesses', 'classifications', 'selectedCoreBusinesses', 'selectedClassifications', 'vendor_files'));
+        return view('vendors.edit', compact('vendor', 'core_businesses', 'classifications', 'selectedCoreBusinesses', 'selectedClassifications', 'vendor_files', 'id'));
     }
 
     /**
@@ -195,22 +197,24 @@ class VendorController extends Controller
 
     public function blacklist(Vendor $vendor)
     {
-        $vendor->status = '3'; // Ubah status vendor menjadi 3 (blacklisted)s
+        $vendor->status = '3'; // Ubah status vendor menjadi 3 (blacklisted)
         $vendor->save();
 
-        return redirect()->route('vendors.index');
+        return response()->json(['success' => 'Vendor blacklisted successfully!']);
     }
+
 
     public function upload(Request $request)
     {
+        // dd($request->all());
         try {
             $this->validate($request, [
                 'vendor_file' => 'required|mimes:xlsx,xls,pdf,doc,docx,jpg,jpeg,png',
-                'existing_vendors' => 'required',
-                'file_type' => 'required|in:0,1,2,3',
+                'id_vendor' => 'required',
+                'type_file' => 'required|in:0,1,2,3',
             ]);
 
-            $existingVendor = Vendor::findOrFail($request->existing_vendors);
+            $existingVendor = Vendor::findOrFail($request->id_vendor);
 
             if ($request->hasFile('vendor_file')) {
                 $file = $request->file('vendor_file');
@@ -219,7 +223,7 @@ class VendorController extends Controller
 
                 $vendorFile = new VendorFile();
                 $vendorFile->vendor_id = $existingVendor->id;
-                $vendorFile->file_type = $request->file_type;
+                $vendorFile->file_type = $request->type_file;
                 $vendorFile->file_name = $fileName;
                 $vendorFile->file_path = $filePath;
                 $vendorFile->save();
@@ -252,6 +256,7 @@ class VendorController extends Controller
         if (request()->ajax()) {
             $vendors = Vendor::where('status', '3')
                 ->with('coreBusinesses:name', 'classifications:name')
+                ->orderByDesc('updated_at')
                 ->get();
             return DataTables::of($vendors)->make(true);
         }

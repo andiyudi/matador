@@ -6,7 +6,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="card border-primary mb-3">
                                 <div class="card-body">
                                     <h6 class="card-title">Total All Vendors</h6>
@@ -19,14 +19,6 @@
                                 <div class="card-body">
                                     <h6 class="card-title">Blacklisted Vendors</h6>
                                     <p class="card-text" id="blacklist">Loading...</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="card border-secondary mb-3">
-                                <div class="card-body">
-                                    <h6 class="card-title">Available Vendors</h6>
-                                    <p class="card-text" id="notBlacklist">Loading...</p>
                                 </div>
                             </div>
                         </div>
@@ -112,7 +104,6 @@
                                         <th>No</th>
                                         <th>Vendor Name</th>
                                         <th>Status</th>
-                                        <th>Is Blacklist</th>
                                     </tr>
                                 </thead>
                                 <tbody  id="latestVendorsTable">
@@ -168,7 +159,7 @@ function fetchDataVendor() {
         document.getElementById('active').textContent = data.active;
         document.getElementById('expired').textContent = data.expired;
         document.getElementById('blacklist').textContent = data.blacklist;
-        document.getElementById('notBlacklist').textContent = data.notBlacklist;
+        // document.getElementById('notBlacklist').textContent = data.notBlacklist;
         } else {
         console.log(data.message); // Menampilkan pesan error jika ada
         }
@@ -224,18 +215,12 @@ function populateTable(data, tableId) {
                 cellVendorStatus.innerHTML = '<span class="badge text-bg-success">Active</span>';
             } else if (data[i].status === "2") {
                 cellVendorStatus.innerHTML = '<span class="badge text-bg-warning">Expired</span>';
+            } else if (data[i].status === "3") {
+                cellVendorStatus.innerHTML = '<span class="badge text-bg-danger">Blacklist</span>';
             } else {
-                cellVendorStatus.innerHTML = ''; // Handle case when status has unexpected value
+                cellVendorStatus.innerHTML = '<span class="badge text-bg-secondary">Unknown</span'; // Handle case when status has unexpected value
             }
 
-            var cellIsBlacklist = row.insertCell(3);
-            if (data[i].is_blacklist === "1") {
-                cellIsBlacklist.innerHTML = '<span class="badge text-bg-danger">Blacklist</span>';
-            } else if (data[i].is_blacklist === "0") {
-                cellIsBlacklist.innerHTML = '<span class="badge text-bg-success">Available</span>';
-            } else {
-                cellIsBlacklist.innerHTML = ''; // Handle case when is_blacklist has unexpected value
-            }
         } else if (tableId === 'latestProcurementTable') {
             var cellProcurementNumber = row.insertCell(2);
             cellProcurementNumber.innerHTML = data[i].number;
@@ -248,7 +233,7 @@ function populateTable(data, tableId) {
             } else if (data[i].status === "2") {
                 cellStatus.innerHTML = '<span class="badge rounded-pill text-bg-danger">Canceled</span>';
             } else {
-                cellStatus.innerHTML = ''; // Handle case when status has unexpected value
+                cellStatus.innerHTML = '<span class="badge rounded-pill text-bg-danger">Unknown</span>'; // Handle case when status has unexpected value
             }
         }
     }

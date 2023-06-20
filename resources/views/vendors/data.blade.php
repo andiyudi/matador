@@ -120,3 +120,8 @@
     });
 </script>
 @endsection
+@push('page-action')
+<div class="container">
+    <a href="{{ route('vendors.index') }}" class="btn btn-primary mb-3">Back</a>
+</div>
+@endpush

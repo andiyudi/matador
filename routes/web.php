@@ -21,24 +21,28 @@ use App\Http\Controllers\LogActivityController;
 |
 */
 
-Route::get('/add-to-log', [LogActivityController::class, 'myTestAddToLog'])->name('add-to-log');
-Route::get('/logActivity', [LogActivityController::class, 'logActivity'])->name('logActivity');
+// Route::get('/add-to-log', [LogActivityController::class, 'myTestAddToLog'])->name('add-to-log');
+// Route::get('/logActivity', [LogActivityController::class, 'logActivity'])->name('logActivity');
 
 Route::get('/', function () {
     return view('auth.login');
 });
 Route::middleware(['auth'])->group(function () {
+    //dashboard
     Route::get('/dashboard/vendor-count', [DashboardController::class, 'getVendorCount'])->name('dashboard.vendor-count');
     Route::get('/dashboard/procurement-count', [DashboardController::class, 'getProcurementCount'])->name('dashboard.procurement-count');
     Route::get('/dashboard/table-data-vendor', [DashboardController::class, 'getDataTableVendor'])->name('dashboard.table-data-vendor');
     Route::get('/dashboard/table-data-procurement', [DashboardController::class, 'getDataTableProcurement'])->name('dashboard.table-data-procurement');
+    //chained corebusiness to classification
     Route::get('/classifications/getByCoreBusiness', [ClassificationController::class, 'getByCoreBusiness'])->name('classifications.getByCoreBusiness');
+    //vendors
+    Route::get('/vendors/data', [VendorController::class, 'data'])->name('vendors.data');
     Route::put('/vendors/{vendor}/blacklist', [VendorController::class, 'blacklist'])->name('vendors.blacklist');
     Route::post('/vendors/upload', [VendorController::class, 'upload'])->name('vendors.upload');
-    Route::get('/vendors/data', [VendorController::class, 'data'])->name('vendors.data');
     Route::delete('/vendors/file/{fileId}', [VendorController::class, 'fileDelete'])->name('vendors.file-delete');
     Route::get('/vendors/file/fetch/{fileId}', [VendorController::class, 'fetchData'])->name('vendors.file-fetch');
     Route::put('/vendors/file/{fileId}', [VendorController::class, 'fileUpdate'])->name('vendors.file-update');
+    //procurement
     Route::get('/procurement/{id}/print', [ProcurementController::class, 'print'])->name('procurement.print');
     Route::put('/procurement/{procurement}/cancel', [ProcurementController::class, 'cancel'])->name('procurement.cancel');
     Route::get('/procurement/{procurementId}/vendors', [ProcurementController::class, 'vendors'])->name('procurement.vendors');

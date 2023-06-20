@@ -151,8 +151,11 @@
             <div class="card">
                 <div class="card-body">
                 <h3>Existing Files:</h3>
+                <button type="button" class="btn btn-primary mb-3 float-end" data-bs-toggle="modal" data-bs-target="#uploadVendorFiles">
+                    Upload File
+                </button>
                 @if($vendor_files && $vendor_files->count() > 0)
-                    <table class="table">
+                    <table class="table table-responsive table-bordered table-striped table-hover">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -200,6 +203,80 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="uploadVendorFiles" aria-labelledby="uploadVendorFilesLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form method="POST" action="{{ route('vendors.upload') }}" id="uploadForm" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title" id="uploadVendorFilesLabel">Upload Vendor Files</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    <div class="form-group">
+                        <label for="existing_vendors">Vendor Name</label>
+                        <div class="col">
+                            <input type="hidden" class="form-control" id="id_vendor" name="id_vendor" value="{{ $vendor->id }}" readonly>
+                            <input type="text" class="form-control" id="name_vendor" name="name_vendor" value="{{ $vendor->name }}" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="type_file">File Type</label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="type_file" id="type_file_0" value="0">
+                                    <label class="form-check-label" for="type_file_0">
+                                        Compro
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="type_file" id="type_file_1" value="1">
+                                    <label class="form-check-label" for="type_file_1">
+                                        Legalitas
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="type_file" id="type_file_2" value="2">
+                                    <label class="form-check-label" for="type_file_2">
+                                        Hasil Survey
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        @error('type_file')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="vendor_file">Vendor File</label>
+                        <input type="file" class="form-control" id="vendor_file" name="vendor_file" accept=".xlsx,.xls,.pdf,.doc,.docx,.jpg,.jpeg,.png">
+                        @error('vendor_file')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" id="uploadButton" class="btn btn-success">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="editVendorFileModal" aria-labelledby="editVendorFileModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -242,7 +319,7 @@
                     </div>
                     <div class="form-group">
                         <label for="edit_vendor_file">Upload File</label>
-                        <input type="file" class="form-control" id="edit_vendor_file" name="edit_vendor_file">
+                        <input type="file" class="form-control" id="edit_vendor_file" name="edit_vendor_file" accept=".xlsx,.xls,.pdf,.doc,.docx,.jpg,.jpeg,.png">
                     </div>
                 </form>
             </div>
@@ -253,6 +330,53 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).on('click', '#uploadButton', function(e) {
+        e.preventDefault();
+
+        var vendorId = $('#id_vendor').val();
+        var fileType = $('input[name="type_file"]:checked').val();
+        var file = $('#vendor_file').prop('files')[0];
+
+        // Buat objek FormData untuk mengirim file dan data lainnya ke server
+        var formData = new FormData();
+        formData.append('id_vendor', vendorId);
+        formData.append('type_file', fileType);
+        formData.append('vendor_file', file);
+        formData.append('_token', "{{ csrf_token() }}");
+
+        // Kirim data ke server menggunakan AJAX
+        $.ajax({
+            url: route('vendors.upload'),
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                // Tampilkan SweetAlert sukses
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Upload Success',
+                    text: 'File berhasil diupload'
+                }).then(function() {
+                    // Reload halaman
+                    location.reload();
+                });
+            },
+            error: function(xhr, status, error) {
+                // Tampilkan SweetAlert error
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Upload Failed',
+                    text: 'Gagal mengunggah file'
+                }).then(function() {
+                    // Reload halaman
+                    location.reload();
+                });
+            }
+        });
+    });
+</script>
 <script>
     async function fetchData(fileId) {
         let response = await fetch("{{ route('vendors.file-fetch', '') }}/" + fileId);

@@ -29,95 +29,118 @@
         </div>
     </div>
 </div>
+<!-- Modal Blacklist-->
 <div class="modal fade" id="uploadVendorFiles" aria-labelledby="uploadVendorFilesLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <form method="POST" action="{{ route('vendors.upload') }}" id="uploadForm" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="uploadVendorFilesLabel">Upload Vendor Files</h5>
+                    <h5 class="modal-title" id="uploadVendorFilesLabel">Upload Blacklist Files</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
                     <div class="form-group">
-                        <label for="existing_vendors">Existing Vendors</label>
-                        <div class="col">
-                            <select class="form-select select2" id="existing_vendors" name="existing_vendors">
-                                <option value="" selected disabled>-- Select Vendor --</option>
-                                @foreach($vendors as $vendor)
-                                <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
-                                @endforeach
-                            </select>
-                            @error('existing_vendors')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
+                        <label for="vendor_name">Vendor Name</label>
+                        <input type="hidden" class="form-control" id="id_vendor" name="id_vendor" value="" readonly>
+                        <input type="text" class="form-control" id="vendor_name" name="vendor_name" value="" readonly>
                     </div>
                     <div class="form-group">
-                        <label>File Type</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="file_type" id="file_type_0" value="0">
-                                    <label class="form-check-label" for="file_type_0">
-                                        Compro
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="file_type" id="file_type_1" value="1">
-                                    <label class="form-check-label" for="file_type_1">
-                                        Legalitas
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="file_type" id="file_type_2" value="2">
-                                    <label class="form-check-label" for="file_type_2">
-                                        Hasil Survey
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="file_type" id="file_type_3" value="3">
-                                    <label class="form-check-label" for="file_type_3">
-                                        Blacklist
-                                    </label>
-                                </div>
-                            </div>
+                        <label for="type_file">File Type</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="type_file" id="type_file_3" value="3" checked>
+                            <label class="form-check-label" for="type_file_3">
+                                Blacklist
+                            </label>
                         </div>
-                        @error('file_type')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
                     </div>
                     <div class="form-group">
                         <label for="vendor_file">Vendor File</label>
                         <input type="file" class="form-control" id="vendor_file" name="vendor_file" accept=".xlsx,.xls,.pdf,.doc,.docx,.jpg,.jpeg,.png">
-                        @error('vendor_file')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" id="uploadButton" class="btn btn-success">Upload</button>
+                    <button type="submit" id="uploadButton" class="btn btn-danger">Upload and Blacklist</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+<script>
+$(document).on('click', '.blacklist-vendor', function () {
+    var vendorId = $(this).data('id');
+    var vendorName = $(this).closest('tr').find('td:nth-child(2)').text();
+
+    // Set nilai input pada modal
+    $('#id_vendor').val(vendorId);
+    $('#vendor_name').val(vendorName);
+    $('#type_file_3').prop('checked', true);
+
+    // Tampilkan modal
+    $('#uploadVendorFiles').modal('show');
+});
+
+$('#uploadForm').on('submit', function(e) {
+    e.preventDefault();
+
+    var vendorId = $('#id_vendor').val();
+    var fileType = $('input[name="type_file"]:checked').val();
+    var file = $('#vendor_file').prop('files')[0];
+
+    // Buat objek FormData untuk mengirim file dan data lainnya ke server
+    var formData = new FormData();
+    formData.append('id_vendor', vendorId);
+    formData.append('type_file', fileType);
+    formData.append('vendor_file', file);
+    formData.append('_token', "{{ csrf_token() }}");
+
+    // Kirim data ke server menggunakan AJAX
+    $.ajax({
+        url: route('vendors.upload'),
+        method: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            // Lakukan blacklist vendor
+            blacklistVendor(vendorId);
+        },
+        error: function(xhr, status, error) {
+            // Tangani error jika diperlukan
+            console.log(error);
+        }
+    });
+});
+
+function blacklistVendor(vendorId) {
+    // Kirim request ke server untuk melakukan blacklist vendor
+    $.ajax({
+        url: route('vendors.blacklist', { vendor: vendorId }),
+        method: 'PUT',
+        data: {
+            _token: "{{ csrf_token() }}"
+        },
+        success: function(response) {
+            var vendorName = $('#vendor_name').val();
+
+            // Tampilkan pesan sukses menggunakan SweetAlert
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil Blacklist',
+                text: 'File berhasil diupload dan vendor ' + vendorName + ' berhasil di-blacklist',
+            }).then(function() {
+                // Reload halaman
+                window.location.href = route('vendors.data');
+            });
+        },
+        error: function(xhr, status, error) {
+            // Tangani error jika diperlukan
+            console.log(error);
+        }
+    });
+}
+</script>
 <script>
     $(document).ready(function() {
         $('.select2').select2({
@@ -184,11 +207,9 @@
                         } else if (data === '1') {
                             return '<span class="badge bg-success">Active</span>';
                         } else if (data === '2') {
-                            return '<span class="badge bg-warning">Expired</span>';
-                        } else if (data === '3') {
-                            return '<span class="badge bg-danger">Blacklist</span>';
+                            return '<span class="badge bg-danger">Expired</span>';
                         } else {
-                            return '<span class="badge bg-secondary">Unknown</span>';
+                            return '<span class="badge bg-secondary">-</span>';
                         }
                     }
                 },
@@ -204,7 +225,7 @@
                             <a href="${route('vendors.edit', {vendor: row.id})}" class="btn btn-sm btn-warning">Edit</a>
                             <a href="${route('vendors.show', {vendor: row.id, source:source})}" class="btn btn-sm btn-info">Detail</a>
                             <button type="button" class="btn btn-sm btn-danger delete-vendor" data-id="${row.id}">Delete</button>
-                            <button type="button" class="btn btn-sm btn-secondary blacklist-vendor" data-id="${row.id}">Blacklist</button>
+                            <button type="button" class="btn btn-sm btn-secondary blacklist-vendor" data-id="${row.id}" data-name="${row.vendor_name}">Blacklist</button>
                         `;
                 }
             }]
@@ -242,75 +263,6 @@
                 }
             });
         });
-        // Event handler untuk tombol Blacklist
-        $(document).on('click', '.blacklist-vendor', function () {
-            var vendorId = $(this).data('id');
-            Swal.fire({
-                title: 'Blacklist Vendor',
-                text: 'Are you sure you want to blacklist this vendor?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Blacklist',
-                cancelButtonText: 'Cancel',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Kirim permintaan penambahan ke daftar blacklist ke URL yang sesuai
-                    $.ajax({
-                        url: route('vendors.blacklist', {vendor: vendorId}),
-                        type: 'POST',
-                        data: {
-                            _method: 'PUT',
-                            is_blacklist: 1,
-                            _token: '{{ csrf_token() }}'
-                        },
-                        success: function (response) {
-                            Swal.fire('Vendor blacklisted successfully', '', 'success').then(() => {
-                                location.reload();
-                            });
-                        },
-                        error: function (xhr) {
-                            Swal.fire('Error blacklisting vendor', '', 'error');
-                        }
-                    });
-                }
-            });
-        });
-    });
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var uploadForm = document.getElementById("uploadForm");
-        var uploadButton = document.getElementById("uploadButton");
-
-        uploadButton.addEventListener("click", function(event) {
-            event.preventDefault();
-
-            var formData = new FormData(uploadForm);
-
-            fetch(uploadForm.action, {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Show success message using SweetAlert
-                    Swal.fire('Success', data.success, 'success').then(() => {
-                        window.location.href = "{{ route('vendors.index') }}";
-                    });
-                } else if (data.error) {
-                    // Show error message using SweetAlert
-                    Swal.fire('Error', data.error, 'error');
-                } else {
-                    throw new Error('An error occurred during file upload.');
-                }
-            })
-            .catch(error => {
-                // Show error message using SweetAlert
-                Swal.fire('Error', error.message, 'error');
-            });
-        });
     });
 </script>
 
@@ -318,9 +270,5 @@
 @push('page-action')
 <div class="container">
     <a href="{{ route('vendors.create') }}" class="btn btn-primary mb-3">Add Vendor Data</a>
-    <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#uploadVendorFiles">
-        Upload File
-    </button>
 </div>
-
 @endpush

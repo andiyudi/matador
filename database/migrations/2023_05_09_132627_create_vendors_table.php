@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('capital');
             $table->string('reference');
+            $table->string('blacklist_note')->nullable();
             $table->enum('grade', ['0', '1', '2']); //0:kecil, 1:menengah, 2: besar
             $table->date('join_date');
             $table->enum('status', ['0', '1', '2', '3'])->default('0'); //0:registered, 1:active, 2:inactive, 3:blacklisted

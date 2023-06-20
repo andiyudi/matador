@@ -10,11 +10,11 @@ class DashboardController extends Controller
 {
     public function getVendorCount(): JsonResponse
     {
-        $registeredCount = Vendor::where('status', '0')->where('is_blacklist', '0')->count();
-        $activeCount = Vendor::where('status', '1')->where('is_blacklist', '0')->count();
-        $expiredCount = Vendor::where('status', '2')->where('is_blacklist', '0')->count();
-        $blacklistCount = Vendor::where('is_blacklist', '1')->count();
-        $notBlacklistCount = Vendor::where('is_blacklist', '0')->count();
+        $registeredCount = Vendor::where('status', '0')->count();
+        $activeCount = Vendor::where('status', '1')->count();
+        $expiredCount = Vendor::where('status', '2')->count();
+        $blacklistCount = Vendor::where('status', '3')->count();
+        // $notBlacklistCount = Vendor::where('is_blacklist', '0')->count();
 
         $totalVendorCount = Vendor::count();
 
@@ -25,7 +25,7 @@ class DashboardController extends Controller
             'active' => $activeCount,
             'expired' => $expiredCount,
             'blacklist' => $blacklistCount,
-            'notBlacklist' => $notBlacklistCount,
+            // 'notBlacklist' => $notBlacklistCount,
         ]);
     }
 
