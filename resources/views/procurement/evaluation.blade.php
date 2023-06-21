@@ -4,11 +4,14 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-body">
-                <h1>Evaluation Job Vendor</h1>
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-6">
+                <div class="card-header">
+                    <h1>Evaluation Job Vendor</h1>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Jobs Data</h5>
                                 <div class="row mb-3">
                                     <label for="name" class="col-sm-4 col-form-label">Job Name</label>
                                     <div class="col-sm-8">
@@ -40,7 +43,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Vendor Data</h5>
                                 <div class="row mb-3">
                                     <label for="vendor" class="col-sm-4 col-form-label">Vendor Name</label>
                                     <div class="col-sm-8">
@@ -74,6 +82,45 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="card-footer">
+                    <h5 class="card-title">Procurement Files</h5>
+                    <table class="table table-responsive table-bordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>File Type</th>
+                                <th>Updated At</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($procurementFiles as $file)
+                            <tr>
+                                <td>{{ $file->file_name }}</td>
+                                <td>
+                                    @if ($file->file_type == 0)
+                                    File Selected Vendor
+                                    @elseif ($file->file_type == 1)
+                                    File Cancelled Procurement
+                                    @elseif ($file->file_type == 2)
+                                    File Repeat Procurement
+                                    @elseif ($file->file_type == 3)
+                                    File Evaluation Company
+                                    @elseif ($file->file_type == 4)
+                                    File Evaluation Vendor
+                                    @else
+                                    Unknown
+                                    @endif
+                                </td>
+                                <td>{{ $file->updated_at }}</td>
+                                <td>
+                                    <a href="{{ asset('storage/'.$file->file_path) }}" class="btn btn-sm btn-info" target="_blank">View</a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

@@ -308,7 +308,8 @@ class ProcurementController extends Controller
         $divisions = Division::all();
         $vendor = $procurement->vendors()->wherePivot('is_selected', '1')->first();
         $source = request('source');
+        $procurementFiles = ProcurementFile::where('procurement_id', $id)->get();
 
-        return view('procurement.evaluation', compact('procurement', 'divisions', 'vendor', 'source'));
+        return view('procurement.evaluation', compact('procurement', 'divisions', 'vendor', 'source', 'procurementFiles'));
     }
 }
