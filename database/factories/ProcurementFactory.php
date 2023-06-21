@@ -24,6 +24,7 @@ class ProcurementFactory extends Factory
     public function definition()
     {
         return [
+            'periode' => date('Y'),
             'name' => 'Pekerjaan ' . $this->faker->word(),
             'number' => 'PP' . $this->faker->regexify('[0-9]{4}-[0-9]{2}'),
             'estimation_time' => $this->faker->randomElement(['1 month', '2 months', '3 months']),

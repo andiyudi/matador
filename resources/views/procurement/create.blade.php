@@ -9,6 +9,24 @@
                 <form action="{{ route('procurement.store') }}" method="POST">
                     @csrf
                     <div class="row mb-3">
+                        <label for="periode" class="col-sm-2 col-form-label">Periode</label>
+                        <div class="col-sm-10">
+                            <select class="form-select @error('periode') is-invalid @enderror" id="periode" name="periode">
+                                @php
+                                    $currentYear = date('Y');
+                                    $startYear = $currentYear - 1;
+                                    $endYear = $currentYear + 1;
+                                @endphp
+                                @for ($year = $startYear; $year <= $endYear; $year++)
+                                    <option value="{{ $year }}" {{ old('periode', $currentYear) == $year ? 'selected' : '' }}>{{ $year }}</option>
+                                @endfor
+                            </select>
+                            @error('periode')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row mb-3">
                         <label for="name" class="col-sm-2 col-form-label">Job Name</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}">
