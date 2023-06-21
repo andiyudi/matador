@@ -6,7 +6,7 @@
             <div class="card">
                 <div class="card-body">
                     <h1>Job Description</h1>
-                    <table class="table table-responsive" id="procurement-table">
+                    <table class="table table-responsive table-bordered table-striped table-hover" id="procurement-table">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -31,7 +31,7 @@
 </div>
 <!-- Modal Print -->
 <div class="modal fade" id="print" tabindex="-1" aria-labelledby="printLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <form id="printForm">
                 <div class="modal-header">
@@ -69,16 +69,16 @@
     </div>
 </div>
 <!-- Modal Vendor -->
-<div class="modal fade" id="vendor" tabindex="-1" aria-labelledby="vendorLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="vendor" tabindex="-1" aria-labelledby="vendorLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="vendorLabel">Pilih Pemenang</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <input type="text" class="form-control" id="file_type" name="file_type" value="0" readonly>
-                <input type="text" class="form-control" id="procurement_id" name="procurement_id" value="" readonly>
+                <input type="hidden" class="form-control" id="file_type" name="file_type" value="0" readonly>
+                <input type="hidden" class="form-control" id="procurement_id" name="procurement_id" value="" readonly>
                 <select id="vendor_id" name="vendor_id" class="form-select" aria-label="Select Vendor">
                     <option selected disabled>Select Vendor</option>
                 </select>
@@ -135,8 +135,10 @@ $(document).ready(function () {
                             return '<span class="badge rounded-pill bg-success">Success</span>';
                         } else if (data === '2') {
                             return '<span class="badge rounded-pill bg-danger">Cancelled</span>';
+                        } else if (data === '3') {
+                            return '<span class="badge rounded-pill bg-warning">Repeated</span>';
                         } else  {
-                            return '-';
+                            return '<span class="badge rounded-pill bg-secondary">Unknown</span>';
                         }
                     }
                 },
@@ -148,19 +150,24 @@ $(document).ready(function () {
                 render: function (data, type, row) {
                 var actionButtons = '';
                 var source='index';
-
+                //proses
                 if (data === '0') {
-                    actionButtons += '<a class="dropdown-item edit-procurement" id="editButton_' + row.id + '" href="' + route('procurement.edit', {procurement: row.id}) + '">Edit</a>';
-                    actionButtons += '<a class="dropdown-item" href="' + route('procurement.show', {procurement: row.id, source: source}) + '">Detail</a>';
+                    actionButtons += '<a type="button" class="dropdown-item edit-procurement" id="editButton_' + row.id + '" href="' + route('procurement.edit', {procurement: row.id}) + '">Edit</a>';
+                    actionButtons += '<a type="button" class="dropdown-item" href="' + route('procurement.show', {procurement: row.id, source: source}) + '">Detail</a>';
                     actionButtons += '<a type="button" class="dropdown-item delete-procurement" id="deleteButton_' + row.id + '" data-id="' + row.id + '">Delete</a>';
                     actionButtons += '<a type="button" class="dropdown-item print-procurement" data-bs-toggle="modal" data-bs-target="#print" id="printButton_' + row.id + '" data-id="' + row.id + '">Print</a>';
-                    actionButtons += '<a class="dropdown-item pick-vendor" data-bs-toggle="modal" data-bs-target="#vendor" id="pickVendorButton_' + row.id + '" data-id="' + row.id + '">Pick Vendor</a>';
+                    actionButtons += '<a type="button" class="dropdown-item pick-vendor" data-bs-toggle="modal" data-bs-target="#vendor" id="pickVendorButton_' + row.id + '" data-id="' + row.id + '">Pick Vendor</a>';
+                    actionButtons += '<a type="button" class="dropdown-item repeat-procurement" id="repeatButton_' + row.id + '" data-id="' + row.id + '">Second Tender</a>';
                     actionButtons += '<a type="button" class="dropdown-item cancel-procurement" id="cancelButton_' + row.id + '" data-id="' + row.id + '">Canceled</a>';
+                //success
                 } else if (data === '1') {
-                    actionButtons += '<a class="dropdown-item" href="' + route('procurement.show', {procurement: row.id, source: source}) + '">Detail</a>';
-                    actionButtons += '<a type="button" class="dropdown-item cancel-procurement" id="cancelButton_' + row.id + '" data-id="' + row.id + '">Canceled</a>';
+                    actionButtons += '<a type="button" class="dropdown-item" href="' + route('procurement.evaluation', {id: row.id, source: source}) + '">Evaluation</a>';
+                //canceled
                 } else if (data === '2') {
-                    actionButtons += '<a class="dropdown-item" href="' + route('procurement.show', {procurement: row.id, source: source}) + '">Detail</a>';
+                    actionButtons += '<a type="button" class="dropdown-item" href="' + route('procurement.show', {procurement: row.id, source: source}) + '">Detail</a>';
+                //repeated
+                } else if (data === '3') {
+                    actionButtons += '<a type="button" class="dropdown-item" href="' + route('procurement.show', {procurement: row.id, source: source}) + '">Detail</a>';
                 }
 
                 return `
@@ -351,6 +358,39 @@ $(document).ready(function () {
                         },
                         error: function (xhr) {
                             Swal.fire('Error canceled jobs', '', 'error');
+                        }
+                    });
+                }
+            });
+    });
+    //Event handler for repeat button
+    $(document).on('click', '.repeat-procurement', function () {
+            var procurementId = $(this).data('id');
+            Swal.fire({
+                title: 'Deadlock',
+                text: 'Are you sure you want to repeat this job?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, repeat this',
+                cancelButtonText: 'Cancel',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Kirim permintaan penambahan ke daftar cancel ke URL yang sesuai
+                    $.ajax({
+                        url: route('procurement.repeat', {procurement: procurementId}),
+                        type: 'POST',
+                        data: {
+                            _method: 'PUT',
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function (response) {
+                            Swal.fire('Jobs repeated successfully', '', 'success').then(() => {
+                                location.reload();
+                            });
+                        },
+                        error: function (xhr) {
+                            Swal.fire('Error repeated jobs', '', 'error');
                         }
                     });
                 }

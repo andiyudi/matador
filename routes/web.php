@@ -21,9 +21,6 @@ use App\Http\Controllers\LogActivityController;
 |
 */
 
-// Route::get('/add-to-log', [LogActivityController::class, 'myTestAddToLog'])->name('add-to-log');
-// Route::get('/logActivity', [LogActivityController::class, 'logActivity'])->name('logActivity');
-
 Route::get('/', function () {
     return view('auth.login');
 });
@@ -45,10 +42,12 @@ Route::middleware(['auth'])->group(function () {
     //procurement
     Route::get('/procurement/{id}/print', [ProcurementController::class, 'print'])->name('procurement.print');
     Route::put('/procurement/{procurement}/cancel', [ProcurementController::class, 'cancel'])->name('procurement.cancel');
+    Route::put('/procurement/{procurement}/repeat', [ProcurementController::class, 'repeat'])->name('procurement.repeat');
     Route::get('/procurement/{procurementId}/vendors', [ProcurementController::class, 'vendors'])->name('procurement.vendors');
     Route::post('/procurement/upload', [ProcurementController::class, 'upload'])->name('procurement.upload');
     Route::post('/procurement/update-selected-vendor', [ProcurementController::class, 'updateSelectedVendor'])->name('procurement.update_selected_vendor');
-    Route::get('/procurement/evaluation', [ProcurementController::class, 'evaluation'])->name('procurement.evaluation');
+    Route::get('/procurement/{id}/evaluation', [ProcurementController::class, 'evaluation'])->name('procurement.evaluation');
+    Route::get('/procurement/data', [ProcurementController::class, 'data'])->name('procurement.data');
 });
 Route::middleware(['auth'])->group(function () {
     Route::resource('core-business', CoreBusinessController::class);

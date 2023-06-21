@@ -61,7 +61,7 @@
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label">Data Vendor</label>
                         <div class="col-sm-10">
-                            <table class="table" id="vendor-table">
+                            <table class="table table-responsive table-bordered table-striped table-hover" id="vendor-table">
                                 <thead>
                                     <tr>
                                         <th>Vendor Name</th>
@@ -82,16 +82,16 @@
                                         </td>
                                         <td>
                                             <span class="vendor-status"></span>
-                                          </td>
-                                          <td>
+                                        </td>
+                                        <td>
                                             <span class="vendor-director"></span>
-                                          </td>
-                                          <td>
+                                        </td>
+                                        <td>
                                             <span class="vendor-phone"></span>
-                                          </td>
-                                          <td>
+                                        </td>
+                                        <td>
                                             <span class="vendor-email"></span>
-                                          </td>
+                                        </td>
                                         <td>
                                             <button type="button" class="btn btn-sm btn-primary" onclick="addVendor()">Add Vendor</button>
                                         </td>

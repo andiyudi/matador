@@ -41,7 +41,7 @@ class ProcurementFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function (Procurement $procurement) {
-            $vendors = Vendor::inRandomOrder()->limit(3)->pluck('id')->toArray();
+            $vendors = Vendor::inRandomOrder()->limit(4)->pluck('id')->toArray();
 
             $procurement->vendors()->attach($vendors);
         });

@@ -5,112 +5,90 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <h1>Vendor Evaluation</h1>
-                    <table class="table table-responsive" id="evaluation-table">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Job Name</th>
-                                <th>Procurement Number</th>
-                                <th>Estimation Time</th>
-                                <th>Division</th>
-                                <th>Person In Charge</th>
-                                <th>Vendors Selected</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!--data displayed here-->
-                        </tbody>
-                    </table>
+                <h1>Evaluation Job Vendor</h1>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row mb-3">
+                                    <label for="name" class="col-sm-4 col-form-label">Job Name</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="name" name="name" value="{{ $procurement->name }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="number" class="col-sm-4 col-form-label">Procurement Number</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="number" name="number" value="{{ $procurement->number }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="estimation_time" class="col-sm-4 col-form-label">Estimation Time</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="estimation_time" name="estimation_time" value="{{ $procurement->estimation_time }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="division" class="col-sm-4 col-form-label">Division</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="division" name="division" value="{{ $procurement->division->name }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="person_in_charge" class="col-sm-4 col-form-label">Person In Charge</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="person_in_charge" name="person_in_charge" value="{{ $procurement->person_in_charge }}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row mb-3">
+                                    <label for="vendor" class="col-sm-4 col-form-label">Vendor Name</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="vendor" name="vendor" value="{{ $vendor->name }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="status" class="col-sm-4 col-form-label">Status</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="status" name="status" value="{{ $vendor->status == '1' ? 'Active' : $vendor->status }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="director" class="col-sm-4 col-form-label">Director</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="director" name="director" value="{{ $vendor->director }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="phone" class="col-sm-4 col-form-label">Phone</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="phone" name="phone" value="{{ $vendor->phone }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="email" class="col-sm-4 col-form-label">Email</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="email" name="email" value="{{ $vendor->email }}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="modal fade" id="evaluation" tabindex="-1" aria-labelledby="evaluationLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="evaluationLabel">Upload Penilaian</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <input type="text" class="form-control" id="file_type" name="file_type" value="0" readonly>
-                <input type="text" class="form-control" id="procurement_id" name="procurement_id" value="" readonly>
-                <div class="mt-3">
-                    <label for="procurement_file" class="form-label">Upload File</label>
-                    <input type="file" class="form-control" id="procurement_file" accept=".pdf" required>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="selectVendorBtn">Select</button>
-            </div>
-        </div>
-    </div>
-</div>
-<script>
-    $(document).ready(function () {
-        $('#evaluation-table').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: '{{ route('procurement.evaluation') }}',
-            columns: [
-                {
-                data: null,
-                render: function (data, type, row, meta) {
-                    return meta.row + meta.settings._iDisplayStart + 1;
-                },
-                name: 'row_number',
-                searchable: false,
-                orderable: false,
-                },
-                { data: 'name', name: 'name' },
-                { data: 'number', name: 'number' },
-                { data: 'estimation_time', name: 'estimation_time' },
-                {
-                    data: 'division_name',
-                    name: 'division_name'
-                },
-                { data: 'person_in_charge', name: 'person_in_charge' },
-                { data: 'vendor_selected', name: 'vendor_selected' },
-                { data: 'status', name: 'status',
-                render: function (data) {
-                        if (data === '1') {
-                            return '<span class="badge rounded-pill bg-success">Success</span>';
-                        } else  {
-                            return '<span class="badge rounded-pill bg-danger">Unknown</span>';
-                        }
-                    }
-                },
-                {
-                data: 'action',
-                name: 'action',
-                orderable: false,
-                searchable: false,
-                render: function (data, type, row, meta) {
-                var source = 'evaluation'; // Nilai sumber halaman ini sesuaikan dengan halaman procurement.evaluation
-                return `
-                <div class="btn-group btn-sm" role="group">
-                    <button type="button" class="btn btn-sm btn-dark btn-pill dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    Action
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="${route('procurement.show', {procurement: row.id, source: source})}">Detail</a></li>
-                        <li><a class="dropdown-item evaluation" data-bs-toggle="modal" data-bs-target="#evaluation" id="evaluation_${row.id}" data-id="${row.id}">Upload</a></li>
-                    </ul>
-                </div>
-                `;
-                }
-            }]
-        });
-    });
-</script>
 @endsection
 @push('page-action')
 <div class="container">
-    <a href="{{ route('procurement.index') }}" class="btn btn-primary mb-3">Back To Jobs Data</a>
+    @if ($source === 'index')
+        <a href="{{ route('procurement.index') }}" class="btn btn-primary">Back</a>
+    @elseif ($source === 'data')
+        <a href="{{ route('procurement.data') }}" class="btn btn-primary">Back</a>
+    @else
+        <!-- Default fallback action -->
+        <a href="{{ route('procurement.index') }}" class="btn btn-primary">Back</a>
+    @endif
 </div>
 @endpush

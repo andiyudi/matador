@@ -9,24 +9,24 @@
 <body>
     <style type="text/css">
         .tg  {border-collapse:collapse;border-spacing:0;}
-        .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+        .tg td{border-color:black;border-style:solid;border-width:1px;font-family:'Times New Roman', Times, serif, sans-serif;font-size:12px;
         overflow:hidden;padding:10px 5px;word-break:normal;}
-        .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+        .tg th{border-color:black;border-style:solid;border-width:1px;font-family:'Times New Roman', Times, serif, sans-serif;font-size:12px;
         font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
         .tg .tg-zv4m{border-color:#ffffff;text-align:left;vertical-align:top}
         .tg .tg-v6d6{border-color:#ffffff;font-size:small;text-align:left;vertical-align:top}
         .tg .tg-t0vf{border-color:#ffffff;font-size:100%;text-align:left;vertical-align:top}
-        .tg .tg-7u00{border-color:#ffffff;font-size:large;text-align:center;vertical-align:top}
+        .tg .tg-7u00{border-color:#ffffff;font-size:medium;text-align:center;vertical-align:top}
 
         .tb  {border-collapse:collapse;border-spacing:0;}
-        .tb td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+        .tb td{border-color:black;border-style:solid;border-width:1px;font-family:'Times New Roman', Times, serif, sans-serif;font-size:12px;
         overflow:hidden;padding:10px 5px;word-break:normal;}
         .tb .tb-0pky{border-color:inherit;text-align:left;vertical-align:top}
 
         .ti  {border-collapse:collapse;border-spacing:0;}
-        .ti td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+        .ti td{border-color:black;border-style:solid;border-width:1px;font-family:'Times New Roman', Times, serif, sans-serif;font-size:12px;
         overflow:hidden;padding:10px 5px;word-break:normal;}
-        .ti th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+        .ti th{border-color:black;border-style:solid;border-width:1px;font-family:'Times New Roman', Times, serif, sans-serif;font-size:12px;
         font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
         .ti .ti-1wig{font-weight:bold;text-align:left;vertical-align:top}
         .ti .ti-wa1i{font-weight:bold;text-align:center;vertical-align:middle}
@@ -34,9 +34,9 @@
         .ti .ti-0lax{text-align:left;vertical-align:top}
 
         .tz  {border-collapse:collapse;border-spacing:0;}
-        .tz td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+        .tz td{border-color:black;border-style:solid;border-width:1px;font-family:'Times New Roman', Times, serif, sans-serif;font-size:12px;
         overflow:hidden;padding:10px 5px;word-break:normal;}
-        .tz th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+        .tz th{border-color:black;border-style:solid;border-width:1px;font-family:'Times New Roman', Times, serif, sans-serif;font-size:12px;
         font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
         .tz .tz-zv4m{border-color:#ffffff;text-align:left;vertical-align:top}
     </style>

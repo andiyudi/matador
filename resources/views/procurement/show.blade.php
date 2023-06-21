@@ -39,7 +39,7 @@
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label">Data Vendor</label>
                         <div class="col-sm-10">
-                            <table class="table" id="vendor-table">
+                            <table class="table table-responsive table-bordered table-striped table-hover" id="vendor-table">
                                 <thead>
                                     <tr>
                                         <th>Vendor Name</th>
@@ -85,8 +85,8 @@
 <div class="container">
     @if ($source === 'index')
         <a href="{{ route('procurement.index') }}" class="btn btn-primary">Back</a>
-    @elseif ($source === 'evaluation')
-        <a href="{{ route('procurement.evaluation') }}" class="btn btn-primary">Back</a>
+    @elseif ($source === 'data')
+        <a href="{{ route('procurement.data') }}" class="btn btn-primary">Back</a>
     @else
         <!-- Default fallback action -->
         <a href="{{ route('procurement.index') }}" class="btn btn-primary">Back</a>

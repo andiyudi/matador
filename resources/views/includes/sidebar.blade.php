@@ -99,37 +99,8 @@
                         <a class="dropdown-item" href="{{ route('procurement.index') }}">
                             Jobs Data
                         </a>
-                        <a class="dropdown-item" href="{{ route('procurement.evaluation') }}">
+                        <a class="dropdown-item" href="{{ route('procurement.data') }}">
                             Review Jobs
-                        </a>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false" >
-                <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/package -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chart-infographic" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                        <path d="M7 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path>
-                        <path d="M7 3v4h4"></path>
-                        <path d="M9 17l0 4"></path>
-                        <path d="M17 14l0 7"></path>
-                        <path d="M13 13l0 8"></path>
-                        <path d="M21 12l0 9"></path>
-                    </svg>
-                </span>
-                <span class="nav-link-title">
-                    Vendor Evaluation
-                </span>
-                </a>
-                <div class="dropdown-menu">
-                    <div class="dropdown-menu-columns">
-                        <div class="dropdown-menu-column">
-                        <a class="dropdown-item" href="#">
-                            CMNP To Vendor
-                        </a>
-                        <a class="dropdown-item" href="#">
-                            Vendor To CMNP
                         </a>
                     </div>
                 </div>

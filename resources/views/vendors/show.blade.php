@@ -107,7 +107,7 @@
                 <div class="card-body">
                 <h3>Existing Files:</h3>
                 @if($vendor_files && $vendor_files->count() > 0)
-                <table class="table">
+                <table class="table table-responsive table-bordered table-striped table-hover">
                     <thead>
                         <tr>
                             <th>Name</th>

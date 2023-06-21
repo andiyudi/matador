@@ -64,7 +64,7 @@
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label">Data Vendor</label>
                             <div class="col-sm-10">
-                                <table class="table" id="vendor-table">
+                                <table class="table table-responsive table-bordered table-striped table-hover" id="vendor-table">
                                     <thead>
                                         <tr>
                                             <th>Vendor Name</th>

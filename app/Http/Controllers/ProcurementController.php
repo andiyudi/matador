@@ -21,6 +21,7 @@ class ProcurementController extends Controller
         if (request()->ajax()) {
             $procurements = Procurement::leftJoin('divisions', 'procurements.division_id', '=', 'divisions.id')
                 ->with('vendors')
+                ->where('procurements.status', '!=', '1')
                 ->orderByDesc('procurements.id')
                 ->select('procurements.*', 'divisions.name as division_name')
                 ->get();
@@ -57,7 +58,6 @@ class ProcurementController extends Controller
             'division' => 'required',
             'person_in_charge' => 'required',
         ]);
-        // dd(request()->all());
         // Create a new procurement
         $procurement = new Procurement();
         $procurement->name = $request->input('name');
@@ -71,12 +71,6 @@ class ProcurementController extends Controller
         $vendorIds = $request->input('vendor_id');
         if (!empty($vendorIds)) {
             $procurement->vendors()->attach($vendorIds);
-            // Update vendor status and activated_at
-            // Vendor::whereIn('id', $vendorIds)->update([
-            //     'status' => '1', // Set status to 1 (active)
-            //     'activated_at' => today(), // Set activated_at to current timestamp
-            //     'expired_at' => (date('Y') . '-12-31'),
-            // ]);
         }
 
         Alert::success('Success', 'Job data has been saved.');
@@ -196,6 +190,14 @@ class ProcurementController extends Controller
         return redirect()->route('procurement.index');
     }
 
+    public function repeat(Procurement $procurement)
+    {
+        $procurement->status = '3';
+        $procurement->save();
+
+        return redirect()->route('procurement.index');
+    }
+
     public function vendors($procurementId)
     {
         $procurement = Procurement::findOrFail($procurementId);
@@ -273,7 +275,7 @@ class ProcurementController extends Controller
         }
     }
 
-    public function evaluation()
+    public function data()
     {
         if (request()->ajax()) {
             $procurements = Procurement::where('status', '1')
@@ -297,6 +299,16 @@ class ProcurementController extends Controller
                 ->make(true);
         }
 
-        return view('procurement.evaluation');
+        return view('procurement.data');
+    }
+
+    public function evaluation($id)
+    {
+        $procurement = Procurement::findOrFail($id);
+        $divisions = Division::all();
+        $vendor = $procurement->vendors()->wherePivot('is_selected', '1')->first();
+        $source = request('source');
+
+        return view('procurement.evaluation', compact('procurement', 'divisions', 'vendor', 'source'));
     }
 }

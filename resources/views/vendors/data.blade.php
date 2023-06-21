@@ -6,7 +6,7 @@
             <div class="card">
                 <div class="card-body">
                     <h1>Blacklist Vendor Data</h1>
-                    <table class="table table-responsive" id="vendors-data">
+                    <table class="table table-responsive table-bordered table-striped table-hover" id="vendors-data">
                         <thead>
                             <tr>
                                 <th>No</th>
