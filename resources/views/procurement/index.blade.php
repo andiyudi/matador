@@ -11,10 +11,10 @@
                             <tr>
                                 <th>No</th>
                                 <th>Job Name</th>
-                                <th>Procurement Number</th>
-                                <th>Estimation Time</th>
+                                <th>Procurement</th>
+                                <th>Estimation</th>
                                 <th>Division</th>
-                                <th>Person In Charge</th>
+                                <th>PIC</th>
                                 <th>Vendors</th>
                                 <th>Status</th>
                                 <th>Action</th>
@@ -77,6 +77,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                <label for="vendor_id" class="form-label">Pilih Vendor</label>
                 <input type="hidden" class="form-control" id="file_type" name="file_type" value="0" readonly>
                 <input type="hidden" class="form-control" id="procurement_id" name="procurement_id" value="" readonly>
                 <select id="vendor_id" name="vendor_id" class="form-select" aria-label="Select Vendor">
@@ -110,7 +111,13 @@ $(document).ready(function () {
                 searchable: false,
                 orderable: false,
                 },
-                { data: 'name', name: 'name' },
+                {
+                    data: 'name',
+                    name: 'name',
+                    render: function(data, type, row) {
+                        return data + ' - Periode ' + row.periode;
+                    }
+                },
                 { data: 'number', name: 'number' },
                 { data: 'estimation_time', name: 'estimation_time' },
                 {
@@ -320,7 +327,7 @@ $(document).ready(function () {
             // Perform other actions after the update succeeds
             Swal.fire('Vendor selected successfully', '', 'success').then(() => {
                 // Reload the page
-                location.reload();
+                window.location.href = route('procurement.data');
             });
         },
             error: function (xhr) {

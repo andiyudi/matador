@@ -47,7 +47,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/procurement/upload', [ProcurementController::class, 'upload'])->name('procurement.upload');
     Route::post('/procurement/update-selected-vendor', [ProcurementController::class, 'updateSelectedVendor'])->name('procurement.update_selected_vendor');
     Route::get('/procurement/{id}/evaluation', [ProcurementController::class, 'evaluation'])->name('procurement.evaluation');
+    Route::get('/procurement/{id}/view', [ProcurementController::class, 'view'])->name('procurement.view');
     Route::get('/procurement/data', [ProcurementController::class, 'data'])->name('procurement.data');
+    Route::post('/procurement/evaluation-company', [ProcurementController::class, 'saveEvaluationCompany'])->name('procurement.evaluation-company');
+    Route::post('/procurement/evaluation-vendor', [ProcurementController::class, 'saveEvaluationVendor'])->name('procurement.evaluation-vendor');
 });
 Route::middleware(['auth'])->group(function () {
     Route::resource('core-business', CoreBusinessController::class);

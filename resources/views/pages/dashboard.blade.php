@@ -111,6 +111,7 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Vendor Name</th>
+                                        <th>Join Date</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
@@ -216,7 +217,10 @@ function populateTable(data, tableId) {
         cellName.innerHTML = data[i].name;
 
         if (tableId === 'latestVendorsTable') {
-            var cellVendorStatus = row.insertCell(2);
+            var cellJoinDate = row.insertCell(2);
+            cellJoinDate.innerHTML = data[i].join_date;
+
+            var cellVendorStatus = row.insertCell(3);
             if (data[i].status === "0") {
                 cellVendorStatus.innerHTML = '<span class="badge text-bg-info">Registered</span>';
             } else if (data[i].status === "1") {

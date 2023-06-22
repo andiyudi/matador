@@ -11,16 +11,7 @@
                     <div class="row mb-3">
                         <label for="periode" class="col-sm-2 col-form-label">Periode</label>
                         <div class="col-sm-10">
-                            <select class="form-select @error('periode') is-invalid @enderror" id="periode" name="periode">
-                                @php
-                                    $currentYear = date('Y');
-                                    $startYear = $currentYear - 1;
-                                    $endYear = $currentYear + 1;
-                                @endphp
-                                @for ($year = $startYear; $year <= $endYear; $year++)
-                                    <option value="{{ $year }}" {{ old('periode', $currentYear) == $year ? 'selected' : '' }}>{{ $year }}</option>
-                                @endfor
-                            </select>
+                            <input type="text" class="form-control @error('periode') is-invalid @enderror" name="periode" id="periode" value="{{ old('periode', date('Y')) }}">
                             @error('periode')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -132,14 +123,11 @@
     $(document).ready(function() {
         $('.select2').select2();
     });
-
     function populateVendorData(selectElement) {
         const selectedVendorId = selectElement.value;
         const selectedVendor = getVendorById(selectedVendorId);
-
         if (selectedVendor) {
         const row = selectElement.parentNode.parentNode;
-
         const statusSpan = row.cells[1].querySelector('.vendor-status');
         if (selectedVendor.status === '0') {
         statusSpan.textContent = 'Registered';
@@ -152,100 +140,103 @@
         } else {
         statusSpan.textContent = 'Unknown';
         }
-
-    // row.cells[1].querySelector('.vendor-status').textContent = selectedVendor.status;
-    row.cells[2].querySelector('.vendor-director').textContent = selectedVendor.director;
-    row.cells[3].querySelector('.vendor-phone').textContent = selectedVendor.phone;
-    row.cells[4].querySelector('.vendor-email').textContent = selectedVendor.email;
+        // row.cells[1].querySelector('.vendor-status').textContent = selectedVendor.status;
+        row.cells[2].querySelector('.vendor-director').textContent = selectedVendor.director;
+        row.cells[3].querySelector('.vendor-phone').textContent = selectedVendor.phone;
+        row.cells[4].querySelector('.vendor-email').textContent = selectedVendor.email;
         } else {
         // Reset input fields
         const row = selectElement.parentNode.parentNode;
         row.cells[1].querySelector('.vendor-status').textContent = '';
-    row.cells[2].querySelector('.vendor-director').textContent = '';
-    row.cells[3].querySelector('.vendor-phone').textContent = '';
-    row.cells[4].querySelector('.vendor-email').textContent = '';
-  }
+        row.cells[2].querySelector('.vendor-director').textContent = '';
+        row.cells[3].querySelector('.vendor-phone').textContent = '';
+        row.cells[4].querySelector('.vendor-email').textContent = '';
         }
-    // }
-
+    }
     function getVendorById(vendorId) {
         // Replace vendorsData with the actual data variable that contains vendor information
         const vendorsData = {!! $vendors !!};
         return vendorsData.find(vendor => vendor.id == vendorId);
     }
-
     function addVendor() {
-  const selectElement = document.createElement('select');
-  selectElement.className = 'form-control select2';
-  selectElement.name = 'vendor_id[]';
-  selectElement.onchange = function() {
-    populateVendorData(this);
-  };
+        const selectElement = document.createElement('select');
+        selectElement.className = 'form-control select2';
+        selectElement.name = 'vendor_id[]';
+        selectElement.onchange = function() {
+            populateVendorData(this);
+        };
 
-  const optionElement = document.createElement('option');
-  optionElement.value = '';
-  optionElement.disabled = true;
-  optionElement.selected = true;
-  optionElement.textContent = 'Select Vendor';
+        const optionElement = document.createElement('option');
+        optionElement.value = '';
+        optionElement.disabled = true;
+        optionElement.selected = true;
+        optionElement.textContent = 'Select Vendor';
 
-  selectElement.appendChild(optionElement);
+        selectElement.appendChild(optionElement);
 
-  const vendorsData = {!! $vendors !!};
-  vendorsData.forEach(function(vendor) {
-    const optionElement = document.createElement('option');
-    optionElement.value = vendor.id;
-    optionElement.textContent = vendor.name;
-    selectElement.appendChild(optionElement);
-  });
+        const vendorsData = {!! $vendors !!};
+        vendorsData.forEach(function(vendor) {
+            const optionElement = document.createElement('option');
+            optionElement.value = vendor.id;
+            optionElement.textContent = vendor.name;
+            selectElement.appendChild(optionElement);
+        });
 
-  // Disable selected options
-  const selectedOptions = document.querySelectorAll('#vendor-table select.form-control.select2 option:checked');
-  selectedOptions.forEach(function(option) {
-    const selectedVendorId = option.value;
-    selectElement.querySelector(`option[value="${selectedVendorId}"]`).disabled = true;
-  });
+        // Disable selected options
+        const selectedOptions = document.querySelectorAll('#vendor-table select.form-control.select2 option:checked');
+        selectedOptions.forEach(function(option) {
+            const selectedVendorId = option.value;
+            selectElement.querySelector(`option[value="${selectedVendorId}"]`).disabled = true;
+        });
 
-  const tbody = document.getElementById('vendor-table').getElementsByTagName('tbody')[0];
-  const row = document.createElement('tr');
-  row.innerHTML = `
-    <td></td>
-    <td>
-    <span class="vendor-status"></span>
-  </td>
-  <td>
-    <span class="vendor-director"></span>
-  </td>
-  <td>
-    <span class="vendor-phone"></span>
-  </td>
-  <td>
-    <span class="vendor-email"></span>
-  </td>
-    <td>
-      <button type="button" class="btn btn-sm btn-danger" onclick="deleteVendorRow(this)">Delete</button>
-    </td>
-  `;
+        const tbody = document.getElementById('vendor-table').getElementsByTagName('tbody')[0];
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td></td>
+            <td>
+                <span class="vendor-status"></span>
+            </td>
+            <td>
+                <span class="vendor-director"></span>
+            </td>
+            <td>
+                <span class="vendor-phone"></span>
+            </td>
+            <td>
+                <span class="vendor-email"></span>
+            </td>
+            <td>
+                <button type="button" class="btn btn-sm btn-danger" onclick="deleteVendorRow(this)">Delete</button>
+            </td>
+            `;
+        const cell = row.cells[0];
+        cell.appendChild(selectElement);
 
-  const cell = row.cells[0];
-  cell.appendChild(selectElement);
+        tbody.appendChild(row);
 
-  tbody.appendChild(row);
-
-  $('.select2').select2();
-}
-
-
+        $('.select2').select2();
+    }
     function deleteVendorRow(button) {
         const row = button.parentNode.parentNode;
         row.parentNode.removeChild(row);
     }
 
 </script>
-
-
-
-
-
+<script>
+    $(document).ready(function(){
+        var currentYear = (new Date()).getFullYear();
+        var lastYear = currentYear - 1;
+        var nextYear = currentYear + 1;
+        $("#periode").datepicker({
+            format: "yyyy",
+            viewMode: "years",
+            minViewMode: "years",
+            autoclose:true,
+            startDate: new Date(lastYear, 0, 1),
+            endDate: new Date(nextYear, 11, 31)
+        });
+    })
+</script>
 @endsection
 @push('page-action')
 <div class="container">

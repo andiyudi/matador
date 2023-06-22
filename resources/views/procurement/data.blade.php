@@ -11,10 +11,10 @@
                             <tr>
                                 <th>No</th>
                                 <th>Job Name</th>
-                                <th>Procurement Number</th>
-                                <th>Estimation Time</th>
+                                <th>Procurement</th>
+                                <th>Estimation</th>
                                 <th>Division</th>
-                                <th>Person In Charge</th>
+                                <th>PIC</th>
                                 <th>Vendors Selected</th>
                                 <th>Status</th>
                                 <th>Action</th>
@@ -45,7 +45,13 @@
                 searchable: false,
                 orderable: false,
                 },
-                { data: 'name', name: 'name' },
+                {
+                    data: 'name',
+                    name: 'name',
+                    render: function(data, type, row) {
+                        return data + ' - Periode ' + row.periode;
+                    }
+                },
                 { data: 'number', name: 'number' },
                 { data: 'estimation_time', name: 'estimation_time' },
                 {
@@ -76,6 +82,7 @@
                     Action
                     </button>
                     <ul class="dropdown-menu">
+                        <li><a type="button" class="dropdown-item" href="${route('procurement.view', {id: row.id, source: source})}">View</a></li>
                         <li><a type="button" class="dropdown-item" href="${route('procurement.evaluation', {id: row.id, source: source})}">Evaluation</a></li>
                     </ul>
                 </div>

@@ -10,6 +10,15 @@
                         @csrf
                         @method('PUT')
                         <div class="row mb-3">
+                            <label for="periode" class="col-sm-2 col-form-label">Periode</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control @error('periode') is-invalid @enderror" id="periode" name="periode" value="{{ $procurement->periode }}">
+                                @error('periode')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row mb-3">
                             <label for="name" class="col-sm-2 col-form-label">Job Name</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ $procurement->name }}">
@@ -227,9 +236,21 @@
         row.parentNode.removeChild(row);
     }
 </script>
-
-
-
+<script>
+    $(document).ready(function(){
+        var currentYear = (new Date()).getFullYear();
+        var lastYear = currentYear - 1;
+        var nextYear = currentYear + 1;
+        $("#periode").datepicker({
+            format: "yyyy",
+            viewMode: "years",
+            minViewMode: "years",
+            autoclose:true,
+            startDate: new Date(lastYear, 0, 1),
+            endDate: new Date(nextYear, 11, 31)
+        });
+    })
+</script>
 @endsection
 @push('page-action')
 <div class="container">

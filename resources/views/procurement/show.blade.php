@@ -7,6 +7,12 @@
                 <div class="card-body">
                 <h1>Detail Job Data</h1>
                     <div class="row mb-3">
+                        <label for="periode" class="col-sm-2 col-form-label">Periode</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="periode" name="periode" value="{{ $procurement->periode }}" readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
                         <label for="name" class="col-sm-2 col-form-label">Job Name</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="name" name="name" value="{{ $procurement->name }}" readonly>

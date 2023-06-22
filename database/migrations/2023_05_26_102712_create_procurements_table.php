@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('procurements', function (Blueprint $table) {
             $table->id();
-            $table->year('periode')->default(date('Y'));
+            $table->year('periode');
             $table->string('name');
             $table->string('number');
             $table->string('estimation_time');
