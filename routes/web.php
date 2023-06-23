@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DivisionController;
@@ -8,7 +9,6 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProcurementController;
 use App\Http\Controllers\CoreBusinessController;
 use App\Http\Controllers\ClassificationController;
-use App\Http\Controllers\LogActivityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +53,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/procurement/evaluation-vendor', [ProcurementController::class, 'saveEvaluationVendor'])->name('procurement.evaluation-vendor');
     Route::get('procurement-files/{procurementId}', [ProcurementController::class, 'getProcurementFile'])
         ->name('procurement.get-file');
+    //report
+    Route::get('/report', [ReportController::class, 'index'])->name('report.index');
 });
 Route::middleware(['auth'])->group(function () {
     Route::resource('core-business', CoreBusinessController::class);
