@@ -290,7 +290,7 @@ class ProcurementController extends Controller
                     $query->where('is_selected', '1')->select('name');
                 }])
                 ->with('division') // Tambahkan eager loading untuk relasi division
-                ->orderByDesc('id')
+                ->orderByDesc('updated_at')
                 ->get();
 
             return DataTables::of($procurements)
@@ -337,7 +337,30 @@ class ProcurementController extends Controller
             'vendor_name' => $vendor->name,
         ];
 
+        // Mengambil informasi apakah file evaluation company dan file vendor sudah ada
+        $fileExistsResponse = $this->getProcurementFile($id);
+        $fileCompanyExists = $fileExistsResponse->original['fileCompanyExists'];
+        $fileVendorExists = $fileExistsResponse->original['fileVendorExists'];
+        $data['fileCompanyExists'] = $fileCompanyExists;
+        $data['fileVendorExists'] = $fileVendorExists;
+
         return view('procurement.evaluation', $data);
+    }
+    public function getProcurementFile($procurementId)
+    {
+        $fileCompanyExists = ProcurementFile::where('procurement_id', $procurementId)
+            ->where('file_type', 3)
+            ->exists();
+
+        $fileVendorExists = ProcurementFile::where('procurement_id', $procurementId)
+            ->where('file_type', 4)
+            ->exists();
+
+
+        return response()->json([
+            'fileCompanyExists' => $fileCompanyExists,
+            'fileVendorExists' => $fileVendorExists,
+        ]);
     }
 
     public function saveEvaluationCompany(Request $request)
@@ -367,38 +390,66 @@ class ProcurementController extends Controller
         $procurementFile->file_path = $filePath;
         $procurementFile->file_type = $fileType;
         $procurementFile->save();
-        // $fileData = [
-        //     'procurement_id' => $procurementId,
-        //     'file_name' => $fileName,
-        //     'file_path' => $filePath,
-        //     'file_type' => 3,
-        //     // Jika diperlukan, tambahkan kolom lain yang relevan
-        // ];
-        // $fileId = DB::table('procurement_files')->insertGetId($fileData);
 
         // Update kolom evaluation di tabel procurement_vendor
-        // DB::table('procurement_vendor')
-        //     ->where('procurement_id', $procurementId)
-        //     ->where('vendor_id', $vendorId)
-        //     ->update(['evaluation' => $request->input('evaluation')]);
+        $procurement = Procurement::findOrFail($procurementId);
+        $vendor = $procurement->vendors()->findOrFail($vendorId);
+        $vendor->pivot->evaluation = $request->input('evaluation');
+        $vendor->pivot->save();
 
         // Berikan respons berupa data yang berhasil disimpan
         return response()->json([
-            'message' => 'Data berhasil disimpan.',
-            // 'fileId' => $fileId,
-            // 'vendorName' => $vendorName,
+            'message' => 'File evaluasi vendor berhasil disimpan.',
         ]);
     }
 
     public function saveEvaluationVendor(Request $request)
     {
         // Validasi input jika diperlukan
-        // ...
+        $request->validate([
+            'file_evaluation_vendor' => 'required|file|mimes:pdf|max:2048', // Ubah sesuai kebutuhan
+            'value_cost' => 'required|in:0,1,2', // Ubah sesuai kebutuhan
+            'contract_order' => 'required|in:0,1,2', // Ubah sesuai kebutuhan
+            'work_implementation' => 'required|in:0,1,2', // Ubah sesuai kebutuhan
+            'pre_handover' => 'required|in:0,1,2', // Ubah sesuai kebutuhan
+            'final_handover' => 'required|in:0,1,2', // Ubah sesuai kebutuhan
+            'invoice_payment' => 'required|in:0,1,2', // Ubah sesuai kebutuhan
+        ]);
 
-        // Simpan data dari modalEvaluationVendor ke database
-        // ...
+        // Menyimpan file ke direktori penyimpanan (storage/app/public)
+        $file = $request->file('file_evaluation_vendor');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $filePath = $file->storeAs('procurement_files', $fileName, 'public');
+        $fileType = $request->input('file_type');
 
-        // Redirect atau memberikan respons sesuai kebutuhan
-        // ...
+
+        // Mendapatkan procurement_id, vendor_id, dan vendor_name
+        $procurementId = $request->input('procurement_id');
+        $vendorId = $request->input('vendor_id');
+        $vendorName = $request->input('vendor_name');
+
+        // Simpan data ke tabel procurement_files
+        $procurementFile = new ProcurementFile();
+        $procurementFile->procurement_id = $procurementId;
+        $procurementFile->file_name = $fileName;
+        $procurementFile->file_path = $filePath;
+        $procurementFile->file_type = $fileType;
+        $procurementFile->save();
+
+        // Update kolom evaluation di tabel procurement_vendor
+        $procurement = Procurement::findOrFail($procurementId);
+        $vendor = $procurement->vendors()->findOrFail($vendorId);
+        $vendor->pivot->value_cost = $request->input('value_cost');
+        $vendor->pivot->contract_order = $request->input('contract_order');
+        $vendor->pivot->work_implementation = $request->input('work_implementation');
+        $vendor->pivot->pre_handover = $request->input('pre_handover');
+        $vendor->pivot->final_handover = $request->input('final_handover');
+        $vendor->pivot->invoice_payment = $request->input('invoice_payment');
+        $vendor->pivot->save();
+
+        // Berikan respons berupa data yang berhasil disimpan
+        return response()->json([
+            'message' => 'File evaluasi company berhasil disimpan.',
+        ]);
     }
 }

@@ -49,23 +49,23 @@
             <h3 class="text-center mb-4">APLIKASI MANAJEMEN DATABASE VENDOR</h3>
             <form method="POST" action="{{ route('login') }}" autocomplete="off" novalidate>
                 @csrf
-              <div class="mb-3">
-                <label class="form-label">Username</label>
-                <input type="username" name="username" class="form-control" placeholder="Your username" autocomplete="off">
-              </div>
-              <div class="mb-2">
-                <label class="form-label">
-                  Password
-                </label>
-                <div class="input-group input-group-flat">
-                  <input type="password"  name="password" class="form-control"  placeholder="Your password"  autocomplete="off">
-                  <span class="input-group-text">
-                  </span>
+                <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    <input type="text" name="username" class="form-control" placeholder="Your username" autocomplete="off">
                 </div>
-              </div>
-              <div class="form-footer">
-                <button type="submit" class="btn btn-primary w-100">Sign in</button>
-              </div>
+                <div class="mb-2">
+                    <label class="form-label">Password</label>
+                    <div class="input-group input-group-flat">
+                        <input type="password" name="password" class="form-control" placeholder="Your password" autocomplete="off">
+                        <span class="input-group-text"></span>
+                    </div>
+                </div>
+                @error('username')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
+                <div class="form-footer">
+                    <button type="submit" class="btn btn-primary w-100">Sign in</button>
+                </div>
             </form>
           </div>
         </div>

@@ -88,8 +88,9 @@
                         <div class="col-md-6">
                             <h5 class="card-title">Procurement Files</h5>
                         </div>
-                        <div class="col-md-6">
-                            <button class="btn btn-primary float-end mb-3" data-bs-target="#modalEvaluationCompany" data-bs-toggle="modal">Give Evaluation</button>
+                        <div class="col-md-6 btn-group">
+                            <button id="evaluationCompanyButton" class="btn btn-primary mb-3 me-3" data-bs-target="#modalEvaluationCompany" data-bs-toggle="modal" @if($fileCompanyExists) disabled @endif>Give Evaluation To Vendor</button>
+                            <button id="evaluationVendorButton" class="btn btn-primary mb-3" data-bs-target="#modalEvaluationVendor" data-bs-toggle="modal" @if($fileVendorExists) disabled @endif>Give Evaluation To CMNP</button>
                         </div>
                     </div>
                     <table class="table table-responsive table-bordered table-striped table-hover">
@@ -183,14 +184,14 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" id="evaluationCompanyBtn" name="evaluationCompanyBtn" class="btn btn-success" data-bs-target="#modalEvaluationVendor" data-bs-toggle="modal">Submit</button>
+                    <button type="submit" id="evaluationCompanyBtn" name="evaluationCompanyBtn" class="btn btn-success">Submit</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 <div class="modal fade" id="modalEvaluationVendor" aria-hidden="true" aria-labelledby="modalEvaluationVendorLabel" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="modalEvaluationVendorLabel">Evaluation Vendor To CMNP</h1>
@@ -201,7 +202,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="vendor_name">Vendor Name</label>
-                        <input type="hidden" class="form-control" name="file_type" id="file_type" value="3" readonly>
+                        <input type="hidden" class="form-control" name="file_type" id="file_type" value="4" readonly>
                         <input type="hidden" class="form-control" name="procurement_id" id="procurement_id" value="{{ $procurement_id }}" readonly>
                         <input type="hidden" class="form-control" name="vendor_id" id="vendor_id" value="{{ $vendor_id }}" readonly>
                         <input type="text" class="form-control" name="vendor_name" id="vendor_name" value="{{ $vendor_name }}" readonly>
@@ -415,41 +416,137 @@
 </div>
 <script>
     $(document).ready(function() {
-    $('#evaluationCompanyForm').on('submit', function(event) {
-        event.preventDefault();
+        // Memeriksa apakah procurement_id sudah memiliki file_type=3
+        var procurementId = "{{ $procurement_id }}";
+        checkProcurementFile(procurementId);
 
-        var formData = new FormData($(this)[0]);
+        $('#evaluationCompanyForm').on('submit', function(event) {
+            event.preventDefault();
 
-        $.ajax({
-            url: $(this).attr('action'),
-            type: $(this).attr('method'),
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-                // Tangani respons berhasil
-                console.log(response);
-                alert('Data berhasil disimpan.');
+            var formData = new FormData($(this)[0]);
 
-                // Contoh tindakan lain yang dapat Anda lakukan setelah menyimpan data
-                var fileId = response.fileId;
-                var vendorName = response.vendorName;
-                $('#fileIdInput').val(fileId);
-                $('#vendorNameInput').val(vendorName);
-                // ...
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    // Tangani respons berhasil
+                    console.log(response);
+                    Swal.fire({
+                        title: "Success",
+                        text: response.message,
+                        icon: "success",
+                        button: "OK",
+                    }).then(function() {
+                        // Contoh tindakan lain yang dapat Anda lakukan setelah menyimpan data
+                        var fileId = response.fileId;
+                        var vendorName = response.vendorName;
+                        $('#fileIdInput').val(fileId);
+                        $('#vendorNameInput').val(vendorName);
+                        // ...
 
-                // Tutup modal atau lakukan tindakan lain yang sesuai
-                $('#modalEvaluationCompany').modal('hide');
-            },
-            error: function(xhr, status, error) {
-                // Tangani respons error
-                console.log(xhr.responseText);
-                alert('Terjadi kesalahan: ' + xhr.responseText);
-            }
+                        // Tutup modal atau lakukan tindakan lain yang sesuai
+                        $('#modalEvaluationCompany').modal('hide');
+                        // Nonaktifkan tombol "Give Evaluation" setelah evaluasi berhasil diberikan
+                        $('#evaluationButton').attr('disabled', true);
+                        location.reload();
+                    });
+                },
+                error: function(xhr, status, error) {
+                    // Tangani respons error
+                    console.log(xhr.responseText);
+                    swal("Error", "Terjadi kesalahan: " + xhr.responseText, "error");
+                }
+            });
         });
-    });
-});
 
+        // Fungsi untuk memeriksa apakah procurement_id sudah memiliki file_type=3
+        function checkProcurementFile(procurementId) {
+            $.ajax({
+                url: "{{ route('procurement.get-file', ':procurementId') }}".replace(':procurementId', procurementId),
+                type: 'GET',
+                success: function(response) {
+                    if (response.fileExists) {
+                        // Nonaktifkan tombol "Give Evaluation" jika procurement_id sudah memiliki file_type=3
+                        $('#evaluationButton').attr('disabled', true);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                    swal("Error", "Terjadi kesalahan: " + xhr.responseText, "error");
+                }
+            });
+        }
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        // Memeriksa apakah procurement_id sudah memiliki file_type=3
+        var procurementId = "{{ $procurement_id }}";
+        checkProcurementFile(procurementId);
+
+        $('#evaluationVendorForm').on('submit', function(event) {
+            event.preventDefault();
+
+            var formData = new FormData($(this)[0]);
+
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    // Tangani respons berhasil
+                    console.log(response);
+                    Swal.fire({
+                        title: "Success",
+                        text: response.message,
+                        icon: "success",
+                        button: "OK",
+                    }).then(function() {
+                        // Contoh tindakan lain yang dapat Anda lakukan setelah menyimpan data
+                        var fileId = response.fileId;
+                        var vendorName = response.vendorName;
+                        $('#fileIdInput').val(fileId);
+                        $('#vendorNameInput').val(vendorName);
+                        // ...
+
+                        // Tutup modal atau lakukan tindakan lain yang sesuai
+                        $('#modalEvaluationVendors').modal('hide');
+                        // Nonaktifkan tombol "Give Evaluation" setelah evaluasi berhasil diberikan
+                        $('#evaluationButton').attr('disabled', true);
+                        location.reload();
+                    });
+                },
+                error: function(xhr, status, error) {
+                    // Tangani respons error
+                    console.log(xhr.responseText);
+                    swal("Error", "Terjadi kesalahan: " + xhr.responseText, "error");
+                }
+            });
+        });
+
+        // Fungsi untuk memeriksa apakah procurement_id sudah memiliki file_type=3
+        function checkProcurementFile(procurementId) {
+            $.ajax({
+                url: "{{ route('procurement.get-file', ':procurementId') }}".replace(':procurementId', procurementId),
+                type: 'GET',
+                success: function(response) {
+                    if (response.fileExists) {
+                        // Nonaktifkan tombol "Give Evaluation" jika procurement_id sudah memiliki file_type=3
+                        $('#evaluationButton').attr('disabled', true);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                    swal("Error", "Terjadi kesalahan: " + xhr.responseText, "error");
+                }
+            });
+        }
+    });
 </script>
 @endsection
 @push('page-action')

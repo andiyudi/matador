@@ -51,6 +51,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/procurement/data', [ProcurementController::class, 'data'])->name('procurement.data');
     Route::post('/procurement/evaluation-company', [ProcurementController::class, 'saveEvaluationCompany'])->name('procurement.evaluation-company');
     Route::post('/procurement/evaluation-vendor', [ProcurementController::class, 'saveEvaluationVendor'])->name('procurement.evaluation-vendor');
+    Route::get('procurement-files/{procurementId}', [ProcurementController::class, 'getProcurementFile'])
+        ->name('procurement.get-file');
 });
 Route::middleware(['auth'])->group(function () {
     Route::resource('core-business', CoreBusinessController::class);
