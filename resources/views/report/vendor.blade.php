@@ -93,6 +93,17 @@
             var status = $('#vendorStatus').val();
             var fromDate = $('#startDate').val();
             var toDate = $('#endDate').val();
+
+             // Validasi form
+            if (status === null || fromDate === '' || toDate === '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Failed',
+                text: 'Please complete all fields',
+            });
+            return false;
+        }
+
             var url = "{{ route('report.vendor') }}?statusVendor=" + status + "&startDate=" + fromDate + "&endDate=" + toDate;
             $('#searchResults').attr('src', url);
         });
@@ -107,6 +118,17 @@
             var supervisorName = $('#supervisorName').val();
             var supervisorPosition = $('#supervisorPosition').val();
             var url = $('#searchResults').attr('src');
+
+             // Validasi form
+            if (creatorName === '' || creatorPosition === '' || supervisorName === '' || supervisorPosition === '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: 'Please complete all fields',
+                });
+                return false;
+            }
+
             if (url) {
                 url += '&creatorName=' + encodeURIComponent(creatorName);
                 url += '&creatorPosition=' + encodeURIComponent(creatorPosition);
