@@ -139,6 +139,7 @@
             }
             $('#printModal').modal('hide');
             $('#printForm')[0].reset();
+            location.reload();
         });
     });
 </script>

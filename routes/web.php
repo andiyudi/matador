@@ -56,6 +56,8 @@ Route::middleware(['auth'])->group(function () {
     //report
     Route::get('/report', [ReportController::class, 'index'])->name('report.index');
     Route::get('/report-vendor', [ReportController::class, 'vendor'])->name('report.vendor');
+    Route::get('/report-vendor-to-company', [ReportController::class, 'vendorToCompanyReport'])->name('report.vendor-to-company');
+    Route::get('/report-company-to-vendor', [ReportController::class, 'companyToVendorReport'])->name('report.company-to-vendor');
 });
 Route::middleware(['auth'])->group(function () {
     Route::resource('core-business', CoreBusinessController::class);

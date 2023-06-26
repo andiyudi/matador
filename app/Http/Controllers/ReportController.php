@@ -66,4 +66,38 @@ class ReportController extends Controller
 
         return view('report.vendor-result', compact('vendors', 'logoBase64', 'creatorName', 'creatorPosition', 'supervisorName', 'supervisorPosition', 'status', 'formattedStartDate', 'formattedEndDate'));
     }
+
+    public function vendorToCompanyReport(Request $request)
+    {
+        // Ambil data dari request
+        $startDate = $request->input('startDate');
+        $endDate = $request->input('endDate');
+
+        // Proses logika atau pengambilan data yang diperlukan
+        // ...
+
+        // Mengembalikan hasil dalam bentuk view
+        return view('report.vendor-company', [
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            // data lain yang diperlukan untuk tampilan
+        ]);
+    }
+
+    public function companyToVendorReport(Request $request)
+    {
+        // Ambil data dari request
+        $startDate = $request->input('startDate');
+        $endDate = $request->input('endDate');
+
+        // Proses logika atau pengambilan data yang diperlukan
+        // ...
+
+        // Mengembalikan hasil dalam bentuk view
+        return view('report.company-vendor', [
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            // data lain yang diperlukan untuk tampilan
+        ]);
+    }
 }
