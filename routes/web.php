@@ -55,6 +55,7 @@ Route::middleware(['auth'])->group(function () {
         ->name('procurement.get-file');
     //report
     Route::get('/report', [ReportController::class, 'index'])->name('report.index');
+    Route::get('/report-vendor', [ReportController::class, 'vendor'])->name('report.vendor');
 });
 Route::middleware(['auth'])->group(function () {
     Route::resource('core-business', CoreBusinessController::class);
