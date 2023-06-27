@@ -74,18 +74,39 @@ class ReportController extends Controller
         // Ambil data dari request
         $startDate = $request->input('startDate');
         $endDate = $request->input('endDate');
-
         // Proses logika atau pengambilan data yang diperlukan
-        // ...
-
+        // Mengambil path file logo
+        $logoPath = public_path('assets/logo/cmnplogo.png');
+        // Membaca file logo dan mengonversi menjadi base64
+        $logoData = file_get_contents($logoPath);
+        $logoBase64 = 'data:image/png;base64,' . base64_encode($logoData);
+        // Periode awal dan periode akhir dalam bentuk tahun
+        $periodeAwal = date('Y', strtotime($startDate));
+        $periodeAkhir = date('Y', strtotime($endDate));
+        // Mengambil data dari tabel procurement_vendor dengan kondisi is_selected = 1
+        $dataVendor = Vendor::whereHas('procurement', function ($query) use ($startDate, $endDate) {
+            $query->where('is_selected', '1')
+                ->whereBetween('periode', [$startDate, $endDate]);
+        })->get();
+        $vendorData = $dataVendor->map(function ($vendor) {
+            $coreBusiness = $vendor->coreBusinesses->pluck('name')->toArray();
+            return [
+                'nama_perusahaan' => $vendor->name,
+                'grade' => ($vendor->grade == '0') ? 'Kecil' : (($vendor->grade == '1') ? 'Menengah' : 'Besar'),
+                'core_business' => implode(', ', array_map(function ($index, $business) {
+                    return ($index + 1) . '. ' . $business;
+                }, array_keys($coreBusiness), $coreBusiness)),
+            ];
+        });
+        // Menghitung jumlah penilaian pekerjaan
+        $jumlahPenilaian = $dataVendor->pluck('procurement')
+            ->flatten()
+            ->where('pivot.is_selected', '1')
+            ->groupBy('pivot.vendor_id')
+            ->count();
         // Mengembalikan hasil dalam bentuk view
-        return view('report.vendor-company', [
-            'startDate' => $startDate,
-            'endDate' => $endDate,
-            // data lain yang diperlukan untuk tampilan
-        ]);
+        return view('report.vendor-company', compact('logoBase64', 'periodeAwal', 'periodeAkhir', 'jumlahPenilaian', 'vendorData'));
     }
-
     public function companyToVendorReport(Request $request)
     {
         // Ambil data dari request
@@ -131,7 +152,10 @@ class ReportController extends Controller
         $positionCreator = request()->query('positionCreator');
         $nameSupervisor = request()->query('nameSupervisor');
         $positionSupervisor = request()->query('positionSupervisor');
+        // Periode awal dan periode akhir dalam bentuk tahun
+        $periodeAwal = date('Y', strtotime($startDate));
+        $periodeAkhir = date('Y', strtotime($endDate));
         // Mengembalikan hasil dalam bentuk view
-        return view('report.company-vendor', compact('logoBase64', 'divisions', 'jumlahPenilaian', 'jumlahPenilaianBaik', 'jumlahPenilaianBuruk', 'nameSupervisor', 'positionSupervisor', 'positionCreator', 'nameCreator'));
+        return view('report.company-vendor', compact('logoBase64', 'divisions', 'jumlahPenilaian', 'jumlahPenilaianBaik', 'jumlahPenilaianBuruk', 'nameSupervisor', 'positionSupervisor', 'positionCreator', 'nameCreator', 'periodeAwal', 'periodeAkhir'));
     }
 }

@@ -25,7 +25,7 @@
             overflow:hidden;padding:10px 5px;word-break:normal;}
             .tc th{border-color:black;border-style:solid;border-width:1px;font-family:'Times New Roman', Times, serif;font-size:14px;
             font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-            .tc .tc-baqh{text-align:center;vertical-align:top}
+            .tc .tc-baqh{text-align:center;vertical-align:center}
             .tc .tc-amwm{font-weight:bold;text-align:center;vertical-align:top}
             .tc .tc-0lax{text-align:left;vertical-align:top}
             .tc .tc-1lax{text-align:center;vertical-align:top}
@@ -59,7 +59,7 @@
                 <td class="tb-aw21">Oleh Masing-Masing Unit Kerja</td>
             </tr>
             <tr>
-                <td class="tb-aw21">Periode Tahun TahunAwal-TahunAkhir</td>
+                <td class="tb-aw21">Periode Tahun {{ $periodeAwal }} - {{ $periodeAkhir }}</td>
             </tr>
         </tbody>
     </table>
@@ -68,12 +68,12 @@
             <tr>
                 <th class="tc-baqh" rowspan="2">No</th>
                 <th class="tc-baqh" rowspan="2">Unit Kerja</th>
-                <th class="tc-baqh" rowspan="2">Jumlah Form Penilaian<br>Yang Diserahkan</th>
+                <th class="tc-baqh" rowspan="2">Jumlah Form Penilaian Yang Diserahkan</th>
                 <th class="tc-baqh" colspan="2">Penilaian</th>
             </tr>
             <tr>
-                <th class="tc-amwm">Buruk <br> (Tidak Layak: &le; 60)</th>
-                <th class="tc-amwm">Baik <br> (Dipertahankan: 61-100)</th>
+                <th class="tc-amwm">Buruk (Tidak Layak: &le; 60)</th>
+                <th class="tc-amwm">Baik (Dipertahankan: 61-100)</th>
             </tr>
             </thead>
             <tbody>
