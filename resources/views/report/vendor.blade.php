@@ -134,12 +134,23 @@
                 url += '&creatorPosition=' + encodeURIComponent(creatorPosition);
                 url += '&supervisorName=' + encodeURIComponent(supervisorName);
                 url += '&supervisorPosition=' + encodeURIComponent(supervisorPosition);
-                var printWindow = window.open(url, '_blank');
-                printWindow.print();
+                Swal.fire({
+                    title: 'Print Confirmation',
+                    text: 'Are you sure you want to print?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Print',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var printWindow = window.open(url, '_blank');
+                        printWindow.print();
+                        $('#printModal').modal('hide');
+                        $('#printForm')[0].reset();
+                        location.reload();
+                    }
+                });
             }
-            $('#printModal').modal('hide');
-            $('#printForm')[0].reset();
-            location.reload();
         });
     });
 </script>

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Vendor;
+use App\Models\Division;
+use App\Models\Procurement;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -89,15 +91,47 @@ class ReportController extends Controller
         // Ambil data dari request
         $startDate = $request->input('startDate');
         $endDate = $request->input('endDate');
-
-        // Proses logika atau pengambilan data yang diperlukan
-        // ...
-
+        // Mengambil path file logo
+        $logoPath = public_path('assets/logo/cmnplogo.png');
+        // Membaca file logo dan mengonversi menjadi base64
+        $logoData = file_get_contents($logoPath);
+        $logoBase64 = 'data:image/png;base64,' . base64_encode($logoData);
+        // Mengambil data divisi dari table divisions
+        $divisions = Division::all();
+        // Inisialisasi array untuk menyimpan data jumlah form penilaian
+        $jumlahPenilaian = [];
+        $jumlahPenilaianBaik = [];
+        $jumlahPenilaianBuruk = [];
+        // Menghitung jumlah form penilaian yang diserahkan untuk setiap divisi berdasarkan periode
+        foreach ($divisions as $division) {
+            $jumlah = Procurement::where('division_id', $division->id)
+                ->whereHas('vendors', function ($query) use ($startDate, $endDate) {
+                    $query->whereNotNull('evaluation')
+                        ->whereBetween('periode', [$startDate, $endDate]);
+                })
+                ->count();
+            $jumlahBaik = Procurement::where('division_id', $division->id)
+                ->whereHas('vendors', function ($query) use ($startDate, $endDate) {
+                    $query->where('evaluation', '1')
+                        ->whereBetween('periode', [$startDate, $endDate]);
+                })
+                ->count();
+            $jumlahBuruk = Procurement::where('division_id', $division->id)
+                ->whereHas('vendors', function ($query) use ($startDate, $endDate) {
+                    $query->where('evaluation', '0')
+                        ->whereBetween('periode', [$startDate, $endDate]);
+                })
+                ->count();
+            $jumlahPenilaian[$division->id] = $jumlah;
+            $jumlahPenilaianBaik[$division->id] = $jumlahBaik;
+            $jumlahPenilaianBuruk[$division->id] = $jumlahBuruk;
+        }
+        // data pembuat dan atasan
+        $nameCreator = request()->query('nameCreator');
+        $positionCreator = request()->query('positionCreator');
+        $nameSupervisor = request()->query('nameSupervisor');
+        $positionSupervisor = request()->query('positionSupervisor');
         // Mengembalikan hasil dalam bentuk view
-        return view('report.company-vendor', [
-            'startDate' => $startDate,
-            'endDate' => $endDate,
-            // data lain yang diperlukan untuk tampilan
-        ]);
+        return view('report.company-vendor', compact('logoBase64', 'divisions', 'jumlahPenilaian', 'jumlahPenilaianBaik', 'jumlahPenilaianBuruk', 'nameSupervisor', 'positionSupervisor', 'positionCreator', 'nameCreator'));
     }
 }

@@ -27,17 +27,54 @@
     </div>
     <div class="row float-end">
         <div class="col-md-12 mt-3 mb-3">
-            <button class="btn btn-secondary" id="searchBtn">Cari</button>
-            <button class="btn btn-primary" id="printBtn" data-toggle="modal" data-target="#printModal">Print</button>
+            <button class="btn btn-secondary" id="btnSearch">Cari</button>
+            <button class="btn btn-primary" id="btnPrint" data-toggle="modal" data-target="#modalPrint">Print</button>
         </div>
     </div>
-    <iframe id="searchResults" src="" style="width: 100%; height: 500px; border: none;"></iframe>
+    <iframe id="resultSearch" src="" style="width: 100%; height: 500px; border: none;"></iframe>
 </div>
+
+<!-- Modal untuk mengisi data pembuat dan atasan -->
+<div class="modal fade" id="modalPrint" tabindex="-1" role="dialog" aria-labelledby="modalPrintLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalPrintLabel">Data Pembuat dan Atasan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formPrint">
+                    <div class="form-group">
+                        <label for="nameCreator">Nama Pembuat:</label>
+                        <input type="text" class="form-control" id="nameCreator" name="nameCreator">
+                    </div>
+                    <div class="form-group">
+                        <label for="positionCreator">Jabatan Pembuat:</label>
+                        <input type="text" class="form-control" id="positionCreator" name="positionCreator">
+                    </div>
+                    <div class="form-group">
+                        <label for="nameSupervisor">Nama Atasan:</label>
+                        <input type="text" class="form-control" id="nameSupervisor" name="nameSupervisor">
+                    </div>
+                    <div class="form-group">
+                        <label for="positionSupervisor">Jabatan Atasan:</label>
+                        <input type="text" class="form-control" id="positionSupervisor" name="positionSupervisor">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-primary" id="confirmBtnPrint">Cetak</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-    $(document).ready(function(){
+    $(document).ready(function() {
         var startDateInput = $("#evaluationStartDate");
         var endDateInput = $("#evaluationEndDate");
-        var searchResultsIframe = $("#searchResults");
+        var searchResultsIframe = $("#resultSearch");
 
         startDateInput.datepicker({
             format: "yyyy",
@@ -71,25 +108,77 @@
             }
         });
 
-        $("#searchBtn").click(function() {
+        var companyToVendorRoute = "{{ route('report.company-to-vendor') }}";
+        var vendorToCompanyRoute = "{{ route('report.vendor-to-company') }}";
+
+        $("#btnSearch").click(function() {
             var evaluationType = $("input[name='evaluationType']:checked").val();
             var startDate = startDateInput.val();
             var endDate = endDateInput.val();
 
             if (evaluationType && startDate && endDate) {
-                var url;
+                var url_evaluation;
                 if (evaluationType === "companyToVendor") {
-                    url = "{{ route('report.company-to-vendor') }}";
+                    url_evaluation = companyToVendorRoute;
                 } else if (evaluationType === "vendorToCompany") {
-                    url = "{{ route('report.vendor-to-company') }}";
+                    url_evaluation = vendorToCompanyRoute;
                 }
 
-                url += "?startDate=" + encodeURIComponent(startDate);
-                url += "&endDate=" + encodeURIComponent(endDate);
+                url_evaluation += "?startDate=" + encodeURIComponent(startDate);
+                url_evaluation += "&endDate=" + encodeURIComponent(endDate);
 
-                searchResultsIframe.attr("src", url);
+                searchResultsIframe.attr("src", url_evaluation);
             } else {
-                alert("Harap lengkapi semua field");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: 'Please complete all fields',
+                });
+            }
+        });
+
+        $('#btnPrint').click(function() {
+            $('#modalPrint').modal('show');
+        });
+
+        $('#confirmBtnPrint').click(function() {
+            var nameCreator = $('#nameCreator').val();
+            var positionCreator = $('#positionCreator').val();
+            var nameSupervisor = $('#nameSupervisor').val();
+            var positionSupervisor = $('#positionSupervisor').val();
+            var url_evaluation = $('#resultSearch').attr('src');
+
+            // Validasi form
+            if (nameCreator === '' || positionCreator === '' || nameSupervisor === '' || positionSupervisor === '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: 'Please complete all fields',
+                });
+                return false;
+            }
+
+            if (url_evaluation) {
+                url_evaluation += '&nameCreator=' + encodeURIComponent(nameCreator);
+                url_evaluation += '&positionCreator=' + encodeURIComponent(positionCreator);
+                url_evaluation += '&nameSupervisor=' + encodeURIComponent(nameSupervisor);
+                url_evaluation += '&positionSupervisor=' + encodeURIComponent(positionSupervisor);
+
+                Swal.fire({
+                    title: 'Print Confirmation',
+                    text: 'Are you sure you want to print?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Print',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var windowPrint = window.open(url_evaluation, '_blank');
+                        windowPrint.print();
+                        $('#modalPrint').modal('hide');
+                        $('#formPrint')[0].reset();
+                    }
+                });
             }
         });
     });
