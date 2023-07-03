@@ -26,6 +26,13 @@
             .tc th{border-color:black;border-style:solid;border-width:1px;font-family:'Times New Roman', Times, serif;font-size:12px;
             font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
             .tc .tc-yxfa{font-size:x-small;text-align:center;vertical-align:middle}
+        .tg  {border-collapse:collapse;border-spacing:0;}
+            .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:12px;
+            overflow:hidden;padding:10px 5px;word-break:normal;}
+            .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:12px;
+            font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+            .tg .tg-z4fj{border-color:#ffffff;font-family:"Times New Roman", Times, serif !important;font-size:12px;text-align:left;
+            vertical-align:top}
     </style>
     <table class="ta">
         <thead>
@@ -142,6 +149,162 @@
                 <td class="tc-yxfa"></td>
                 <td class="tc-yxfa"></td>
                 <td class="tc-yxfa"></td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="tg" width="100%">
+        <thead>
+            <tr>
+                <th class="tg-z4fj">Jakarta, {{ date('d-m-Y') }}</th>
+                <th class="tg-z4fj"></th>
+                <th class="tg-z4fj"></th>
+                <th class="tg-z4fj"></th>
+                <th class="tg-z4fj"></th>
+                <th class="tg-z4fj"></th>
+                <th class="tg-z4fj"></th>
+                <th class="tg-z4fj"></th>
+                <th class="tg-z4fj"></th>
+                <th class="tg-z4fj"></th>
+                <th class="tg-z4fj"></th>
+                <th class="tg-z4fj"></th>
+                <th class="tg-z4fj"></th>
+                <th class="tg-z4fj"></th>
+                <th class="tg-z4fj"></th>
+                <th class="tg-z4fj"></th>
+                <th class="tg-z4fj"></th>
+                <th class="tg-z4fj"></th>
+                <th class="tg-z4fj"></th>
+                <th class="tg-z4fj"></th>
+                <th class="tg-z4fj"></th>
+                <th class="tg-z4fj"></th>
+                <th class="tg-z4fj"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="tg-z4fj">Dibuat Oleh,</td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj">Disetujui Oleh,</td>
+            </tr>
+            <tr>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+            </tr>
+            <tr>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+            </tr>
+            <tr>
+                <td class="tg-z4fj">{{ $namaPembuat }}</td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj">{{ $namaAtasan }}</td>
+            </tr>
+            <tr>
+                <td class="tg-z4fj">{{ $jabatanPembuat }}</td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj"></td>
+                <td class="tg-z4fj">{{ $jabatanAtasan }}</td>
             </tr>
         </tbody>
     </table>

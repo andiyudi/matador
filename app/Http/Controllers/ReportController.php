@@ -83,6 +83,11 @@ class ReportController extends Controller
         // Periode awal dan periode akhir dalam bentuk tahun
         $periodeAwal = date('Y', strtotime($startDate));
         $periodeAkhir = date('Y', strtotime($endDate));
+        // data pembuat dan atasan
+        $namaPembuat = request()->query('nameCreator');
+        $jabatanPembuat = request()->query('positionCreator');
+        $namaAtasan = request()->query('nameSupervisor');
+        $jabatanAtasan = request()->query('positionSupervisor');
         // Mengambil data dari tabel procurement_vendor dengan kondisi is_selected = 1
         $dataVendor = Vendor::whereHas('procurement', function ($query) use ($startDate, $endDate) {
             $query->where('is_selected', '1')
@@ -105,7 +110,7 @@ class ReportController extends Controller
             ->groupBy('pivot.vendor_id')
             ->count();
         // Mengembalikan hasil dalam bentuk view
-        return view('report.vendor-company', compact('logoBase64', 'periodeAwal', 'periodeAkhir', 'jumlahPenilaian', 'vendorData'));
+        return view('report.vendor-company', compact('logoBase64', 'periodeAwal', 'periodeAkhir', 'jumlahPenilaian', 'vendorData', 'namaPembuat', 'jabatanPembuat', 'namaAtasan', 'jabatanAtasan'));
     }
     public function companyToVendorReport(Request $request)
     {
