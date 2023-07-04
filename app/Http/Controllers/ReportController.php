@@ -95,22 +95,118 @@ class ReportController extends Controller
         })->get();
         $vendorData = $dataVendor->map(function ($vendor) {
             $coreBusiness = $vendor->coreBusinesses->pluck('name')->toArray();
+            $jumlahPenilaian = $vendor->procurement()
+                ->wherePivot('is_selected', '1')
+                ->count();
+            // nilai pekerjaan
+            $jumlahValueCost0 = $vendor->procurement()
+                ->wherePivot('value_cost', '0')
+                ->count();
+            $jumlahValueCost1 = $vendor->procurement()
+                ->wherePivot('value_cost', '1')
+                ->count();
+            $jumlahValueCost2 = $vendor->procurement()
+                ->wherePivot('value_cost', '2')
+                ->count();
+            // penerbitan kontrak
+            $jumlahContractOrder0 = $vendor->procurement()
+                ->wherePivot('contract_order', '0')
+                ->count();
+            $jumlahContractOrder1 = $vendor->procurement()
+                ->wherePivot('contract_order', '1')
+                ->count();
+            $jumlahContractOrder2 = $vendor->procurement()
+                ->wherePivot('contract_order', '2')
+                ->count();
+            // pelaksanaan peekerjaan
+            $jumlahWorkImplementation0 = $vendor->procurement()
+                ->wherePivot('work_implementation', '0')
+                ->count();
+            $jumlahWorkImplementation1 = $vendor->procurement()
+                ->wherePivot('work_implementation', '1')
+                ->count();
+            $jumlahWorkImplementation2 = $vendor->procurement()
+                ->wherePivot('work_implementation', '2')
+                ->count();
+            // pengajuan PHO
+            $jumlahPreHandover0 = $vendor->procurement()
+                ->wherePivot('pre_handover', '0')
+                ->count();
+            $jumlahPreHandover1 = $vendor->procurement()
+                ->wherePivot('pre_handover', '1')
+                ->count();
+            $jumlahPreHandover2 = $vendor->procurement()
+                ->wherePivot('pre_handover', '2')
+                ->count();
+            // pengajuan FHO
+            $jumlahFinalHandover0 = $vendor->procurement()
+                ->wherePivot('final_handover', '0')
+                ->count();
+            $jumlahFinalHandover1 = $vendor->procurement()
+                ->wherePivot('final_handover', '1')
+                ->count();
+            $jumlahFinalHandover2 = $vendor->procurement()
+                ->wherePivot('final_handover', '2')
+                ->count();
+            // pengajuan invoice
+            $jumlahInvoicePayment0 = $vendor->procurement()
+                ->wherePivot('invoice_payment', '0')
+                ->count();
+            $jumlahInvoicePayment1 = $vendor->procurement()
+                ->wherePivot('invoice_payment', '1')
+                ->count();
+            $jumlahInvoicePayment2 = $vendor->procurement()
+                ->wherePivot('invoice_payment', '2')
+                ->count();
             return [
                 'nama_perusahaan' => $vendor->name,
                 'grade' => ($vendor->grade == '0') ? 'Kecil' : (($vendor->grade == '1') ? 'Menengah' : 'Besar'),
                 'core_business' => implode(', ', array_map(function ($index, $business) {
                     return ($index + 1) . '. ' . $business;
                 }, array_keys($coreBusiness), $coreBusiness)),
+                'jumlah_penilaian' => $jumlahPenilaian,
+                'jumlahValueCost0' => $jumlahValueCost0,
+                'jumlahValueCost1' => $jumlahValueCost1,
+                'jumlahValueCost2' => $jumlahValueCost2,
+                'jumlahContractOrder0' => $jumlahContractOrder0,
+                'jumlahContractOrder1' => $jumlahContractOrder1,
+                'jumlahContractOrder2' => $jumlahContractOrder2,
+                'jumlahWorkImplementation0' => $jumlahWorkImplementation0,
+                'jumlahWorkImplementation1' => $jumlahWorkImplementation1,
+                'jumlahWorkImplementation2' => $jumlahWorkImplementation2,
+                'jumlahPreHandover0' => $jumlahPreHandover0,
+                'jumlahPreHandover1' => $jumlahPreHandover1,
+                'jumlahPreHandover2' => $jumlahPreHandover2,
+                'jumlahFinalHandover0' => $jumlahFinalHandover0,
+                'jumlahFinalHandover1' => $jumlahFinalHandover1,
+                'jumlahFinalHandover2' => $jumlahFinalHandover2,
+                'jumlahInvoicePayment0' => $jumlahInvoicePayment0,
+                'jumlahInvoicePayment1' => $jumlahInvoicePayment1,
+                'jumlahInvoicePayment2' => $jumlahInvoicePayment2,
             ];
         });
-        // Menghitung jumlah penilaian pekerjaan
-        $jumlahPenilaian = $dataVendor->pluck('procurement')
-            ->flatten()
-            ->where('pivot.is_selected', '1')
-            ->groupBy('pivot.vendor_id')
-            ->count();
+        // Menghitung total dari tiap kolom
+        $totalPenilaian = $vendorData->sum('jumlah_penilaian');
+        $totalValueCost0 = $vendorData->sum('jumlahValueCost0');
+        $totalValueCost1 = $vendorData->sum('jumlahValueCost1');
+        $totalValueCost2 = $vendorData->sum('jumlahValueCost2');
+        $totalContractOrder0 = $vendorData->sum('jumlahContractOrder0');
+        $totalContractOrder1 = $vendorData->sum('jumlahContractOrder1');
+        $totalContractOrder2 = $vendorData->sum('jumlahContractOrder2');
+        $totalWorkImplementation0 = $vendorData->sum('jumlahWorkImplementation0');
+        $totalWorkImplementation1 = $vendorData->sum('jumlahWorkImplementation1');
+        $totalWorkImplementation2 = $vendorData->sum('jumlahWorkImplementation2');
+        $totalPreHandover0 = $vendorData->sum('jumlahPreHandover0');
+        $totalPreHandover1 = $vendorData->sum('jumlahPreHandover1');
+        $totalPreHandover2 = $vendorData->sum('jumlahPreHandover2');
+        $totalFinalHandover0 = $vendorData->sum('jumlahFinalHandover0');
+        $totalFinalHandover1 = $vendorData->sum('jumlahFinalHandover1');
+        $totalFinalHandover2 = $vendorData->sum('jumlahFinalHandover2');
+        $totalInvoicePayment0 = $vendorData->sum('jumlahInvoicePayment0');
+        $totalInvoicePayment1 = $vendorData->sum('jumlahInvoicePayment1');
+        $totalInvoicePayment2 = $vendorData->sum('jumlahInvoicePayment2');
         // Mengembalikan hasil dalam bentuk view
-        return view('report.vendor-company', compact('logoBase64', 'periodeAwal', 'periodeAkhir', 'jumlahPenilaian', 'vendorData', 'namaPembuat', 'jabatanPembuat', 'namaAtasan', 'jabatanAtasan'));
+        return view('report.vendor-company', compact('logoBase64', 'periodeAwal', 'periodeAkhir', 'vendorData', 'namaPembuat', 'jabatanPembuat', 'namaAtasan', 'jabatanAtasan', 'totalPenilaian', 'totalValueCost0', 'totalValueCost1', 'totalValueCost2', 'totalContractOrder0', 'totalContractOrder1', 'totalContractOrder2', 'totalWorkImplementation0', 'totalWorkImplementation1', 'totalWorkImplementation2', 'totalPreHandover0', 'totalPreHandover1', 'totalPreHandover2', 'totalFinalHandover0', 'totalFinalHandover1', 'totalFinalHandover2', 'totalInvoicePayment0', 'totalInvoicePayment1', 'totalInvoicePayment2'));
     }
     public function companyToVendorReport(Request $request)
     {

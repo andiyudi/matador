@@ -107,48 +107,48 @@
                 <td class="tc-yxfa">{{ $data['nama_perusahaan'] }}</td>
                 <td class="tc-yxfa">{{ $data['core_business'] }}</td>
                 <td class="tc-yxfa">{{ $data['grade'] }}</td>
-                <td class="tc-yxfa">{{ $jumlahPenilaian }}</td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
+                <td class="tc-yxfa">{{ $data['jumlah_penilaian'] }}</td>
+                <td class="tc-yxfa">{{ $data['jumlahValueCost0'] }}</td>
+                <td class="tc-yxfa">{{ $data['jumlahValueCost1'] }}</td>
+                <td class="tc-yxfa">{{ $data['jumlahValueCost2'] }}</td>
+                <td class="tc-yxfa">{{ $data['jumlahContractOrder0'] }}</td>
+                <td class="tc-yxfa">{{ $data['jumlahContractOrder1'] }}</td>
+                <td class="tc-yxfa">{{ $data['jumlahContractOrder2'] }}</td>
+                <td class="tc-yxfa">{{ $data['jumlahWorkImplementation0'] }}</td>
+                <td class="tc-yxfa">{{ $data['jumlahWorkImplementation1'] }}</td>
+                <td class="tc-yxfa">{{ $data['jumlahWorkImplementation2'] }}</td>
+                <td class="tc-yxfa">{{ $data['jumlahPreHandover0'] }}</td>
+                <td class="tc-yxfa">{{ $data['jumlahPreHandover1'] }}</td>
+                <td class="tc-yxfa">{{ $data['jumlahPreHandover2'] }}</td>
+                <td class="tc-yxfa">{{ $data['jumlahFinalHandover0'] }}</td>
+                <td class="tc-yxfa">{{ $data['jumlahFinalHandover1'] }}</td>
+                <td class="tc-yxfa">{{ $data['jumlahFinalHandover2'] }}</td>
+                <td class="tc-yxfa">{{ $data['jumlahInvoicePayment0'] }}</td>
+                <td class="tc-yxfa">{{ $data['jumlahInvoicePayment1'] }}</td>
+                <td class="tc-yxfa">{{ $data['jumlahInvoicePayment2'] }}</td>
             </tr>
             @endforeach
             <tr>
                 <td class="tc-yxfa" colspan="4">Jumlah Total</td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
-                <td class="tc-yxfa"></td>
+                <td class="tc-yxfa">{{ $totalPenilaian }}</td>
+                <td class="tc-yxfa">{{ $totalValueCost0 }}</td>
+                <td class="tc-yxfa">{{ $totalValueCost1 }}</td>
+                <td class="tc-yxfa">{{ $totalValueCost2 }}</td>
+                <td class="tc-yxfa">{{ $totalContractOrder0 }}</td>
+                <td class="tc-yxfa">{{ $totalContractOrder1 }}</td>
+                <td class="tc-yxfa">{{ $totalContractOrder2 }}</td>
+                <td class="tc-yxfa">{{ $totalWorkImplementation0 }}</td>
+                <td class="tc-yxfa">{{ $totalWorkImplementation1 }}</td>
+                <td class="tc-yxfa">{{ $totalWorkImplementation2 }}</td>
+                <td class="tc-yxfa">{{ $totalPreHandover0 }}</td>
+                <td class="tc-yxfa">{{ $totalPreHandover1 }}</td>
+                <td class="tc-yxfa">{{ $totalPreHandover2 }}</td>
+                <td class="tc-yxfa">{{ $totalFinalHandover0 }}</td>
+                <td class="tc-yxfa">{{ $totalFinalHandover1 }}</td>
+                <td class="tc-yxfa">{{ $totalFinalHandover2 }}</td>
+                <td class="tc-yxfa">{{ $totalInvoicePayment0 }}</td>
+                <td class="tc-yxfa">{{ $totalInvoicePayment1 }}</td>
+                <td class="tc-yxfa">{{ $totalInvoicePayment2 }}</td>
             </tr>
         </tbody>
     </table>
