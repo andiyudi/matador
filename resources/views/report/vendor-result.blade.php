@@ -4,20 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Laporan Rekap Vendor</title>
 </head>
 <body>
     <style type="text/css">
         .ta  {border-collapse:collapse;border-spacing:0;}
-            .ta td{border-color:black;border-style:solid;border-width:1px;font-family:'Times New Roman', Times, serif;font-size:12px;
+            .ta td{border-color:black;border-style:hidden;border-width:1px;font-family:'Times New Roman', Times, serif;font-size:12px;
             overflow:hidden;padding:10px 5px;word-break:normal;}
             .ta th{border-color:black;border-style:solid;border-width:1px;font-family:'Times New Roman', Times, serif;font-size:12px;
             font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
             .ta .ta-zv4m{border-color:#ffffff;text-align:left;vertical-align:top}
         .tb  {border-collapse:collapse;border-spacing:0;}
-            .tb td{border-color:black;border-style:solid;border-width:1px;font-family:'Times New Roman', Times, serif;font-size:12px;
+            .tb td{border-color:black;border-style:hidden;border-width:1px;font-family:'Times New Roman', Times, serif;font-size:12px;
                 overflow:hidden;padding:10px 5px;word-break:normal;}
-            .tb th{border-color:black;border-style:solid;border-width:1px;font-family:'Times New Roman', Times, serif;font-size:12px;
+            .tb th{border-color:black;border-style:hidden;border-width:1px;font-family:'Times New Roman', Times, serif;font-size:12px;
                 font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
             .tb .tb-aw21{border-color:#ffffff;font-weight:bold;text-align:center;vertical-align:top}
         .tc  {border-collapse:collapse;border-spacing:0;}
@@ -28,12 +28,12 @@
             .tc .tc-baqh{text-align:center;vertical-align:top}
             .tc .tc-0lax{text-align:left;vertical-align:top}
         .tg  {border-collapse:collapse;border-spacing:0;}
-            .tg td{border-color:black;border-style:solid;border-width:1px;font-family:'Times New Roman', Times, serif;font-size:12px;
+            .tg td{border-color:black;border-style:hidden;border-width:1px;font-family:'Times New Roman', Times, serif;font-size:12px;
                 overflow:hidden;padding:10px 5px;word-break:normal;}
-            .tg th{border-color:black;border-style:solid;border-width:1px;font-family:'Times New Roman', Times, serif;font-size:12px;
+            .tg th{border-color:black;border-style:hidden;border-width:1px;font-family:'Times New Roman', Times, serif;font-size:12px;
                 font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
             .tg .tg-zv4m{border-color:#ffffff;text-align:left;vertical-align:top}
-            .tg .tg-vs63{border-color:#ffffff;font-size:x-small;text-align:left;vertical-align:top}
+            .tg .tg-vs63{border-color:#ffffff;font-size:x-small;text-align:center;vertical-align:top}
         </style>
         <table class="ta">
         <thead>

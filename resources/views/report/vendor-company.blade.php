@@ -4,20 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Laporan Rekap Penilaian Vendor Terhadap CMNP</title>
 </head>
 <body>
     <style type="text/css">
         .ta  {border-collapse:collapse;border-spacing:0;}
-            .ta td{border-color:black;border-style:solid;border-width:1px;font-family:'Times New Roman', Times, serif;font-size:12px;
+            .ta td{border-color:black;border-style:hidden;border-width:1px;font-family:'Times New Roman', Times, serif;font-size:12px;
             overflow:hidden;padding:10px 5px;word-break:normal;}
             .ta th{border-color:black;border-style:solid;border-width:1px;font-family:'Times New Roman', Times, serif;font-size:12px;
             font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
             .ta .ta-zv4m{border-color:#ffffff;text-align:left;vertical-align:top}
         .tb  {border-collapse:collapse;border-spacing:0;}
-            .tb td{border-color:black;border-style:solid;border-width:1px;font-family:'Times New Roman', Times, serif;font-size:12px;
+            .tb td{border-color:black;border-style:hidden;border-width:1px;font-family:'Times New Roman', Times, serif;font-size:12px;
                 overflow:hidden;padding:10px 5px;word-break:normal;}
-            .tb th{border-color:black;border-style:solid;border-width:1px;font-family:'Times New Roman', Times, serif;font-size:18px;
+            .tb th{border-color:black;border-style:hidden;border-width:1px;font-family:'Times New Roman', Times, serif;font-size:18px;
                 font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
             .tb .tb-aw21{border-color:#ffffff;font-weight:bold;text-align:center;vertical-align:top}
         .tc  {border-collapse:collapse;border-spacing:0;}
@@ -26,12 +26,13 @@
             .tc th{border-color:black;border-style:solid;border-width:1px;font-family:'Times New Roman', Times, serif;font-size:12px;
             font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
             .tc .tc-yxfa{font-size:x-small;text-align:center;vertical-align:middle}
+            .tc .tc-yxfb{font-size:small;font-weight:bold;text-align:center;vertical-align:middle}
         .tg  {border-collapse:collapse;border-spacing:0;}
-            .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:12px;
+            .tg td{border-color:black;border-style:hidden;border-width:1px;font-family:Arial, sans-serif;font-size:12px;
             overflow:hidden;padding:10px 5px;word-break:normal;}
-            .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:12px;
+            .tg th{border-color:black;border-style:hidden;border-width:1px;font-family:Arial, sans-serif;font-size:12px;
             font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-            .tg .tg-z4fj{border-color:#ffffff;font-family:"Times New Roman", Times, serif !important;font-size:12px;text-align:left;
+            .tg .tg-z4fj{border-color:#ffffff;font-family:"Times New Roman", Times, serif !important;font-size:12px;text-align:center;
             vertical-align:top}
     </style>
     <table class="ta">
@@ -129,26 +130,26 @@
             </tr>
             @endforeach
             <tr>
-                <td class="tc-yxfa" colspan="4">Jumlah Total</td>
-                <td class="tc-yxfa">{{ $totalPenilaian }}</td>
-                <td class="tc-yxfa">{{ $totalValueCost0 }}</td>
-                <td class="tc-yxfa">{{ $totalValueCost1 }}</td>
-                <td class="tc-yxfa">{{ $totalValueCost2 }}</td>
-                <td class="tc-yxfa">{{ $totalContractOrder0 }}</td>
-                <td class="tc-yxfa">{{ $totalContractOrder1 }}</td>
-                <td class="tc-yxfa">{{ $totalContractOrder2 }}</td>
-                <td class="tc-yxfa">{{ $totalWorkImplementation0 }}</td>
-                <td class="tc-yxfa">{{ $totalWorkImplementation1 }}</td>
-                <td class="tc-yxfa">{{ $totalWorkImplementation2 }}</td>
-                <td class="tc-yxfa">{{ $totalPreHandover0 }}</td>
-                <td class="tc-yxfa">{{ $totalPreHandover1 }}</td>
-                <td class="tc-yxfa">{{ $totalPreHandover2 }}</td>
-                <td class="tc-yxfa">{{ $totalFinalHandover0 }}</td>
-                <td class="tc-yxfa">{{ $totalFinalHandover1 }}</td>
-                <td class="tc-yxfa">{{ $totalFinalHandover2 }}</td>
-                <td class="tc-yxfa">{{ $totalInvoicePayment0 }}</td>
-                <td class="tc-yxfa">{{ $totalInvoicePayment1 }}</td>
-                <td class="tc-yxfa">{{ $totalInvoicePayment2 }}</td>
+                <td class="tc-yxfb" colspan="4">Jumlah Total</td>
+                <td class="tc-yxfb">{{ $totalPenilaian }}</td>
+                <td class="tc-yxfb">{{ $totalValueCost0 }}</td>
+                <td class="tc-yxfb">{{ $totalValueCost1 }}</td>
+                <td class="tc-yxfb">{{ $totalValueCost2 }}</td>
+                <td class="tc-yxfb">{{ $totalContractOrder0 }}</td>
+                <td class="tc-yxfb">{{ $totalContractOrder1 }}</td>
+                <td class="tc-yxfb">{{ $totalContractOrder2 }}</td>
+                <td class="tc-yxfb">{{ $totalWorkImplementation0 }}</td>
+                <td class="tc-yxfb">{{ $totalWorkImplementation1 }}</td>
+                <td class="tc-yxfb">{{ $totalWorkImplementation2 }}</td>
+                <td class="tc-yxfb">{{ $totalPreHandover0 }}</td>
+                <td class="tc-yxfb">{{ $totalPreHandover1 }}</td>
+                <td class="tc-yxfb">{{ $totalPreHandover2 }}</td>
+                <td class="tc-yxfb">{{ $totalFinalHandover0 }}</td>
+                <td class="tc-yxfb">{{ $totalFinalHandover1 }}</td>
+                <td class="tc-yxfb">{{ $totalFinalHandover2 }}</td>
+                <td class="tc-yxfb">{{ $totalInvoicePayment0 }}</td>
+                <td class="tc-yxfb">{{ $totalInvoicePayment1 }}</td>
+                <td class="tc-yxfb">{{ $totalInvoicePayment2 }}</td>
             </tr>
         </tbody>
     </table>
