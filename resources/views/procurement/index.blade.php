@@ -339,70 +339,95 @@ $(document).ready(function () {
     }
     // Event handler untuk tombol Canceled Event
     $(document).on('click', '.cancel-procurement', function () {
-            var procurementId = $(this).data('id');
-            Swal.fire({
-                title: 'Cancel Job',
-                text: 'Are you sure you want to cancel this job?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, cancel',
-                cancelButtonText: 'Cancel',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Kirim permintaan penambahan ke daftar cancel ke URL yang sesuai
-                    $.ajax({
-                        url: route('procurement.cancel', {procurement: procurementId}),
-                        type: 'POST',
-                        data: {
-                            _method: 'PUT',
-                            _token: '{{ csrf_token() }}'
-                        },
-                        success: function (response) {
-                            Swal.fire('Jobs canceled successfully', '', 'success').then(() => {
-                                location.reload();
-                            });
-                        },
-                        error: function (xhr) {
-                            Swal.fire('Error canceled jobs', '', 'error');
-                        }
-                    });
+        var procurementId = $(this).data('id');
+        Swal.fire({
+            title: 'Cancel Job',
+            html: '<input type="file" id="fileInput" required />', // Tambahkan input file required
+            text: 'Are you sure you want to cancel this job?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, cancel',
+            cancelButtonText: 'Cancel',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var file = document.getElementById('fileInput').files[0];
+                if (!file) {
+                    Swal.fire('Please select a file', '', 'error');
+                    return;
                 }
-            });
+
+                var formData = new FormData();
+                formData.append('file', file);
+                formData.append('_method', 'PUT');
+                formData.append('_token', '{{ csrf_token() }}');
+                formData.append('procurement', procurementId);
+
+                // Kirim permintaan penambahan ke daftar cancel ke URL yang sesuai
+                $.ajax({
+                    url: route('procurement.cancel', {procurement: procurementId}),
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        Swal.fire('Jobs canceled successfully', '', 'success').then(() => {
+                            location.reload();
+                        });
+                    },
+                    error: function (xhr) {
+                        Swal.fire('Error canceled jobs', '', 'error');
+                    }
+                });
+            }
+        });
     });
+
     //Event handler for repeat button
     $(document).on('click', '.repeat-procurement', function () {
-            var procurementId = $(this).data('id');
-            Swal.fire({
-                title: 'Deadlock',
-                text: 'Are you sure you want to repeat this job?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, repeat this',
-                cancelButtonText: 'Cancel',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Kirim permintaan penambahan ke daftar cancel ke URL yang sesuai
-                    $.ajax({
-                        url: route('procurement.repeat', {procurement: procurementId}),
-                        type: 'POST',
-                        data: {
-                            _method: 'PUT',
-                            _token: '{{ csrf_token() }}'
-                        },
-                        success: function (response) {
-                            Swal.fire('Jobs repeated successfully', '', 'success').then(() => {
-                                location.reload();
-                            });
-                        },
-                        error: function (xhr) {
-                            Swal.fire('Error repeated jobs', '', 'error');
-                        }
-                    });
+        var procurementId = $(this).data('id');
+        Swal.fire({
+            title: 'Deadlock',
+            html: '<input type="file" id="fileInput" required />',
+            text: 'Are you sure you want to repeat this job?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, repeat this',
+            cancelButtonText: 'Cancel',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var file = document.getElementById('fileInput').files[0];
+                if (!file) {
+                    Swal.fire('Please select a file', '', 'error');
+                    return;
                 }
-            });
+                var formData = new FormData();
+                formData.append('file', file);
+                formData.append('_method', 'PUT');
+                formData.append('_token', '{{ csrf_token() }}');
+                formData.append('procurement', procurementId);
+
+                // Kirim permintaan penambahan ke daftar cancel ke URL yang sesuai
+                $.ajax({
+                    url: route('procurement.repeat', {procurement: procurementId}),
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        Swal.fire('Jobs repeated successfully', '', 'success').then(() => {
+                            location.reload();
+                        });
+                    },
+                    error: function (xhr) {
+                        Swal.fire('Error repeated jobs', '', 'error');
+                    }
+                });
+            }
+        });
     });
+
     // Event handler untuk tombol Delete
     $(document).on('click', '.delete-procurement', function () {
             var procurementId = $(this).data('id');

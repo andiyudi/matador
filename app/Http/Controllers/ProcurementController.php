@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\ProcurementFile;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Storage;
 
 class ProcurementController extends Controller
 {
@@ -88,8 +89,9 @@ class ProcurementController extends Controller
         $divisions = Division::all();
         $vendors = $procurement->vendors;
         $source = request('source');
+        $procurementFiles = ProcurementFile::where('procurement_id', $id)->get();
 
-        return view('procurement.show', compact('procurement', 'divisions', 'vendors', 'source'));
+        return view('procurement.show', compact('procurement', 'divisions', 'vendors', 'source', 'procurementFiles'));
     }
 
     /**
@@ -186,18 +188,46 @@ class ProcurementController extends Controller
     }
 
 
-    public function cancel(Procurement $procurement)
+    public function cancel(Request $request, Procurement $procurement)
     {
         $procurement->status = '2';
         $procurement->save();
+        // Upload file ke server dengan file_type=1
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $filePath = $file->storeAs('procurement_files', $fileName, 'public');
 
+            // Simpan data file ke database
+            $fileData = new ProcurementFile();
+            $fileData->procurement_id = $procurement->id;
+            $fileData->file_name = $fileName;
+            $fileData->file_path = $filePath;
+            $fileData->file_type = 1; // Sesuaikan dengan file_type yang diinginkan
+            $fileData->save();
+        }
         return redirect()->route('procurement.index');
     }
 
-    public function repeat(Procurement $procurement)
+    public function repeat(Request $request, Procurement $procurement)
     {
         $procurement->status = '3';
         $procurement->save();
+
+        // Upload file ke server dengan file_type=2
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $filePath = $file->storeAs('procurement_files', $fileName, 'public');
+
+            // Simpan data file ke database
+            $fileData = new ProcurementFile();
+            $fileData->procurement_id = $procurement->id;
+            $fileData->file_name = $fileName;
+            $fileData->file_path = $filePath;
+            $fileData->file_type = 2; // Sesuaikan dengan file_type yang diinginkan
+            $fileData->save();
+        }
 
         return redirect()->route('procurement.index');
     }

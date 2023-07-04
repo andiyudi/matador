@@ -5,7 +5,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                <h1>Detail Job Data</h1>
+                    <h1>Detail Job Data</h1>
                     <div class="row mb-3">
                         <label for="periode" class="col-sm-2 col-form-label">Periode</label>
                         <div class="col-sm-10">
@@ -81,6 +81,45 @@
                             </table>
                         </div>
                     </div>
+                </div>
+                <div class="card-footer">
+                    <h5 class="card-title">Procurement Files</h5>
+                    <table class="table table-responsive table-bordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>File Type</th>
+                                <th>Updated At</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($procurementFiles as $file)
+                            <tr>
+                                <td>{{ $file->file_name }}</td>
+                                <td>
+                                    @if ($file->file_type == 0)
+                                    File Selected Vendor
+                                    @elseif ($file->file_type == 1)
+                                    File Cancelled Procurement
+                                    @elseif ($file->file_type == 2)
+                                    File Repeat Procurement
+                                    @elseif ($file->file_type == 3)
+                                    File Evaluation Company
+                                    @elseif ($file->file_type == 4)
+                                    File Evaluation Vendor
+                                    @else
+                                    Unknown
+                                    @endif
+                                </td>
+                                <td>{{ $file->updated_at }}</td>
+                                <td>
+                                    <a href="{{ asset('storage/'.$file->file_path) }}" class="btn btn-sm btn-info" target="_blank">View</a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
