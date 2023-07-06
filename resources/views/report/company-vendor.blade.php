@@ -83,16 +83,16 @@
                 <td class="tc-1lax">{{ $loop->iteration }}</td>
                 <td class="tc-0lax">{{ $division->name }}</td>
                 <td class="tc-1lax">{{ $jumlahPenilaian[$division->id] }}</td>
-                <td class="tc-1lax">{{ $jumlahPenilaianBaik[$division->id] }}</td>
                 <td class="tc-1lax">{{ $jumlahPenilaianBuruk[$division->id] }}</td>
+                <td class="tc-1lax">{{ $jumlahPenilaianBaik[$division->id] }}</td>
             </tr>
             @endforeach
             </tr>
             <tr>
                 <td class="tc-amwm" colspan="2">Jumlah Total Penilaian</td>
                 <td class="tc-amwm">{{ array_sum($jumlahPenilaian) }}</td>
-                <td class="tc-amwm">{{ array_sum($jumlahPenilaianBaik) }}</td>
                 <td class="tc-amwm">{{ array_sum($jumlahPenilaianBuruk) }}</td>
+                <td class="tc-amwm">{{ array_sum($jumlahPenilaianBaik) }}</td>
             </tr>
         </tbody>
     </table>
