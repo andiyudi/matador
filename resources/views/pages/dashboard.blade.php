@@ -244,8 +244,10 @@ function populateTable(data, tableId) {
                 cellStatus.innerHTML = '<span class="badge rounded-pill text-bg-success">Success</span>';
             } else if (data[i].status === "2") {
                 cellStatus.innerHTML = '<span class="badge rounded-pill text-bg-danger">Canceled</span>';
+            } else if (data[i].status === "3") {
+                cellStatus.innerHTML = '<span class="badge rounded-pill text-bg-warning">Repeated</span>';
             } else {
-                cellStatus.innerHTML = '<span class="badge rounded-pill text-bg-danger">Unknown</span>'; // Handle case when status has unexpected value
+                cellStatus.innerHTML = '<span class="badge rounded-pill text-bg-secondary">Unknown</span>'; // Handle case when status has unexpected value
             }
         }
     }

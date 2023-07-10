@@ -441,8 +441,8 @@ class ProcurementController extends Controller
             'value_cost' => 'required|in:0,1,2', // Ubah sesuai kebutuhan
             'contract_order' => 'required|in:0,1,2', // Ubah sesuai kebutuhan
             'work_implementation' => 'required|in:0,1,2', // Ubah sesuai kebutuhan
-            'pre_handover' => 'required|in:0,1,2', // Ubah sesuai kebutuhan
-            'final_handover' => 'required|in:0,1,2', // Ubah sesuai kebutuhan
+            'pre_handover' => 'required|in:0,1,2,3', // Ubah sesuai kebutuhan
+            'final_handover' => 'required|in:0,1,2,3', // Ubah sesuai kebutuhan
             'invoice_payment' => 'required|in:0,1,2', // Ubah sesuai kebutuhan
         ]);
 

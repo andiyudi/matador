@@ -89,8 +89,8 @@
                             <h5 class="card-title">Procurement Files</h5>
                         </div>
                         <div class="col-md-6 btn-group">
-                            <button id="evaluationCompanyButton" class="btn btn-primary mb-3 me-3" data-bs-target="#modalEvaluationCompany" data-bs-toggle="modal" @if($fileCompanyExists) disabled @endif>Give Evaluation To Vendor</button>
-                            <button id="evaluationVendorButton" class="btn btn-primary mb-3" data-bs-target="#modalEvaluationVendor" data-bs-toggle="modal" @if($fileVendorExists) disabled @endif>Give Evaluation To CMNP</button>
+                            <button id="evaluationCompanyButton" class="btn btn-primary mb-3 me-3" data-bs-target="#modalEvaluationCompany" data-bs-toggle="modal" @if($fileCompanyExists) disabled @endif>CMNP To Vendor</button>
+                            <button id="evaluationVendorButton" class="btn btn-primary mb-3" data-bs-target="#modalEvaluationVendor" data-bs-toggle="modal" @if($fileVendorExists) disabled @endif>Vendor To CMNP</button>
                         </div>
                     </div>
                     <table class="table table-responsive table-bordered table-striped table-hover">
@@ -114,7 +114,7 @@
                                     @elseif ($file->file_type == 2)
                                     File Repeat Procurement
                                     @elseif ($file->file_type == 3)
-                                    File Evaluation Company
+                                    CMNP To Vendor
                                     @elseif ($file->file_type == 4)
                                     File Evaluation Vendor
                                     @else
@@ -306,7 +306,7 @@
                     <div class="form-group">
                         <label for="pre_handover">Pengajuan &#38; Pelaksanaan PHO</label>
                         <div class="row">
-                            <div class="col md-4">
+                            <div class="col md-3">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="pre_handover" id="pre_handover_0" value="0">
                                     <label class="form-check-label" for="pre_handover_0">
@@ -314,7 +314,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col md-4">
+                            <div class="col md-3">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="pre_handover" id="pre_handover_1" value="1">
                                     <label class="form-check-label" for="pre_handover_1">
@@ -322,11 +322,19 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col md-4">
+                            <div class="col md-3">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="pre_handover" id="pre_handover_2" value="2">
                                     <label class="form-check-label" for="pre_handover_2">
                                         <h4>Sangat Lama</h4>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col md-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="pre_handover" id="pre_handover_3" value="3">
+                                    <label class="form-check-label" for="pre_handover_3">
+                                        <h4>Tidak Ada PHO</h4>
                                     </label>
                                 </div>
                             </div>
@@ -338,7 +346,7 @@
                     <div class="form-group">
                         <label for="final_handover">Pengajuan &#38; Pelaksanaan FHO</label>
                         <div class="row">
-                            <div class="col md-4">
+                            <div class="col md-3">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="final_handover" id="final_handover_0" value="0">
                                     <label class="form-check-label" for="final_handover_0">
@@ -346,7 +354,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col md-4">
+                            <div class="col md-3">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="final_handover" id="final_handover_1" value="1">
                                     <label class="form-check-label" for="final_handover_1">
@@ -354,11 +362,19 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col md-4">
+                            <div class="col md-3">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="final_handover" id="final_handover_2" value="2">
                                     <label class="form-check-label" for="final_handover_2">
                                         <h4>Sangat Lama</h4>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col md-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="final_handover" id="final_handover_3" value="3">
+                                    <label class="form-check-label" for="final_handover_3">
+                                        <h4>Tidak Ada FHO</h4>
                                     </label>
                                 </div>
                             </div>

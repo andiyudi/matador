@@ -4,13 +4,13 @@
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="evaluationType" id="evaluationCompanyToVendor" value="companyToVendor">
                 <label class="form-check-label" for="evaluationCompanyToVendor">
-                    Evaluation Company to Vendor
+                    CMNP To Vendor
                 </label>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="evaluationType" id="evaluationVendorToCompany" value="vendorToCompany">
                 <label class="form-check-label" for="evaluationVendorToCompany">
-                    Evaluation Vendor to Company
+                    Vendor To CMNP
                 </label>
             </div>
         </div>

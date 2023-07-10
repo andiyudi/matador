@@ -23,6 +23,7 @@ class VendorController extends Controller
         if (request()->ajax()) {
             $vendors = Vendor::where('status', '!=', '3')
                 ->with('coreBusinesses:name', 'classifications:name')
+                ->orderByDesc('created_at')
                 ->get();
             return DataTables::of($vendors)->make(true);
         }
@@ -111,7 +112,7 @@ class VendorController extends Controller
         $selectedCoreBusinesses = $vendor->coreBusinesses->pluck('id')->toArray();
         $selectedClassifications = $vendor->classifications->pluck('id')->toArray();
 
-        $vendor_files = $vendor->vendorFiles;
+        $vendor_files = $vendor->vendorFiles()->orderByDesc('created_at')->get();
 
         // Mengirimkan $selectedClassifications ke view
         return view('vendors.show', compact('vendor', 'core_businesses', 'classifications', 'selectedCoreBusinesses', 'selectedClassifications', 'vendor_files', 'source'));
@@ -131,7 +132,7 @@ class VendorController extends Controller
         $selectedCoreBusinesses = $vendor->coreBusinesses->pluck('id')->toArray();
         $selectedClassifications = $vendor->classifications->pluck('id')->toArray();
 
-        $vendor_files = $vendor->vendorFiles;
+        $vendor_files = $vendor->vendorFiles()->orderByDesc('created_at')->get();
 
         // Mengirimkan $selectedClassifications ke view
         return view('vendors.edit', compact('vendor', 'core_businesses', 'classifications', 'selectedCoreBusinesses', 'selectedClassifications', 'vendor_files', 'id'));

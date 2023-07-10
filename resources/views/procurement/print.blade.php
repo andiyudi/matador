@@ -47,7 +47,7 @@
                     <th class="tg-t0vf" colspan="4">PT. CITRA MARGA NUSAPHALA PERSADA Tbk.</th>
                 </tr>
                 <tr>
-                    <th class="tg-v6d6" colspan="4">Divisi Umum</th>
+                    <th class="tg-v6d6" colspan="4">Divisi Umum - Departemen Pengadaan</th>
                 </tr>
             </thead>
             <tbody>
