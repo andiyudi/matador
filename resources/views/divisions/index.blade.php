@@ -57,7 +57,7 @@
                 <div class="modal-body">
                     <div class="form-group mb-3">
                         <label for="name">Division Name</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Input Division Name" required>
                     </div>
                     <div class="form-group mb-3">
                         <div class="form-label">Status</div>

@@ -10,7 +10,7 @@
                     @csrf
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}">
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" placeholder="Input Vendor Name">
                         @error('name')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -62,14 +62,14 @@
                     <div class="row">
                         <div class="col mb-3">
                             <label for="area" class="form-label">Area</label>
-                            <input type="text" class="form-control @error('area') is-invalid @enderror" id="area" name="area" value="{{ old('area') }}">
+                            <input type="text" class="form-control @error('area') is-invalid @enderror" id="area" name="area" value="{{ old('area') }}" placeholder="Input Area">
                             @error('area')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="col mb-3">
                             <label for="director" class="form-label">Director</label>
-                            <input type="text" class="form-control @error('director') is-invalid @enderror" id="director" name="director" value="{{ old('director') }}">
+                            <input type="text" class="form-control @error('director') is-invalid @enderror" id="director" name="director" value="{{ old('director') }}" placeholder="Input Director">
                             @error('director')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -79,14 +79,14 @@
                     <div class="row">
                         <div class="col mb-3">
                             <label for="phone" class="form-label">Telephone</label>
-                            <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" value="{{ old('phone') }}">
+                            <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" value="{{ old('phone') }}" placeholder="Input Telephone">
                             @error('phone')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="col mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}">
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" placeholder="Input Email">
                             @error('email')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -103,7 +103,7 @@
                         </div>
                         <div class="col mb-3">
                             <label for="reference" class="form-label">Reference</label>
-                            <input type="text" class="form-control @error('reference') is-invalid @enderror" id="reference" name="reference" value="{{ old('reference') }}">
+                            <input type="text" class="form-control @error('reference') is-invalid @enderror" id="reference" name="reference" value="{{ old('reference') }}" placeholder="Input Reference">
                             @error('reference')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -113,7 +113,7 @@
                     <div class="row">
                         <div class="col mb-3">
                             <label for="capital" class="form-label">Capital</label>
-                            <input type="text" class="form-control @error('capital') is-invalid @enderror" id="capital" name="capital" value="{{ old('capital') }}">
+                            <input type="text" class="form-control @error('capital') is-invalid @enderror" id="capital" name="capital" value="{{ old('capital') }}" placeholder="Input Capital">
                             @error('capital')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -149,7 +149,11 @@
 </div>
 <script>
     $(document).ready(function () {
-        $('.basic-multiple').select2();
+        $('.basic-multiple').select2({
+            theme: "bootstrap-5",
+            selectionCssClass: "select2--small",
+            dropdownCssClass: "select2--small",
+        });
         $('#core_business').change(function () {
             var core_business_ids = $(this).val();
             if (core_business_ids) {

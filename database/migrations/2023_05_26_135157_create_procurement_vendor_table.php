@@ -22,8 +22,8 @@ return new class extends Migration
             $table->enum('value_cost', ['0', '1', '2'])->nullable()->default(NULL); // 0: 0<100JT, 1: 100JT<1M, 2: >1M
             $table->enum('contract_order', ['0', '1', '2'])->nullable()->default(NULL); // 0: cepat, 1: lama, 2: sangat lama
             $table->enum('work_implementation', ['0', '1', '2'])->nullable()->default(NULL); // 0: mudah, 1: sulit, 2: sangat sulit
-            $table->enum('pre_handover', ['0', '1', '2'])->nullable()->default(NULL); // 0: cepat, 1: lama, 2: sangat lama
-            $table->enum('final_handover', ['0', '1', '2'])->nullable()->default(NULL); // 0: cepat, 1: lama, 2: sangat lama
+            $table->enum('pre_handover', ['0', '1', '2', '3'])->nullable()->default(NULL); // 0: cepat, 1: lama, 2: sangat lama, 3: tidak ada PHO
+            $table->enum('final_handover', ['0', '1', '2', '3'])->nullable()->default(NULL); // 0: cepat, 1: lama, 2: sangat lama, 3: tidak ada FHO
             $table->enum('invoice_payment', ['0', '1', '2'])->nullable()->default(NULL); // 0: cepat, 1: lama, 2: sangat lama
             $table->timestamps();
 

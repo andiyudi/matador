@@ -116,7 +116,7 @@
                                     @elseif ($file->file_type == 3)
                                     CMNP To Vendor
                                     @elseif ($file->file_type == 4)
-                                    File Evaluation Vendor
+                                    Vendor To CMNP
                                     @else
                                     Unknown
                                     @endif

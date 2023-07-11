@@ -105,9 +105,9 @@
                                     @elseif ($file->file_type == 2)
                                     File Repeat Procurement
                                     @elseif ($file->file_type == 3)
-                                    File Evaluation Company
+                                    CMNP To Vendor
                                     @elseif ($file->file_type == 4)
-                                    File Evaluation Vendor
+                                    Vendor To CMNP
                                     @else
                                     Unknown
                                     @endif

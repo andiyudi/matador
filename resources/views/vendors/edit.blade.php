@@ -440,7 +440,11 @@
 </script>
 <script>
     $(document).ready(function () {
-        $('.basic-multiple').select2();
+        $('.basic-multiple').select2({
+            theme: "bootstrap-5",
+            selectionCssClass: "select2--small",
+            dropdownCssClass: "select2--small",
+        });
 
         // Set selected core businesses
         var selectedCoreBusiness = {!! json_encode($selectedCoreBusinesses) !!};

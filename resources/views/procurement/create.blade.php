@@ -20,7 +20,7 @@
                     <div class="row mb-3">
                         <label for="name" class="col-sm-2 col-form-label">Job Name</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}">
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" placeholder="Input Job Name">
                             @error('name')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -29,7 +29,7 @@
                     <div class="row mb-3">
                         <label for="number" class="col-sm-2 col-form-label">Procurement Number</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control @error('number') is-invalid @enderror" id="number" name="number" value="{{ old('number') }}">
+                            <input type="text" class="form-control @error('number') is-invalid @enderror" id="number" name="number" value="{{ old('number') }}" placeholder="Input Procurement Number">
                             @error('number')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -38,7 +38,7 @@
                     <div class="row mb-3">
                         <label for="estimation_time" class="col-sm-2 col-form-label">Estimation Time</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control @error('estimation_time') is-invalid @enderror" id="estimation_time" name="estimation_time" value="{{ old('estimation_time') }}">
+                            <input type="text" class="form-control @error('estimation_time') is-invalid @enderror" id="estimation_time" name="estimation_time" value="{{ old('estimation_time') }}" placeholder="Input Estimation Time">
                             @error('estimation_time')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -61,7 +61,7 @@
                     <div class="row mb-3">
                         <label for="person_in_charge" class="col-sm-2 col-form-label">Person In Charge</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control @error('person_in_charge') is-invalid @enderror" id="person_in_charge" name="person_in_charge" value="{{ old('person_in_charge') }}">
+                            <input type="text" class="form-control @error('person_in_charge') is-invalid @enderror" id="person_in_charge" name="person_in_charge" value="{{ old('person_in_charge') }}" placeholder="Input Person In Charge">
                             @error('person_in_charge')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -121,7 +121,11 @@
 </div>
 <script>
     $(document).ready(function() {
-        $('.select2').select2();
+        $('.select2').select2({
+            theme: "bootstrap-5",
+            selectionCssClass: "select2--small",
+            dropdownCssClass: "select2--small",
+        });
     });
     function populateVendorData(selectElement) {
         const selectedVendorId = selectElement.value;
@@ -214,7 +218,11 @@
 
         tbody.appendChild(row);
 
-        $('.select2').select2();
+        $('.select2').select2({
+            theme: "bootstrap-5",
+            selectionCssClass: "select2--small",
+            dropdownCssClass: "select2--small",
+        });
     }
     function deleteVendorRow(button) {
         const row = button.parentNode.parentNode;

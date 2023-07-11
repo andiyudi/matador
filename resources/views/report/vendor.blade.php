@@ -16,9 +16,9 @@
             <div class="form-group">
                 <label for="period">Periode:</label>
                 <div class="input-group input-daterange">
-                    <input type="text" class="form-control" id="startDate" name="startDate">
+                    <input type="text" class="form-control" id="startDate" name="startDate" placeholder="Start Periode">
                     <span class="input-group-text">to</span>
-                    <input type="text" class="form-control" id="endDate" name="endDate">
+                    <input type="text" class="form-control" id="endDate" name="endDate" placeholder="End Periode">
                 </div>
             </div>
         </div>

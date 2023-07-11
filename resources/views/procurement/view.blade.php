@@ -48,7 +48,7 @@
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Vendor Data</h5>
+                                <h5 class="card-title">Vendor Data Selected</h5>
                                 <div class="row mb-3">
                                     <label for="vendor" class="col-sm-4 col-form-label">Vendor Name</label>
                                     <div class="col-sm-8">
@@ -84,6 +84,43 @@
                     </div>
                 </div>
                 <div class="card-footer">
+                    <h5 class="card-title">List Vendor</h5>
+                    <table class="table table-responsive table-bordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Vendor Name</th>
+                                <th>Status</th>
+                                <th>Director</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($vendors as $vendor)
+                            <tr>
+                                <td>{{ $vendor->name }}</td>
+                                <td>
+                                    @if($vendor->status == '0')
+                                    <span class="vendor-status">Registered</span>
+                                    @elseif($vendor->status == '1')
+                                    <span class="vendor-status">Active</span>
+                                    @elseif($vendor->status == '2')
+                                    <span class="vendor-status">InActive</span>
+                                    @elseif($vendor->status == '3')
+                                    <span class="vendor-status">Blacklist</span>
+                                    @else
+                                    <span class="vendor-status"></span>
+                                    @endif
+                                </td>
+                                <td>{{ $vendor->director }}</td>
+                                <td>{{ $vendor->phone }}</td>
+                                <td>{{ $vendor->email }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
                     <h5 class="card-title">Procurement Files</h5>
                     <table class="table table-responsive table-bordered table-striped table-hover">
                         <thead>
@@ -106,9 +143,9 @@
                                     @elseif ($file->file_type == 2)
                                     File Repeat Procurement
                                     @elseif ($file->file_type == 3)
-                                    File Evaluation Company
+                                    CMNP To Vendor
                                     @elseif ($file->file_type == 4)
-                                    File Evaluation Vendor
+                                    Vendor To CMNP
                                     @else
                                     Unknown
                                     @endif

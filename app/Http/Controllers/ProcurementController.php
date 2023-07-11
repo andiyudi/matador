@@ -340,11 +340,14 @@ class ProcurementController extends Controller
     {
         $procurement = Procurement::findOrFail($id);
         $divisions = Division::all();
+        $vendors = $procurement->vendors()->wherePivot('is_selected', '0')->get();
         $vendor = $procurement->vendors()->wherePivot('is_selected', '1')->first();
         $source = request('source');
-        $procurementFiles = ProcurementFile::where('procurement_id', $id)->get();
+        $procurementFiles = ProcurementFile::where('procurement_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-        return view('procurement.view', compact('procurement', 'divisions', 'vendor', 'source', 'procurementFiles'));
+        return view('procurement.view', compact('procurement', 'divisions', 'vendors', 'vendor', 'source', 'procurementFiles'));
     }
 
     public function evaluation($id)
@@ -353,7 +356,9 @@ class ProcurementController extends Controller
         $divisions = Division::all();
         $vendor = $procurement->vendors()->wherePivot('is_selected', '1')->first();
         $source = request('source');
-        $procurementFiles = ProcurementFile::where('procurement_id', $id)->get();
+        $procurementFiles = ProcurementFile::where('procurement_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         // Menambahkan variabel untuk data procurement_id, vendor_id, dan vendor_name
         $data = [

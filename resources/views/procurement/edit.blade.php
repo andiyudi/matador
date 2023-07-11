@@ -138,7 +138,11 @@
 </div>
 <script>
     $(document).ready(function() {
-        $('.select2').select2();
+        $('.select2').select2({
+            theme: "bootstrap-5",
+            selectionCssClass: "select2--small",
+            dropdownCssClass: "select2--small",
+        });
     });
 
     function populateVendorData(selectElement) {
@@ -228,7 +232,11 @@
         cell5.innerHTML = '<span class="vendor-email"></span>';
         cell6.innerHTML = '<button type="button" class="btn btn-sm btn-danger" onclick="deleteVendorRow(this)">Delete</button>';
 
-        $('.select2').select2();
+        $('.select2').select2({
+            theme: "bootstrap-5",
+            selectionCssClass: "select2--small",
+            dropdownCssClass: "select2--small",
+        });
     }
 
     function deleteVendorRow(button) {
