@@ -371,6 +371,7 @@ $(document).ready(function () {
                     processData: false,
                     contentType: false,
                     success: function (response) {
+                        updateVendorStatus(procurementId);
                         Swal.fire('Jobs canceled successfully', '', 'success').then(() => {
                             location.reload();
                         });
@@ -408,7 +409,7 @@ $(document).ready(function () {
                 formData.append('_token', '{{ csrf_token() }}');
                 formData.append('procurement', procurementId);
 
-                // Kirim permintaan penambahan ke daftar cancel ke URL yang sesuai
+                // Kirim permintaan penambahan ke daftar repeat ke URL yang sesuai
                 $.ajax({
                     url: route('procurement.repeat', {procurement: procurementId}),
                     type: 'POST',
@@ -416,6 +417,8 @@ $(document).ready(function () {
                     processData: false,
                     contentType: false,
                     success: function (response) {
+                         // Update kolom status pada table vendors
+                        updateVendorStatus(procurementId);
                         Swal.fire('Jobs repeated successfully', '', 'success').then(() => {
                             location.reload();
                         });
@@ -427,10 +430,25 @@ $(document).ready(function () {
             }
         });
     });
-
+    function updateVendorStatus(procurementId) {
+        $.ajax({
+            url: route('procurement.update_status_vendor', {procurement: procurementId}),
+            type: 'PUT',
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function (response) {
+                // Berhasil memperbarui status pada table vendors
+                console.log(response);
+            },
+            error: function (xhr) {
+                console.log(xhr);
+            }
+        });
+    }
     // Event handler untuk tombol Delete
     $(document).on('click', '.delete-procurement', function () {
-            var procurementId = $(this).data('id');
+        var procurementId = $(this).data('id');
             Swal.fire({
                 title: 'Delete Job',
                 text: 'Are you sure you want to delete this job?',
@@ -440,26 +458,27 @@ $(document).ready(function () {
                 cancelButtonText: 'Cancel',
                 reverseButtons: true
             }).then((result) => {
-                if (result.isConfirmed) {
-                    // Kirim permintaan penghapusan ke URL yang sesuai
-                    $.ajax({
-                        url: route('procurement.destroy', {procurement: procurementId}),
-                        type: 'POST',
-                        data: {
-                            _method: 'DELETE',
-                            _token: '{{ csrf_token() }}'
-                        },
-                        success: function (response) {
-                            Swal.fire('Job deleted successfully', '', 'success').then(() => {
-                                location.reload();
-                            });
-                        },
-                        error: function (xhr) {
-                            Swal.fire('Error deleting job', '', 'error');
-                        }
-                    });
-                }
-            });
+            if (result.isConfirmed) {
+                // Kirim permintaan penghapusan ke URL yang sesuai
+                $.ajax({
+                    url: route('procurement.destroy', {procurement: procurementId}),
+                    type: 'POST',
+                    data: {
+                        _method: 'DELETE',
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function (response) {
+                        updateVendorStatus(procurementId);
+                        Swal.fire('Job deleted successfully', '', 'success').then(() => {
+                            location.reload();
+                        });
+                    },
+                    error: function (xhr) {
+                        Swal.fire('Error deleting job', '', 'error');
+                    }
+                });
+            }
+        });
     });
 });
 </script>

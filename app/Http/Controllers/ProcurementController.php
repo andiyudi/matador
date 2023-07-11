@@ -232,6 +232,19 @@ class ProcurementController extends Controller
         return redirect()->route('procurement.index');
     }
 
+    public function updateVendorStatus(Request $request, Procurement $procurement)
+    {
+        $vendors = $procurement->vendors;
+
+        foreach ($vendors as $vendor) {
+            $vendor->status = '1';
+            $vendor->expired_at =  date('Y') . '-12-31';
+            $vendor->save();
+        }
+
+        return response()->json(['message' => 'Vendor status updated successfully']);
+    }
+
     public function vendors($procurementId)
     {
         $procurement = Procurement::findOrFail($procurementId);
